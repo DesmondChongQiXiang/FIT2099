@@ -6,110 +6,118 @@ import edu.monash.fit2099.engine.actors.attributes.ActorAttributeOperations;
 import edu.monash.fit2099.engine.actors.attributes.BaseActorAttributes;
 import edu.monash.fit2099.engine.positions.Location;
 import edu.monash.fit2099.engine.weapons.WeaponItem;
-import game.actions.ActivateSkillAction;
 import game.actions.AttackAction;
+import game.actions.FocusAction;
+import game.utils.Ability;
 
 /**
- * A class that represent Broadsword weapon
+ * A class that represents a specific type of weapon item called Broadsword.
+ *
+ * @author Yoong Qian Xin
  */
-public class Broadsword extends WeaponItem implements WeaponSkill {
-    /**
-     * A counter to counter the number of turn after activate the weapon skill
-     */
-    private int counter;
-    /**
-     * A boolean that represent the status of activated
-     */
-    private boolean isActivated;
-    /**
-     * Constructor.
-     */
-    public Broadsword(){
-        super("broadsword", '1', 110, "slashes",80 );
-        counter = 0;
-        isActivated = false;
-    }
+public class Broadsword extends WeaponItem {
+  private final float DEFAULT_DAMAGE_MULTIPLIER = 1.0f;  // store the original damage multiplier before using Focus
+  private boolean isFocusActive;  // track if the Focus skill is active
+  private int focusTurns = 5;
+  private int originalHitRate = 80;
 
-    /**
-     * List of allowable actions that the item can perform to the current actor
-     * Broadsword will decrease the stamina of the owner
-     *
-     * @param owner the actor that owns the item
-     * @return a list of actions contain ActivateSkillAction
-     */
-    @Override
-    public ActionList allowableActions(Actor owner) {
-        ActionList actions = new ActionList();
-        actions.add(new ActivateSkillAction(this));
-        return actions;
-    }
+  /**
+   * Constructor.
+   */
+  public Broadsword(String name, char displayChar, int damage, String verb, int hitRate) {
+    super(name, displayChar, damage, verb, hitRate);
+    this.isFocusActive = false;
+    this.addCapability(Ability.WEAPON_SPECIAL_SKILL);
+  }
 
-    /**
-     * decrease the stamina of the actor and update the status after the weapon is activated
-     *
-     * @param actor the actor that activate the weapon
-     * @return a String that describe the message of activate the weapon skill
-     */
-    @Override
-    public String activateSkill(Actor actor) {
-        actor.modifyAttribute(BaseActorAttributes.STAMINA, ActorAttributeOperations.DECREASE, (int)(actor.getAttributeMaximum(BaseActorAttributes.STAMINA)*.2f));
-        this.increaseDamageMultiplier(.1f);
-        this.updateHitRate(90);
-        this.isActivated = true;
-        return String.format("%s takes a deep breath and focuses all their might!", actor);
-    }
+  /**
+   * Performs the tick action for the Broadsword weapon item, called once per turn,
+   * so that maps can experience the passage of time.
+   *
+   * @param currentLocation The location of the actor carrying this Broadsword.
+   * @param actor The actor carrying this Broadsword.
+   */
+  @Override
+  public void tick(Location currentLocation, Actor actor) {
+    if (isFocusActive) {
+      focusTurns -= 1;
+      int maxStamina = actor.getAttributeMaximum(BaseActorAttributes.STAMINA);
+      actor.modifyAttribute(BaseActorAttributes.STAMINA, ActorAttributeOperations.INCREASE, maxStamina / 100);  // recover 1% of max stamina
 
-    /**
-     * Inform a broadsword of the passage of time
-     * revert back the status of the activated broadsword after 5 turns
-     *
-     * This method is called once per turn, if the Item is being carried.
-     * @param currentLocation The location of the actor carrying this Item.
-     * @param actor The actor carrying this Item.
-     */
-    @Override
-    public void tick(Location currentLocation, Actor actor) {
-        if (isActivated) {
-            counter += 1;
-            if (counter > 5){
-                revertBack();
-            }
-        }
+      if (focusTurns == 0) {
+        deactivateFocusSkill();
+      }
     }
+  }
 
-    /**
-     * update and revert back the status of the broadsword
-     * revert back to the status same as the status before activated
-     */
-    public void revertBack(){
-        this.updateDamageMultiplier(1.0f);
-        counter = 0;
-        isActivated = false;
-    }
+  /**
+   * Inform Broadsword weapon item on the ground of the passage of time.
+   * Called once per turn, if the item rests upon the ground.
+   *
+   * @param currentLocation The location of the ground on which we lie.
+   */
+  public void tick(Location currentLocation) {
+    deactivateFocusSkill();
+  }
 
-    /**
-     * maintain the initial status of the broadsword when the broadsword rests upon the ground.
-     * This method is called once per turn, if the item rests upon the ground.
-     * @param currentLocation The location of the ground on which we lie.
-     */
-    @Override
-    public void tick(Location currentLocation) {
-        revertBack();
-        this.updateHitRate(80);
-    }
+  /**
+   * If the player drops the weapon while the skill is active,
+   * the weapon’s damage multiplier and hit rate will revert back to the previous state.
+   */
+  public void deactivateFocusSkill() {  // skill has expired, revert to original state
+    isFocusActive = false;
+    updateDamageMultiplier(DEFAULT_DAMAGE_MULTIPLIER);
+    updateHitRate(originalHitRate);
+  }
 
-    /**
-     * List of allowable actions that the item allows its owner do to other actor.
-     * broadsword can return an attacking action to the other actor.
-     *
-     * @param otherActor the other actor
-     * @param location the location of the other actor
-     * @return a list of actions that contains an AttackAction
-     */
-    @Override
-    public ActionList allowableActions(Actor otherActor, Location location) {
-        ActionList actions = new ActionList();
-        actions.add(new AttackAction(otherActor, location.toString(), this));
-        return actions;
-    }
+  /**
+   * Returns the Broadsword's focus skill turns.
+   *
+   * @return the number of focus skill turns
+   */
+  public int getFocusTurns(){
+    return focusTurns;
+  }
+
+  /**
+   * Set the focus skill turn.
+   * .
+   * @param focusActive Boolean to indicate whether if the focus is active
+   */
+  public void setFocusActive(boolean focusActive){
+    isFocusActive = focusActive;
+  }
+
+  /**
+   * List of allowable actions that the Broadsword item can perform to the current actor.
+   * The Player can perform FocusAction on Broadsword.
+   *
+   * @param owner the actor that owns the item
+   *
+   * @return a list of Actions for actor acts on Broadsword
+   */
+  @Override
+  public ActionList allowableActions(Actor owner) {
+    ActionList actions = new ActionList();
+    actions.add(new FocusAction(this));
+    return actions;
+  }
+
+  /**
+   * List of allowable actions that the Broadsword item allows its owner do to other actor.
+   * Return an attacking action to the other actor.
+   *
+   * @param otherActor the other actor
+   * @param location the location of the other actor
+   *
+   * @return a list of Actions for actor to perform to other actor
+   */
+  @Override
+  public ActionList allowableActions(Actor otherActor, Location location) {
+    ActionList actions = new ActionList();
+    actions.add(new AttackAction(otherActor, location.map().getActorAt(location).toString(), this));
+    return actions;
+  }
+
+
 }

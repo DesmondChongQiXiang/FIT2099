@@ -1,56 +1,65 @@
 package game.actions;
 
-import edu.monash.fit2099.engine.actions.Action;
 import edu.monash.fit2099.engine.actors.Actor;
+import edu.monash.fit2099.engine.actions.Action;
+import edu.monash.fit2099.engine.items.Item;
 import edu.monash.fit2099.engine.positions.GameMap;
-import game.capability.Ability;
-import game.ground.Gate;
+import game.grounds.Gate;
+import game.utils.Ability;
+
+import java.util.List;
+
 /**
- * An Action that unlock the gate
+ * A class that represents the unlock action for an actor which can be done on gate.
+ *
+ * @author Yoong Qian Xin
  */
 public class UnlockGateAction extends Action {
-    /**
-     * The target gate
-     */
-    private final Gate gate;
+  private Gate gate;
+  private String direction;
 
-    /**
-     * Constructor to create an Action that will unlock a gate
-     *
-     * @param gate the target gate we are unlocking
-     */
+  /**
+   * Constructor.
+   *
+   * @param gate the instance of gate
+   * @param direction the name of the gameMap to travel to
+   */
+  public UnlockGateAction(Gate gate, String direction){
+    this.gate = gate;
+    this.direction = direction;  // Abandoned Village or Burial Ground
+  }
 
-    public UnlockGateAction(Gate gate){
-        this.gate = gate;
+  /**
+   * Execution of the UnlockGate action.
+   *
+   * @param actor The actor performing the action.
+   * @param map The map the actor is on.
+   *
+   * @return The result string to be printed on the console.
+   */
+  @Override
+  public String execute(Actor actor, GameMap map) {
+    List<Item> actorInventory = actor.getItemInventory();
+    for (Item item : actorInventory) {
+      if (item.hasCapability(Ability.OPEN_GATE)) {
+        gate.unlockGate();  // set the gate status to false as indicating gate is unlocked
+        return "Gate is now unlocked";
+      }
     }
+    return "Gate is locked shut";
+  }
 
-    /**
-     * Allow the Actor to unlock a gate
-     *
-     * Overrides Action.execute()
-     *
-     * @see Action#execute(Actor, GameMap)
-     * @param actor The actor performing the action.
-     * @param map The map the actor is on.
-     * @return a description of the Action suitable for the menu
-     */
-    @Override
-    public String execute(Actor actor, GameMap map) {
-        if (actor.hasCapability(Ability.UNLOCK_GATE)){
-            gate.unlockGate();
-            return "Gate is now unlocked.";
-            }
-        return "Gate is locked shut.";
-        }
+  /**
+   * The action description to be printed on the menu to let the user choose.
+   *
+   * @param actor The actor performing the action.
+   *
+   * @return The string to be printed on the menu.
+   */
+  @Override
+  public String menuDescription(Actor actor) {
+    return actor + " unlocks Gate";
+  }
 
-    /**
-     * Returns a description of this movement suitable to display in the menu.
-     *
-     * @param actor The actor performing the action.
-     * @return a String, e.g. "Player unlock Gate"
-     */
-    @Override
-    public String menuDescription(Actor actor) {
-        return String.format("%s unlocks Gate",actor);
-    }
+
 }
