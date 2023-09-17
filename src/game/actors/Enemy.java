@@ -1,4 +1,4 @@
-package game;
+package game.actors;
 
 import edu.monash.fit2099.engine.actions.Action;
 import edu.monash.fit2099.engine.actions.ActionList;
@@ -7,16 +7,29 @@ import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.actors.Behaviour;
 import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.GameMap;
+import game.capability.Status;
+import game.actions.AttackAction;
+import game.behaviour.AttackBehaviour;
+import game.behaviour.WanderBehaviour;
 
 import java.util.HashMap;
 import java.util.Map;
-
-public class WanderingUndead extends Actor {
-    private Map<Integer, Behaviour> behaviours = new HashMap<>();
-
-    public WanderingUndead() {
-        super("Wandering Undead", 't', 100);
+/**
+ * Class representing the Enemy.
+ */
+public abstract class Enemy extends Actor {
+    protected Map<Integer, Behaviour> behaviours = new HashMap<>();
+    /**
+     * Constructor.
+     *
+     * @param name        The name of the enemy
+     * @param displayChar Character to represent the enemy in the UI
+     * @param hitPoints   Enemy's starting number of hitpoints
+     */
+    public Enemy(String name, char displayChar, int hitPoints){
+        super(name,displayChar,hitPoints);
         this.behaviours.put(999, new WanderBehaviour());
+        this.behaviours.put(998,new AttackBehaviour());
     }
 
     /**
@@ -39,7 +52,7 @@ public class WanderingUndead extends Actor {
     }
 
     /**
-     * The wandering undead can be attacked by any actor that has the HOSTILE_TO_ENEMY capability
+     * Enemy can be attacked by any actor that has the HOSTILE_TO_ENEMY capability
      *
      * @param otherActor the Actor that might be performing attack
      * @param direction  String representing the direction of the other Actor
@@ -54,5 +67,4 @@ public class WanderingUndead extends Actor {
         }
         return actions;
     }
-
 }
