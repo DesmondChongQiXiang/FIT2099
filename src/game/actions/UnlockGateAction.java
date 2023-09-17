@@ -3,55 +3,51 @@ package game.actions;
 import edu.monash.fit2099.engine.actions.Action;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.positions.GameMap;
-import game.grounds.gates.Gate;
-
+import game.capability.Ability;
+import game.ground.Gate;
 /**
- * A custom Action class that represents an actor unlocking a gate.
- * This action allows an actor to unlock a specific gate if they have the required capability.
- *
- * @author Ong Chong How
- * @version 1.0
+ * An Action that unlock the gate
  */
 public class UnlockGateAction extends Action {
-
     /**
-     * The gate to be unlocked.
+     * The target gate
      */
-    private Gate lockedGate;
+    private final Gate gate;
 
     /**
-     * Constructor for the UnlockGateAction class.
+     * Constructor to create an Action that will unlock a gate
      *
-     * @param lockedGate The gate to be unlocked.
+     * @param gate the target gate we are unlocking
      */
-    public UnlockGateAction(Gate lockedGate) {
-        this.lockedGate = lockedGate;
+
+    public UnlockGateAction(Gate gate){
+        this.gate = gate;
     }
 
     /**
-     * Executes the unlocking action by checking the actor's capability and unlocking the gate if possible.
+     * Allow the Actor to unlock a gate
      *
-     * @param actor The actor attempting to unlock the gate.
-     * @param map   The GameMap on which the action is performed.
-     * @return A string describing the outcome of the unlocking action (e.g., "Gate is now unlocked." or "Gate is locked shut.").
+     * Overrides Action.execute()
+     *
+     * @see Action#execute(Actor, GameMap)
+     * @param actor The actor performing the action.
+     * @param map The map the actor is on.
+     * @return a description of the Action suitable for the menu
      */
     @Override
     public String execute(Actor actor, GameMap map) {
-        String res = "";
-        if(actor.hasCapability(Ability.UNLOCK_LOCKED_GATE)){
-            lockedGate.setUnlocked(true);
-            res = "Gate is now unlocked.";
-        }else{
-            res = "Gate is locked shut.";
+        if (actor.hasCapability(Ability.UNLOCK_GATE)){
+            gate.unlockGate();
+            return "Gate is now unlocked.";
+            }
+        return "Gate is locked shut.";
         }
-        return res;
-    }
 
     /**
-     * Provides a description of the action for use in menus and user interfaces.
+     * Returns a description of this movement suitable to display in the menu.
      *
-     * @param actor The actor for whom the menu description is generated.
-     * @return A formatted string describing the action (e.g., "Bob unlocks Gate").
+     * @param actor The actor performing the action.
+     * @return a String, e.g. "Player unlock Gate"
      */
     @Override
     public String menuDescription(Actor actor) {

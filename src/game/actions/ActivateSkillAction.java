@@ -3,48 +3,49 @@ package game.actions;
 import edu.monash.fit2099.engine.actions.Action;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.positions.GameMap;
-import game.items.weapons.WeaponSkill;
+import game.weapons.WeaponSkill;
 
 /**
- * A custom Action class that represents the activation of a weapon skill by an actor.
- * This action allows an actor to use a specific weapon skill during gameplay.
- *
- * @author Ong Chong How
- * @version 1.0
+ * An Action that activate weapon special skill
  */
 public class ActivateSkillAction extends Action {
-
-    private WeaponSkill weaponItem;
+    /**
+     * Weapon used to activate the special skill of it
+     */
+    private final WeaponSkill weapon;
 
     /**
-     * Constructor for the ActivateSkillAction class.
+     * Constructor to create an Action that will activate the special skill of the weapons
      *
-     * @param weaponSkill The weapon skill to be activated.
+     * @param weapon the weapon used to activate the skill
      */
-    public ActivateSkillAction(WeaponSkill weaponSkill) {
-        this.weaponItem = weaponSkill;
+    public ActivateSkillAction(WeaponSkill weapon) {
+        this.weapon = weapon;
     }
 
     /**
-     * Executes the activation of the weapon skill by the actor.
+     * Allow the Actor to activate his/her weapon skill
      *
+     * Overrides Action.execute()
+     *
+     * @see Action#execute(Actor, GameMap)
      * @param actor The actor performing the action.
-     * @param map   The GameMap on which the action is performed.
-     * @return A string describing the outcome of the skill activation.
+     * @param map The map the actor is on.
+     * @return a description of the Action suitable for the menu
      */
     @Override
     public String execute(Actor actor, GameMap map) {
-        return weaponItem.activateFocusSkill(actor);
+        return weapon.activateSkill(actor);
     }
 
     /**
-     * Provides a description of the action for use in menus and user interfaces.
+     * Returns a description of this movement suitable to display in the menu.
      *
-     * @param actor The actor for whom the menu description is generated.
-     * @return A formatted string describing the action (e.g., "John activates the skill of Fireball").
+     * @param actor The actor performing the action.
+     * @return a String, e.g. "Player activates the skill of Broadsword"
      */
     @Override
     public String menuDescription(Actor actor) {
-        return String.format("%s activates the skill of %s",actor,weaponItem);
+        return actor + " activates the skill of " + weapon;
     }
 }

@@ -4,15 +4,12 @@ import edu.monash.fit2099.engine.actions.Action;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.weapons.Weapon;
+import game.utilities.ProbabilityGenerator;
 
 import java.util.Random;
 
 /**
- * A custom Action class that represents an attack action performed by an actor.
- * This action allows an actor to attack another actor using a specified weapon or their intrinsic weapon.
- *
- * @author Ong Chong How
- * @version 1.0
+ * An Action that attack another actor
  */
 public class AttackAction extends Action {
 
@@ -37,11 +34,10 @@ public class AttackAction extends Action {
     private Weapon weapon;
 
     /**
-     * Constructor for the AttackAction class.
+     * Constructor.
      *
-     * @param target     The Actor to attack.
-     * @param direction  The direction where the attack should be performed (for display purposes).
-     * @param weapon     The weapon used for the attack (can be null for intrinsic weapon).
+     * @param target the Actor to attack
+     * @param direction the direction where the attack should be performed (only used for display purposes)
      */
     public AttackAction(Actor target, String direction, Weapon weapon) {
         this.target = target;
@@ -50,10 +46,10 @@ public class AttackAction extends Action {
     }
 
     /**
-     * Constructor for the AttackAction class with intrinsic weapon as the default.
+     * Constructor with intrinsic weapon as default
      *
-     * @param target     The Actor to attack.
-     * @param direction  The direction where the attack should be performed (for display purposes).
+     * @param target the actor to attack
+     * @param direction the direction where the attack should be performed (only used for display purposes)
      */
     public AttackAction(Actor target, String direction) {
         this.target = target;
@@ -61,11 +57,14 @@ public class AttackAction extends Action {
     }
 
     /**
-     * Executes the attack action, including calculating hit success, damage, and the result of the attack.
+     * Allow the Actor to attack
      *
-     * @param actor The actor performing the attack.
-     * @param map   The GameMap on which the attack is performed.
-     * @return A string describing the outcome of the attack (e.g., "Bob hits the monster for 10 damage.").
+     * Overrides Action.execute()
+     *
+     * @see Action#execute(Actor, GameMap)
+     * @param actor The actor performing the action.
+     * @param map The map the actor is on.
+     * @return a description of the Action suitable for the menu
      */
     @Override
     public String execute(Actor actor, GameMap map) {
@@ -73,7 +72,7 @@ public class AttackAction extends Action {
             weapon = actor.getIntrinsicWeapon();
         }
 
-        if (!(rand.nextInt(100) <= weapon.chanceToHit())) {
+            if (!ProbabilityGenerator.generateProbability(weapon.chanceToHit())){
             return actor + " misses " + target + ".";
         }
 
@@ -86,14 +85,12 @@ public class AttackAction extends Action {
 
         return result;
     }
-
     /**
-     * Provides a description of the action for use in menus and user interfaces.
+     * Returns a description of this movement suitable to display in the menu.
      *
-     * @param actor The actor for whom the menu description is generated.
-     * @return A formatted string describing the action (e.g., "Bob attacks the monster at north with Sword").
+     * @param actor The actor performing the action.
+     * @return a String, e.g. "Player attacks enemy at (13, 6) with weapon"
      */
-
     @Override
     public String menuDescription(Actor actor) {
         return actor + " attacks " + target + " at " + direction + " with " + (weapon != null ? weapon : "Intrinsic Weapon");
