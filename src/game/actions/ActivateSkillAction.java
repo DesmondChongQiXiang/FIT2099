@@ -3,29 +3,28 @@ package game.actions;
 import edu.monash.fit2099.engine.actions.Action;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.positions.GameMap;
-import game.capability.Ability;
-import game.ground.Gate;
+import game.weapons.WeaponSkill;
+
 /**
- * An Action that unlock the gate
+ * An Action that activate weapon special skill
  */
-public class UnlockGateAction extends Action {
+public class ActivateSkillAction extends Action {
     /**
-     * The target gate
+     * Weapon used to activate the special skill of it
      */
-    private final Gate gate;
+    private final WeaponSkill weapon;
 
     /**
-     * Constructor to create an Action that will unlock a gate
+     * Constructor to create an Action that will activate the special skill of the weapons
      *
-     * @param gate the target gate we are unlocking
+     * @param weapon the weapon used to activate the skill
      */
-
-    public UnlockGateAction(Gate gate){
-        this.gate = gate;
+    public ActivateSkillAction(WeaponSkill weapon) {
+        this.weapon = weapon;
     }
 
     /**
-     * Allow the Actor to unlock a gate
+     * Allow the Actor to activate his/her weapon skill
      *
      * Overrides Action.execute()
      *
@@ -36,21 +35,17 @@ public class UnlockGateAction extends Action {
      */
     @Override
     public String execute(Actor actor, GameMap map) {
-        if (actor.hasCapability(Ability.UNLOCK_GATE)){
-            gate.unlockGate();
-            return "Gate is now unlocked.";
-            }
-        return "Gate is locked shut.";
-        }
+        return weapon.activateSkill(actor);
+    }
 
     /**
      * Returns a description of this movement suitable to display in the menu.
      *
      * @param actor The actor performing the action.
-     * @return a String, e.g. "Player unlock Gate"
+     * @return a String, e.g. "Player activates the skill of Broadsword"
      */
     @Override
     public String menuDescription(Actor actor) {
-        return String.format("%s unlocks Gate",actor);
+        return actor + " activates the skill of " + weapon;
     }
 }
