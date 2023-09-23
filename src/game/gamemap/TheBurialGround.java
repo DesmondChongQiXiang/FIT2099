@@ -4,6 +4,9 @@ import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.GroundFactory;
 import java.util.List;
 
+/**
+ * A class that represent The Burial Ground game map.
+ */
 public class TheBurialGround extends GameMap {
     /**
      * Constructor that creates a map from a sequence of ASCII strings.

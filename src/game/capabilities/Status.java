@@ -1,4 +1,4 @@
-package game.capability;
+package game.capabilities;
 
 /**
  * Use this enum class to represent a status.
@@ -8,4 +8,6 @@ package game.capability;
  */
 public enum Status {
     HOSTILE_TO_ENEMY
+
+
 }

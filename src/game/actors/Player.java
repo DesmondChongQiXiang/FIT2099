@@ -11,9 +11,9 @@ import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.displays.Menu;
 import edu.monash.fit2099.engine.weapons.IntrinsicWeapon;
-import game.capability.Ability;
+import game.capabilities.Ability;
 import game.displays.FancyMessage;
-import game.capability.Status;
+import game.capabilities.Status;
 
 /**
  * Class representing the Player.

@@ -5,8 +5,7 @@ import edu.monash.fit2099.engine.positions.GroundFactory;
 import java.util.List;
 
 /**
- * A class that represent The Abandoned Village gamemap
- *
+ * A class that represent The Abandoned Village game map.
  */
 public class TheAbandonedVillage extends GameMap {
     /**

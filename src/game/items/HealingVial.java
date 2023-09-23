@@ -5,7 +5,6 @@ import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.actors.attributes.ActorAttributeOperations;
 import edu.monash.fit2099.engine.actors.attributes.BaseActorAttributes;
 import edu.monash.fit2099.engine.items.Item;
-import game.actions.Consumable;
 import game.actions.ConsumeAction;
 /**
  * A class that represents HealingVial that can increase the health of an actor.
