@@ -4,13 +4,9 @@ import edu.monash.fit2099.engine.actions.Action;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.weapons.Weapon;
-import game.utilities.ProbabilityGenerator;
 
 import java.util.Random;
 
-/**
- * An Action that attack another actor
- */
 public class AttackAction extends Action {
 
     /**
@@ -38,6 +34,7 @@ public class AttackAction extends Action {
      *
      * @param target the Actor to attack
      * @param direction the direction where the attack should be performed (only used for display purposes)
+     * @param weapon the weapon that the actor perform
      */
     public AttackAction(Actor target, String direction, Weapon weapon) {
         this.target = target;
@@ -57,14 +54,12 @@ public class AttackAction extends Action {
     }
 
     /**
-     * Allow the Actor to attack
+     * When executed, the chance to hit of the weapon that the Actor used is computed to determine whether
+     * the actor will hit the target. If so, deal damage to the target and determine whether the target is killed.
      *
-     * Overrides Action.execute()
-     *
-     * @see Action#execute(Actor, GameMap)
-     * @param actor The actor performing the action.
+     * @param actor The actor performing the attack action.
      * @param map The map the actor is on.
-     * @return a description of the Action suitable for the menu
+     * @return the result of the attack
      */
     @Override
     public String execute(Actor actor, GameMap map) {
@@ -72,7 +67,7 @@ public class AttackAction extends Action {
             weapon = actor.getIntrinsicWeapon();
         }
 
-            if (!ProbabilityGenerator.generateProbability(weapon.chanceToHit())){
+        if (!(rand.nextInt(100) <= weapon.chanceToHit())) {
             return actor + " misses " + target + ".";
         }
 
@@ -85,14 +80,17 @@ public class AttackAction extends Action {
 
         return result;
     }
+
     /**
-     * Returns a description of this movement suitable to display in the menu.
+     * The action description to be printed on the menu to let the user choose.
      *
      * @param actor The actor performing the action.
-     * @return a String, e.g. "Player attacks enemy at (13, 6) with weapon"
+     * @return The string to be printed on the menu.
      */
     @Override
     public String menuDescription(Actor actor) {
         return actor + " attacks " + target + " at " + direction + " with " + (weapon != null ? weapon : "Intrinsic Weapon");
     }
+
+
 }

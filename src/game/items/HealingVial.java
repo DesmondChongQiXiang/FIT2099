@@ -2,48 +2,61 @@ package game.items;
 
 import edu.monash.fit2099.engine.actions.ActionList;
 import edu.monash.fit2099.engine.actors.Actor;
-import edu.monash.fit2099.engine.actors.attributes.ActorAttributeOperations;
 import edu.monash.fit2099.engine.actors.attributes.BaseActorAttributes;
 import edu.monash.fit2099.engine.items.Item;
-import game.actions.Consumable;
 import game.actions.ConsumeAction;
+
 /**
- * A class that represents HealingVial that can increase the health of an actor.
+ * A class that represents an item which will be dropped when the enemy is defeated.
+ *
+ * @author Yoong Qian Xin
  */
-public class HealingVial extends Item implements Consumable {
-    /**
-     * Constructor.
-     */
-    public HealingVial() {
-        super("Healing Vial", 'a', true);
+public class HealingVial extends Item implements Consumable{
+  private boolean isActorConsumed;
+
+  /**
+   * Constructor.
+   */
+  public HealingVial(){
+    super("HealingVial", 'a', true);
+    this.isActorConsumed = false;
+  }
+
+  /**
+   * Each time the player uses it, their health will increase by 10% of their maximum health points.
+   * It can only be consumed once by the player and cannot be consumed directly from the ground.
+   * They must be picked up by the player before being consumed.
+   *
+   * @param actor the actor who owns the HealingVial item
+   *
+   * @return a description of what happened (the result of the action being performed) that can be displayed to the user.
+   */
+  public String consumedBy(Actor actor) {
+    int maxStamina = actor.getAttributeMaximum(BaseActorAttributes.HEALTH);
+    int healingPoints = maxStamina / 10;
+    actor.heal(healingPoints);
+    isActorConsumed = true;
+
+    if (isActorConsumed){
+      actor.removeItemFromInventory(this);
     }
 
-    /**
-     * increase the health of an actor after consume HealingVial
-     * Remove the healing vial from actor inventory after consume it
-     *
-     * @param actor the Actor consume the Healing Vial
-     * @return a String that describe the action of consume healing vial done by an actor
-     */
-    @Override
-    public String consume(Actor actor){
-        int healthPointsIncrease = (int)(actor.getAttributeMaximum(BaseActorAttributes.HEALTH) * .1f);
-        actor.modifyAttribute(BaseActorAttributes.HEALTH, ActorAttributeOperations.INCREASE,healthPointsIncrease);
-        actor.removeItemFromInventory(this);
-        return String.format("%s consumes %s and %s restores the health of %s by %d points",actor,this,this,actor,healthPointsIncrease);
-    }
+    return actor + " consumes Healing Vial and Healing Vial heals " + actor + " by " + healingPoints + " points.";
+  }
 
-    /**
-     * List of allowable actions that the item can perform to the current actor
-     * a healing vial can have a special skill that can increase the current actor's hitpoints.
-     *
-     * @param owner the actor that owns the item
-     * @return an list of Actions that contain ConsumeAction
-     */
-    @Override
-    public ActionList allowableActions(Actor owner) {
-        ActionList actions = new ActionList();
-        actions.add(new ConsumeAction(this));
-        return actions;
-    }
+  /**
+   * List of allowable actions that the Healing Vial can perform to the current actor.
+   * The Player can perform ConsumeAction on HealingVial.
+   *
+   * @param owner the actor that owns the item
+   *
+   * @return a list of Actions for actor acts on the HealingVials item
+   */
+  public ActionList allowableActions(Actor owner){
+    ActionList actions = new ActionList();
+    actions.add(new ConsumeAction(this));
+    return actions;
+  }
+
+
 }
