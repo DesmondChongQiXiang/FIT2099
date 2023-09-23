@@ -11,6 +11,7 @@ import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.Location;
 import edu.monash.fit2099.engine.weapons.IntrinsicWeapon;
 import game.behaviours.AttackBehaviour;
+import game.behaviours.FollowBehaviour;
 import game.capabilities.Status;
 import game.items.HealingVial;
 
@@ -69,6 +70,7 @@ public class ForestKeeper extends Enemy {
       // checks if exit-location contains target actor and if player has a status of hostile to enemy
       if (destination.containsAnActor() && destination.getActor().hasCapability(Status.HOSTILE_TO_ENEMY)){
         getBehaviours().put(0, new AttackBehaviour(destination.getActor(), exit.getName()));
+        getBehaviours().put(2, new FollowBehaviour(destination.getActor()));  // only enemies native to the Ancient Forest can follow the player
       }
     }
 
@@ -84,7 +86,7 @@ public class ForestKeeper extends Enemy {
   /**
    * Method that can be executed when the Forest Keeper is unconscious due to natural causes or accident.
    *
-   * @param map where the HollowSoldier fell unconscious
+   * @param map where the Forest Keeper fell unconscious
    *
    * @return a string describing what happened when the Forest Keeper is unconscious
    */
@@ -93,7 +95,7 @@ public class ForestKeeper extends Enemy {
   }
 
   /**
-   * Method that can be executed when the HollowSoldier is unconscious due to the action of another actor.
+   * Method that can be executed when the Forest Keeper is unconscious due to the action of another actor.
    *
    * @param actor the perpetrator
    * @param map where the HollowSoldier fell unconscious

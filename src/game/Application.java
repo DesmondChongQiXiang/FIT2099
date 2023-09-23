@@ -1,10 +1,5 @@
 package game;
 
-import A2.RedWolf;
-import game.actors.enemies.ForestKeeper;
-import game.actors.enemies.HollowSoldier;
-import game.actors.enemies.WanderingUndead;
-import game.gamemap.TheAncientWood;
 import java.util.Arrays;
 import java.util.List;
 
@@ -15,9 +10,11 @@ import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.World;
 import game.actions.TravelAction;
 import game.actors.Player;
+import game.actors.enemies.*;
 import game.displays.FancyMessage;
-import game.gamemap.TheBurialGround;
 import game.gamemap.TheAbandonedVillage;
+import game.gamemap.TheBurialGround;
+import game.gamemap.TheAncientWood;
 import game.grounds.*;
 import game.grounds.Void;
 import game.weapons.Broadsword;

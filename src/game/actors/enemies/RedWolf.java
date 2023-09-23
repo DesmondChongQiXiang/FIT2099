@@ -1,4 +1,4 @@
-package A2;
+package game.actors.enemies;
 
 import edu.monash.fit2099.engine.actions.Action;
 import edu.monash.fit2099.engine.actions.ActionList;
@@ -10,8 +10,8 @@ import edu.monash.fit2099.engine.positions.Exit;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.Location;
 import edu.monash.fit2099.engine.weapons.IntrinsicWeapon;
-import game.actors.enemies.Enemy;
 import game.behaviours.AttackBehaviour;
+import game.behaviours.FollowBehaviour;
 import game.capabilities.Status;
 import game.items.HealingVial;
 import game.items.RefreshingFlask;
@@ -38,7 +38,7 @@ public class RedWolf extends Enemy {
    */
   @Override
   public IntrinsicWeapon getIntrinsicWeapon() {
-    return new IntrinsicWeapon(15, "kicks", 80);
+    return new IntrinsicWeapon(15, "bites", 80);
   }
 
   /**
@@ -70,6 +70,7 @@ public class RedWolf extends Enemy {
       // checks if exit-location contains target actor and if player has a status of hostile to enemy
       if (destination.containsAnActor() && destination.getActor().hasCapability(Status.HOSTILE_TO_ENEMY)){
         getBehaviours().put(0, new AttackBehaviour(destination.getActor(), exit.getName()));
+        getBehaviours().put(2, new FollowBehaviour(destination.getActor()));  // only enemies native to the Ancient Forest can follow the player
       }
     }
 
@@ -110,4 +111,5 @@ public class RedWolf extends Enemy {
 
 
 }
+
 

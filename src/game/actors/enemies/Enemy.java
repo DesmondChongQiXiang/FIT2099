@@ -4,7 +4,9 @@ import edu.monash.fit2099.engine.actions.ActionList;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.actors.Behaviour;
 import edu.monash.fit2099.engine.positions.GameMap;
+import game.behaviours.AttackBehaviour;
 import game.behaviours.WanderBehaviour;
+import game.behaviours.FollowBehaviour;
 import game.actions.AttackAction;
 import game.capabilities.Status;
 
@@ -31,7 +33,8 @@ public abstract class Enemy extends Actor {
      */
     public Enemy(String name, char displayChar, int hitPoints) {
         super(name, displayChar, hitPoints);
-        this.behaviours.put(999, new WanderBehaviour());  // WanderBehaviour should have a lower priority than the other two behaviours.
+        // Priority: 1.AttackBehaviour, 2.WanderBehaviour, 3.FollowBehaviour
+        this.behaviours.put(998, new WanderBehaviour());
         setSpawnRate(spawnRate);
 
     }

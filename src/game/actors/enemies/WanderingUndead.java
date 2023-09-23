@@ -34,18 +34,18 @@ public class WanderingUndead extends Enemy {
   }
 
   /**
-   * Set the intrinsic weapon of the WanderingUndead.
+   * Set the intrinsic weapon of the Wandering Undead.
    *
-   * @return the intrinsic weapon of WanderingUndead.
+   * @return the intrinsic weapon of Wandering Undead.
    */
   public IntrinsicWeapon getIntrinsicWeapon() {
     return new IntrinsicWeapon(30, "whacks", 50);
   }
 
   /**
-   * Spawn the WanderingUndead instance
+   * Spawn the Wandering Undead instance
    *
-   * @return a new spawned WanderingUndead instance
+   * @return a new spawned Wandering Undead instance
    */
   @Override
   public Enemy spawnInstance() {
@@ -55,8 +55,8 @@ public class WanderingUndead extends Enemy {
   /**
    * At each turn, select a valid action to perform.
    *
-   * @param actions    collection of possible Actions for this WanderingUndead
-   * @param lastAction The Action this WanderingUndead took last turn. Can do interesting things in conjunction with Action.getNextAction()
+   * @param actions    collection of possible Actions for this Wandering Undead
+   * @param lastAction The Action this Wandering Undead took last turn. Can do interesting things in conjunction with Action.getNextAction()
    * @param map        the map containing the Actor
    * @param display    the I/O object to which messages may be written
    * @return the valid action that can be performed in that iteration or null if no valid action is found
@@ -85,7 +85,7 @@ public class WanderingUndead extends Enemy {
   }
 
   /**
-   * Method that can be executed when the WanderingUndead is unconscious due to natural causes or accident.
+   * Method that can be executed when the Wandering Undead is unconscious due to natural causes or accident.
    *
    * @param map where the WanderingUndead fell unconscious
    * @return a string describing what happened when the WanderingUndead is unconscious
@@ -95,10 +95,10 @@ public class WanderingUndead extends Enemy {
   }
 
   /**
-   * Method that can be executed when the WanderingUndead is unconscious due to the action of another actor.
+   * Method that can be executed when the Wandering Undead is unconscious due to the action of another actor.
    *
    * @param actor the perpetrator
-   * @param map where the WanderingUndead fell unconscious
+   * @param map where the Wandering Undead fell unconscious
    *
    * @return a string describing what happened when the WanderingUndead is unconscious
    */
