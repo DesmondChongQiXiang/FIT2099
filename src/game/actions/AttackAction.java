@@ -23,11 +23,6 @@ public class AttackAction extends Action {
     private String direction;
 
     /**
-     * Random number generator
-     */
-    private Random rand = new Random();
-
-    /**
      * Weapon used for the attack
      */
     private Weapon weapon;

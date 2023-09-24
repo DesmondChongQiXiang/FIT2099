@@ -1,7 +1,7 @@
-package game.spawner;
+package game.spawners;
 
 import edu.monash.fit2099.engine.positions.Location;
-import game.actors.WanderingUndead;
+import game.actors.enemies.WanderingUndead;
 
 import java.util.Random;
 /**

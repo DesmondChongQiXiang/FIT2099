@@ -1,7 +1,7 @@
-package game.spawner;
+package game.spawners;
 
 import edu.monash.fit2099.engine.positions.Location;
-import game.actors.HollowSoldier;
+import game.actors.enemies.HollowSoldier;
 
 import java.util.Random;
 

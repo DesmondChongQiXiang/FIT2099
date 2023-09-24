@@ -1,8 +1,8 @@
-package game.ground;
+package game.grounds;
 
 import edu.monash.fit2099.engine.positions.Ground;
 import edu.monash.fit2099.engine.positions.Location;
-import game.spawner.Spawner;
+import game.spawners.Spawner;
 
 
 public class Graveyard extends Ground {

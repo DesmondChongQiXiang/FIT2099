@@ -13,12 +13,12 @@ import game.actors.Player;
 import game.displays.FancyMessage;
 import game.gamemap.TheBurialGround;
 import game.gamemap.TheAbandonedVillage;
-import game.ground.*;
-import game.ground.Void;
+import game.grounds.*;
+import game.grounds.Void;
 import game.weapons.Broadsword;
-import game.spawner.HollowSoldierSpawner;
-import game.spawner.Spawner;
-import game.spawner.WanderingUndeadSpawner;
+import game.spawners.HollowSoldierSpawner;
+import game.spawners.Spawner;
+import game.spawners.WanderingUndeadSpawner;
 
 /**
  * The main class to start the game.

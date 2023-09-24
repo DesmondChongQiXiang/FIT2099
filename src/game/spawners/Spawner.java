@@ -1,7 +1,7 @@
-package game.spawner;
+package game.spawners;
 
 import edu.monash.fit2099.engine.positions.Location;
-import jdk.jshell.execution.LoaderDelegate;
+
 /**
  * Represent a spawner of an enemy
  */
