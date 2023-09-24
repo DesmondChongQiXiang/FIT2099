@@ -1,22 +1,18 @@
 package game.actors.enemies;
 
 import edu.monash.fit2099.engine.actors.Actor;
-import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.weapons.IntrinsicWeapon;
-import game.grounds.enemygrounds.EnemyGround;
-import game.items.HealingVial;
-import game.items.RefreshingFlask;
 
-public class ForestKeeper extends Enemy {
+public class RedWolf extends Enemy{
     /**
      * Constructor.
      */
-    public ForestKeeper(){
-        super("Forest Keeper", '8', 125);
+    public RedWolf(){
+        super("Red Wolf", 'r', 25);
     }
 
     /**
-     * create a individual intrinsic weapon for Forest Keeper
+     * create a individual intrinsic weapon for Red Wolf
      *
      * Overrides Actor.getIntrinsicWeapon()
      *
@@ -25,6 +21,6 @@ public class ForestKeeper extends Enemy {
      */
     @Override
     public IntrinsicWeapon getIntrinsicWeapon() {
-        return new IntrinsicWeapon(25,"punches",75);
+        return new IntrinsicWeapon(15,"bites",80);
     }
 }

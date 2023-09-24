@@ -13,6 +13,7 @@ import game.actors.Player;
 import game.displays.FancyMessage;
 import game.grounds.*;
 import game.grounds.Void;
+import game.grounds.enemygrounds.Bush;
 import game.grounds.enemygrounds.EmptyHut;
 import game.grounds.enemygrounds.Graveyard;
 import game.weapons.Broadsword;
@@ -116,6 +117,8 @@ public class Application {
         world.addGameMap(ancientWoods);
 
         ancientWoods.at(29,0).setGround(new EmptyHut());
+
+        ancientWoods.at(15,11).setGround(new Bush());
 
         Gate burialGroundGate2 = new Gate();
         burialGroundGate2.addTravelAction(new TravelAction(ancientWoods.at(21, 1),"The Ancient Woods"));

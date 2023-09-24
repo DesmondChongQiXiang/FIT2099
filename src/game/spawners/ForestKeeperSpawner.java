@@ -8,7 +8,7 @@ import java.util.Random;
 
 public class ForestKeeperSpawner implements Spawner{
     /**
-     * Spawn the Wandering Undead enemy
+     * Spawn the Forest Keeper enemy
      *
      * @param location the location of spawn the enemy
      */
