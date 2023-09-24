@@ -13,6 +13,8 @@ import game.actors.Player;
 import game.displays.FancyMessage;
 import game.grounds.*;
 import game.grounds.Void;
+import game.grounds.enemygrounds.EmptyHut;
+import game.grounds.enemygrounds.Graveyard;
 import game.weapons.Broadsword;
 import game.spawners.HollowSoldierSpawner;
 import game.spawners.Spawner;
@@ -113,6 +115,8 @@ public class Application {
         GameMap ancientWoods = new GameMap(ancientWoodsFactory,ancientWoodsMap);
         world.addGameMap(ancientWoods);
 
+        ancientWoods.at(29,0).setGround(new EmptyHut());
+
         Gate burialGroundGate2 = new Gate();
         burialGroundGate2.addTravelAction(new TravelAction(ancientWoods.at(21, 1),"The Ancient Woods"));
         burialGround.at(30, 14).setGround(burialGroundGate2);
@@ -131,7 +135,7 @@ public class Application {
         }
 
         Player player = new Player("The Abstracted One", '@', 150,200);
-        world.addPlayer(player, theAbandonedVillage.at(29, 5));
+        world.addPlayer(player, ancientWoods.at(29, 5));
 
         world.run();
     }

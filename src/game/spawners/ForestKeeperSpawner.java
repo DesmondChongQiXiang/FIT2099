@@ -1,13 +1,12 @@
 package game.spawners;
 
 import edu.monash.fit2099.engine.positions.Location;
+import game.actors.enemies.ForestKeeper;
 import game.actors.enemies.WanderingUndead;
 
 import java.util.Random;
-/**
- * A class that represents spawner of Wandering Undead
- */
-public class WanderingUndeadSpawner implements Spawner{
+
+public class ForestKeeperSpawner implements Spawner{
     /**
      * Spawn the Wandering Undead enemy
      *
@@ -15,8 +14,8 @@ public class WanderingUndeadSpawner implements Spawner{
      */
     @Override
     public void spawn(Location location){
-        if (Math.random() * 100 <= 25 && !location.containsAnActor()) {
-            location.addActor(new WanderingUndead());
+        if (Math.random() * 100 <= 15 && !location.containsAnActor()) {
+            location.addActor(new ForestKeeper());
         }
     }
 }

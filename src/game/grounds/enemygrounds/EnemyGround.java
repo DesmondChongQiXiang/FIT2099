@@ -1,11 +1,10 @@
-package game.grounds;
+package game.grounds.enemygrounds;
 
 import edu.monash.fit2099.engine.positions.Ground;
 import edu.monash.fit2099.engine.positions.Location;
 import game.spawners.Spawner;
 
-
-public class Graveyard extends Ground {
+public abstract class EnemyGround extends Ground {
     /**
      * Enemy Spawner
      */
@@ -14,8 +13,8 @@ public class Graveyard extends Ground {
     /**
      * Constructor.
      */
-    public Graveyard(Spawner spawner){
-        super('n');
+    public EnemyGround(char displayChar, Spawner spawner){
+        super(displayChar);
         this.spawner = spawner;
     }
 
@@ -27,5 +26,4 @@ public class Graveyard extends Ground {
     public void tick(Location location) {
         spawner.spawn(location);
     }
-
 }

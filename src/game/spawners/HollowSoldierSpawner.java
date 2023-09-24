@@ -9,7 +9,6 @@ import java.util.Random;
  * A class that represents spawner of Hollow Soldier
  */
 public class HollowSoldierSpawner implements Spawner{
-    private Random rand = new Random();
     /**
      * Spawn the Hollow Soldier enemy
      *
@@ -17,13 +16,8 @@ public class HollowSoldierSpawner implements Spawner{
      */
     @Override
     public void spawn(Location location){
-        if (Math.random() * 100 <= 10) {
-            Location chosenExit;
-            HollowSoldier hollowSoldier = new HollowSoldier();
-            do{
-                chosenExit = location.getExits().get(rand.nextInt(location.getExits().size())).getDestination();
-            }while(!chosenExit.canActorEnter(hollowSoldier) && chosenExit.containsAnActor());
-            chosenExit.addActor(hollowSoldier);
+        if (Math.random() * 100 <= 10 && !location.containsAnActor()) {
+            location.addActor(new HollowSoldier());
         }
     }
 }
