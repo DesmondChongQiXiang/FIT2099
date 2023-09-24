@@ -11,8 +11,6 @@ import edu.monash.fit2099.engine.positions.World;
 import game.actions.TravelAction;
 import game.actors.Player;
 import game.displays.FancyMessage;
-import game.gamemap.TheBurialGround;
-import game.gamemap.TheAbandonedVillage;
 import game.grounds.*;
 import game.grounds.Void;
 import game.weapons.Broadsword;
@@ -51,7 +49,7 @@ public class Application {
                 "~~~~~~.................++.................#..___#....+++...",
                 "~~~~~~~~~.................................#######.......++.");
 
-        GameMap theAbandonedVillage = new TheAbandonedVillage(abandonedVillageFactory, abandonedVillage);
+        GameMap theAbandonedVillage = new GameMap(abandonedVillageFactory, abandonedVillage);
         world.addGameMap(theAbandonedVillage);
 
         Spawner wanderingUndeadSpawner = new WanderingUndeadSpawner();
@@ -79,18 +77,18 @@ public class Application {
                 "....+~~~~..++++++++~~~~~~~~~....~~~.....",
                 "....+~~~~..++++++++~~~..~~~~~..~~~~~....");
 
-        GameMap burialGround = new TheBurialGround(burialGroundFactory,burialGroundMap);
+        GameMap burialGround = new GameMap(burialGroundFactory,burialGroundMap);
         world.addGameMap(burialGround);
 
         Spawner hollowSoldierSpawner = new HollowSoldierSpawner();
         burialGround.at(21,11).setGround(new Graveyard(hollowSoldierSpawner));
 
         Gate abandonedVillageGate = new Gate();
-        abandonedVillageGate.addTravelAction(new TravelAction(burialGround.at(21, 1)));
+        abandonedVillageGate.addTravelAction(new TravelAction(burialGround.at(21, 1),"The Burial Ground"));
         theAbandonedVillage.at(30, 0).setGround(abandonedVillageGate);
 
         Gate burialGroundGate = new Gate();
-        burialGroundGate.addTravelAction(new TravelAction(theAbandonedVillage.at(30, 1)));
+        burialGroundGate.addTravelAction(new TravelAction(theAbandonedVillage.at(30, 1),"The Abandoned Village"));
         burialGround.at(21,0).setGround(burialGroundGate);
 
         for (String line : FancyMessage.TITLE.split("\n")) {
