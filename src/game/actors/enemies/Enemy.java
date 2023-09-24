@@ -1,93 +1,76 @@
 package game.actors.enemies;
 
+import edu.monash.fit2099.engine.actions.Action;
 import edu.monash.fit2099.engine.actions.ActionList;
+import edu.monash.fit2099.engine.actions.DoNothingAction;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.actors.Behaviour;
+import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.GameMap;
+import game.capabilities.Status;
+import game.actions.AttackAction;
 import game.behaviours.AttackBehaviour;
 import game.behaviours.WanderBehaviour;
-import game.behaviours.FollowBehaviour;
-import game.actions.AttackAction;
-import game.capabilities.Status;
 
 import java.util.HashMap;
 import java.util.Map;
-
 /**
- * An abstract class for all the enemies present in the game.
- *
- * @author Yoong Qian Xin
+ * Class representing the Enemy.
  */
 public abstract class Enemy extends Actor {
-    private Map<Integer, Behaviour> behaviours = new HashMap<>();
-    private double spawnRate;
-
+    protected Map<Integer, Behaviour> behaviours = new HashMap<>();
     /**
      * Constructor.
-     * The Enemy should prioritise the AttackBehaviour and put it in the front of the behaviours list.
-     * So that if the Player is nearby, the Enemy can attack them.
      *
-     * @param name        the name of the Enemy
-     * @param displayChar the character that will represent the Enemy in the display
-     * @param hitPoints   the Enemy's starting hit points
+     * @param name        The name of the enemy
+     * @param displayChar Character to represent the enemy in the UI
+     * @param hitPoints   Enemy's starting number of hitpoints
      */
-    public Enemy(String name, char displayChar, int hitPoints) {
-        super(name, displayChar, hitPoints);
-        // Priority: 1.AttackBehaviour, 2.WanderBehaviour, 3.FollowBehaviour
-        this.behaviours.put(998, new WanderBehaviour());
-        setSpawnRate(spawnRate);
-
+    public Enemy(String name, char displayChar, int hitPoints){
+        super(name,displayChar,hitPoints);
+        // Priority of behaviour:  1. AttackBehaviour  2. FollowBehaviour  3. WanderBehaviour
+        this.behaviours.put(999, new WanderBehaviour());
+        this.behaviours.put(997,new AttackBehaviour());
     }
 
     /**
-     * Spawn the instance of an enemy
+     * At each turn, select a valid action to perform.
      *
-     * @return an enemy type actor
+     * @param actions    collection of possible Actions for this Actor
+     * @param lastAction The Action this Actor took last turn. Can do interesting things in conjunction with Action.getNextAction()
+     * @param map        the map containing the Actor
+     * @param display    the I/O object to which messages may be written
+     * @return the valid action that can be performed in that iteration or null if no valid action is found
      */
-    public abstract Enemy spawnInstance();
+    @Override
+    public Action playTurn(ActionList actions, Action lastAction, GameMap map, Display display) {
+        for (Behaviour behaviour : behaviours.values()) {
+            Action action = behaviour.getAction(this, map);
+            if(action != null)
+                return action;
+        }
+        return new DoNothingAction();
+    }
 
     /**
-     * The enemy can be attacked by any actor that has the status of HOSTILE_TO_ENEMY.
+     * Enemy can be attacked by any actor that has the HOSTILE_TO_ENEMY capability
      *
      * @param otherActor the Actor that might be performing attack
      * @param direction  String representing the direction of the other Actor
      * @param map        current GameMap
-     *
      * @return A list of actions that is allowed to be executed/performed on the current actor.
      */
+    @Override
     public ActionList allowableActions(Actor otherActor, String direction, GameMap map) {
         ActionList actions = new ActionList();
-        if (otherActor.hasCapability(Status.HOSTILE_TO_ENEMY)) {
+        if(otherActor.hasCapability(Status.HOSTILE_TO_ENEMY)){
             actions.add(new AttackAction(this, direction));
         }
 
         return actions;
     }
 
-    /**
-     * A getter to get the map of behaviours of enemies.
-     */
-    public Map<Integer, Behaviour> getBehaviours() {
-        return behaviours;
-    }
-
-    /**
-     * To get the spawn rate of the enemy.
-     *
-     * @return The spawn rate of the enemy.
-     */
-    public double getSpawnRate() {
-        return this.spawnRate;
-    }
-
-    /**
-     * To set the spawn rate of the enemy.
-     *
-     * @param spawnRate The spawn rate of the enemy.
-     */
-    public void setSpawnRate(double spawnRate) {
-        this.spawnRate = spawnRate;
-    }
-
 
 }
+
+

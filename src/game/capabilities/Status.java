@@ -7,6 +7,10 @@ package game.capabilities;
  * @author Riordan D. Alfredo
  */
 public enum Status {
+
+    /**
+     * To determine if other actors can attack the enemy.
+     */
     HOSTILE_TO_ENEMY
 
 

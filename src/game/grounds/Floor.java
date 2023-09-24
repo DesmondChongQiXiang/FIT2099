@@ -29,4 +29,6 @@ public class Floor extends Ground {
     public boolean canActorEnter(Actor actor) {
         return actor.hasCapability(Ability.ENTER_FLOOR);
     }
+
+
 }

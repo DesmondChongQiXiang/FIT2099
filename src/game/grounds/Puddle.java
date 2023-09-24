@@ -9,4 +9,6 @@ public class Puddle extends Ground {
     public Puddle() {
         super('~');
     }
+
+
 }

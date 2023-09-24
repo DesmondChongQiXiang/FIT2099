@@ -14,4 +14,6 @@ public class Key extends Item {
         super("Old Key", '-', true);
         this.addCapability(Ability.UNLOCK_GATE);
     }
+
+
 }

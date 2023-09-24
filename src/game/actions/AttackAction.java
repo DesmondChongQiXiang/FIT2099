@@ -7,6 +7,9 @@ import edu.monash.fit2099.engine.weapons.Weapon;
 
 import java.util.Random;
 
+/**
+ * An Action that attack another actor
+ */
 public class AttackAction extends Action {
 
     /**
@@ -34,7 +37,6 @@ public class AttackAction extends Action {
      *
      * @param target the Actor to attack
      * @param direction the direction where the attack should be performed (only used for display purposes)
-     * @param weapon the weapon that the actor perform
      */
     public AttackAction(Actor target, String direction, Weapon weapon) {
         this.target = target;
@@ -54,12 +56,14 @@ public class AttackAction extends Action {
     }
 
     /**
-     * When executed, the chance to hit of the weapon that the Actor used is computed to determine whether
-     * the actor will hit the target. If so, deal damage to the target and determine whether the target is killed.
+     * Allow the Actor to attack
      *
-     * @param actor The actor performing the attack action.
+     * Overrides Action.execute()
+     *
+     * @see Action#execute(Actor, GameMap)
+     * @param actor The actor performing the action.
      * @param map The map the actor is on.
-     * @return the result of the attack
+     * @return a description of the Action suitable for the menu
      */
     @Override
     public String execute(Actor actor, GameMap map) {
@@ -80,12 +84,11 @@ public class AttackAction extends Action {
 
         return result;
     }
-
     /**
-     * The action description to be printed on the menu to let the user choose.
+     * Returns a description of this movement suitable to display in the menu.
      *
      * @param actor The actor performing the action.
-     * @return The string to be printed on the menu.
+     * @return a String, e.g. "Player attacks enemy at (13, 6) with weapon"
      */
     @Override
     public String menuDescription(Actor actor) {
