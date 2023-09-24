@@ -61,7 +61,8 @@ public class Application {
 
         FancyGroundFactory burialGroundFactory = new FancyGroundFactory(new Dirt(),
                 new Wall(), new Floor(), new Puddle(),new Void());
-        List<String> burialGroundMap = Arrays.asList("...........+++++++........~~~~~~++....~~",
+        List<String> burialGroundMap = Arrays.asList
+                ("...........+++++++........~~~~~~++....~~",
                 "...........++++++.........~~~~~~+.....~~",
                 "............++++...........~~~~~......++",
                 "............+.+.............~~~.......++",
@@ -90,6 +91,35 @@ public class Application {
         Gate burialGroundGate = new Gate();
         burialGroundGate.addTravelAction(new TravelAction(theAbandonedVillage.at(30, 1),"The Abandoned Village"));
         burialGround.at(21,0).setGround(burialGroundGate);
+
+        FancyGroundFactory ancientWoodsFactory = new FancyGroundFactory(new Dirt(),
+                new Wall(), new Floor(), new Puddle(),new Void());
+
+        List<String> ancientWoodsMap = Arrays.asList
+                ("....+++..............................+++++++++....~~~....~~~",
+                "+...+++..............................++++++++.....~~~.....~~",
+                "++...............#######..............++++.........~~.......",
+                "++...............#_____#...........................~~~......",
+                "+................#_____#............................~~......",
+                ".................###_###............~...............~~.....~",
+                "...............................~.+++~~..............~~....~~",
+                ".....................~........~~+++++...............~~~...~~",
+                "....................~~~.........++++............~~~~~~~...~~",
+                "....................~~~~.~~~~..........~........~~~~~~.....~",
+                "++++...............~~~~~~~~~~~........~~~.......~~~~~~......",
+                "+++++..............~~~~~~~~~~~........~~~........~~~~~......");
+
+
+        GameMap ancientWoods = new GameMap(ancientWoodsFactory,ancientWoodsMap);
+        world.addGameMap(ancientWoods);
+
+        Gate burialGroundGate2 = new Gate();
+        burialGroundGate2.addTravelAction(new TravelAction(ancientWoods.at(21, 1),"The Ancient Woods"));
+        burialGround.at(30, 14).setGround(burialGroundGate2);
+
+        Gate ancientWoodsGate = new Gate();
+        ancientWoodsGate.addTravelAction(new TravelAction(burialGround.at(30, 13),"The Burial Ground"));
+        ancientWoods.at(21,0).setGround(ancientWoodsGate);
 
         for (String line : FancyMessage.TITLE.split("\n")) {
             new Display().println(line);
