@@ -4,7 +4,6 @@ import edu.monash.fit2099.engine.actions.Action;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.weapons.IntrinsicWeapon;
-import game.utilities.ProbabilityGenerator;
 import game.items.HealingVial;
 import game.items.RefreshingFlask;
 
@@ -40,10 +39,10 @@ public class HollowSoldier extends Enemy {
      */
     @Override
     public String unconscious(Actor actor,GameMap map) {
-        if (ProbabilityGenerator.generateProbability(20)) {
+        if (Math.random() * 100 <= 20) {
             map.locationOf(this).addItem(new HealingVial());
         }
-        if (ProbabilityGenerator.generateProbability(30)) {
+        if (Math.random() * 100 <= 30) {
             map.locationOf(this).addItem(new RefreshingFlask());
         }
         return super.unconscious(map);

@@ -3,7 +3,6 @@ package game.actors;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.weapons.IntrinsicWeapon;
-import game.utilities.ProbabilityGenerator;
 import game.items.HealingVial;
 import game.items.Key;
 
@@ -37,10 +36,10 @@ public class WanderingUndead extends Enemy {
      */
     @Override
     public String unconscious(Actor actor,GameMap map) {
-        if (ProbabilityGenerator.generateProbability(25)) {
+        if (Math.random() * 100 <= 25) {
             map.locationOf(this).addItem(new Key());
         }
-        if (ProbabilityGenerator.generateProbability(20)) {
+        if (Math.random() * 100 <= 20) {
             map.locationOf(this).addItem(new HealingVial());
         }
         return super.unconscious(map);

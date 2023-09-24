@@ -1,7 +1,6 @@
 package game.spawner;
 
 import edu.monash.fit2099.engine.positions.Location;
-import game.utilities.ProbabilityGenerator;
 import game.actors.WanderingUndead;
 
 import java.util.Random;
@@ -17,7 +16,7 @@ public class WanderingUndeadSpawner implements Spawner{
      */
     @Override
     public void spawn(Location location){
-        if (ProbabilityGenerator.generateProbability(25)){
+        if (Math.random() * 100 <= 25) {
             Location chosenExit;
             WanderingUndead wanderingUndead = new WanderingUndead();
             do{

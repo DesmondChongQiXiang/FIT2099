@@ -1,7 +1,6 @@
 package game.spawner;
 
 import edu.monash.fit2099.engine.positions.Location;
-import game.utilities.ProbabilityGenerator;
 import game.actors.HollowSoldier;
 
 import java.util.Random;
@@ -18,7 +17,7 @@ public class HollowSoldierSpawner implements Spawner{
      */
     @Override
     public void spawn(Location location){
-        if (ProbabilityGenerator.generateProbability(10)){
+        if (Math.random() * 100 <= 10) {
             Location chosenExit;
             HollowSoldier hollowSoldier = new HollowSoldier();
             do{

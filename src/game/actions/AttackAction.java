@@ -4,7 +4,6 @@ import edu.monash.fit2099.engine.actions.Action;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.weapons.Weapon;
-import game.utilities.ProbabilityGenerator;
 
 import java.util.Random;
 
@@ -72,7 +71,7 @@ public class AttackAction extends Action {
             weapon = actor.getIntrinsicWeapon();
         }
 
-            if (!ProbabilityGenerator.generateProbability(weapon.chanceToHit())){
+        if (!(Math.random() * 100 <= weapon.chanceToHit())) {
             return actor + " misses " + target + ".";
         }
 
