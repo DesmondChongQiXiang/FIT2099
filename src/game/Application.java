@@ -113,11 +113,11 @@ public class Application {
                 "++++...............~~~~~~~~~~~........~~~.......~~~~~~......",
                 "+++++..............~~~~~~~~~~~........~~~........~~~~~......");
 
-
         GameMap ancientWoods = new GameMap(ancientWoodsFactory,ancientWoodsMap);
         world.addGameMap(ancientWoods);
 
         ancientWoods.at(29,0).setGround(new Hut());
+
         ancientWoods.at(15,11).setGround(new Bushes());
 
         Gate burialGroundGate2 = new Gate();
@@ -127,7 +127,6 @@ public class Application {
         Gate ancientWoodsGate = new Gate();
         ancientWoodsGate.addTravelAction(new TravelAction(burialGround.at(30, 13),"The Burial Ground"));
         ancientWoods.at(21,0).setGround(ancientWoodsGate);
-
 
         for (String line : FancyMessage.TITLE.split("\n")) {
             new Display().println(line);
@@ -143,4 +142,6 @@ public class Application {
 
         world.run();
     }
+
+
 }
