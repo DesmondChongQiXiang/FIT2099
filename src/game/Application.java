@@ -10,6 +10,7 @@ import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.World;
 import game.actions.TravelAction;
 import game.actors.Player;
+import game.actors.Traveller;
 import game.displays.FancyMessage;
 import game.grounds.*;
 import game.grounds.Void;
@@ -102,17 +103,17 @@ public class Application {
 
         List<String> ancientWoodsMap = Arrays.asList
             ("....+++..............................+++++++++....~~~....~~~",
-                "+...+++..............................++++++++.....~~~.....~~",
-                "++...............#######..............++++.........~~.......",
-                "++...............#_____#...........................~~~......",
-                "+................#_____#............................~~......",
-                ".................###_###............~...............~~.....~",
-                "...............................~.+++~~..............~~....~~",
-                ".....................~........~~+++++...............~~~...~~",
-                "....................~~~.........++++............~~~~~~~...~~",
-                "....................~~~~.~~~~..........~........~~~~~~.....~",
-                "++++...............~~~~~~~~~~~........~~~.......~~~~~~......",
-                "+++++..............~~~~~~~~~~~........~~~........~~~~~......");
+            "+...+++..............................++++++++.....~~~.....~~",
+            "++...............#######..............++++.........~~.......",
+            "++...............#_____#...........................~~~......",
+            "+................#_____#............................~~......",
+            ".................###_###............~...............~~.....~",
+            "...............................~.+++~~..............~~....~~",
+            ".....................~........~~+++++...............~~~...~~",
+            "....................~~~.........++++............~~~~~~~...~~",
+            "....................~~~~.~~~~..........~........~~~~~~.....~",
+            "++++...............~~~~~~~~~~~........~~~.......~~~~~~......",
+            "+++++..............~~~~~~~~~~~........~~~........~~~~~......");
 
 
         GameMap ancientWoods = new GameMap(ancientWoodsFactory,ancientWoodsMap);
@@ -126,8 +127,8 @@ public class Application {
         burialGround.at(30, 14).setGround(burialGroundGate2);
 
         Gate ancientWoodsGate = new Gate();
-        ancientWoodsGate.addTravelAction(new TravelAction(burialGround.at(31, 14),"The Burial Ground"));
-        ancientWoods.at(21,4).setGround(ancientWoodsGate);
+        ancientWoodsGate.addTravelAction(new TravelAction(burialGround.at(15, 14),"The Burial Ground"));
+        ancientWoods.at(10,11).setGround(ancientWoodsGate);
 
         ancientWoods.at(10,7).addItem(new BloodBerry());
         ancientWoods.at(20,1).addItem(new BloodBerry());
@@ -145,7 +146,10 @@ public class Application {
         }
 
         Player player = new Player("The Abstracted One", '@', 150, 200, 0);
-        world.addPlayer(player, ancientWoods.at(29, 5));
+        world.addPlayer(player, ancientWoods.at(21, 4));
+
+        Traveller traveller = new Traveller();
+        ancientWoods.at(20,3).addActor(traveller);
 
         world.run();
     }

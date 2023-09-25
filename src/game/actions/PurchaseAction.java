@@ -6,24 +6,20 @@ import edu.monash.fit2099.engine.positions.GameMap;
 import game.items.Purchasable;
 
 public class PurchaseAction extends Action {
-    private final Actor seller;
     private final Purchasable item;
 
-    private boolean isPurchased;
-
-    public PurchaseAction(Actor seller, Purchasable item){
-        this.seller = seller;
+    public PurchaseAction(Actor buyer, Purchasable item){
         this.item = item;
     }
 
     @Override
     public String execute(Actor actor, GameMap map) {
-        item.purchasedBy(actor);
-        return "halo";
+        int purchasePrice = item.purchasedBy(actor);
+        return String.format("%s successfully purchased %s for %d runes.",actor, item, purchasePrice);
     }
 
     @Override
     public String menuDescription(Actor actor) {
-        return null;
+        return String.format("%s buys %s", actor,item);
     }
 }

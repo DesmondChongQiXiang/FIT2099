@@ -6,6 +6,7 @@ import edu.monash.fit2099.engine.actors.attributes.ActorAttributeOperations;
 import edu.monash.fit2099.engine.actors.attributes.BaseActorAttributes;
 import edu.monash.fit2099.engine.items.Item;
 import game.actions.ConsumeAction;
+import game.actions.SellAction;
 
 /**
  * A class that represents Refreshing Flask that can increase the stamina of an actor.
@@ -48,19 +49,23 @@ public class RefreshingFlask extends Item implements Consumable, Sellable, Purch
     public ActionList allowableActions(Actor owner) {
         ActionList actions = new ActionList();
         actions.add(new ConsumeAction(this));
+        actions.add(new SellAction(this));
         return actions;
     }
 
     @Override
-    public void soldBy(Actor actor){
+    public int soldBy(Actor actor){
+        int sellingPrice = 0;
         if (Math.random() <= 0.5){
-            actor.addBalance(25);
+            sellingPrice = 25;
+            actor.addBalance(sellingPrice);
         }
         actor.removeItemFromInventory(this);
+        return sellingPrice;
     }
 
     @Override
-    public void purchasedBy(Actor actor) {
+    public int purchasedBy(Actor buyer) {
         int purchasePrice = 0;
         if (Math.random() <= 0.1){
             purchasePrice = 75 - (int)(75 * 0.2f);
@@ -68,12 +73,13 @@ public class RefreshingFlask extends Item implements Consumable, Sellable, Purch
         else{
             purchasePrice = 75;
         }
-        if (actor.getBalance() < purchasePrice){
-            throw new IllegalStateException(String.format("%s's balance is insufficient.", actor));
+        if (buyer.getBalance() < purchasePrice){
+            throw new IllegalStateException(String.format("%s's balance is insufficient.", buyer));
         }
         else{
-            actor.deductBalance(purchasePrice);
-            actor.addItemToInventory(this);
+            buyer.deductBalance(purchasePrice);
+            buyer.addItemToInventory(this);
         }
+        return purchasePrice;
     }
 }

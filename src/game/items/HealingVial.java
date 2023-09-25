@@ -5,6 +5,7 @@ import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.actors.attributes.BaseActorAttributes;
 import edu.monash.fit2099.engine.items.Item;
 import game.actions.ConsumeAction;
+import game.actions.SellAction;
 
 /**
  * A class that represents HealingVial that can increase the health of an actor.
@@ -48,11 +49,13 @@ public class HealingVial extends Item implements Consumable,Purchasable,Sellable
     public ActionList allowableActions(Actor owner) {
         ActionList actions = new ActionList();
         actions.add(new ConsumeAction(this));
+        actions.add(new SellAction(this));
         return actions;
     }
 
+
     @Override
-    public void purchasedBy(Actor actor) {
+    public int purchasedBy(Actor buyer) {
         int purchasePrice = 0;
         if (Math.random() <= 0.25){
             purchasePrice = 100 + (int)(100 * 0.5f);
@@ -60,23 +63,29 @@ public class HealingVial extends Item implements Consumable,Purchasable,Sellable
         else{
             purchasePrice = 100;
         }
-        if (actor.getBalance() < purchasePrice){
-            throw new IllegalStateException(String.format("%s's balance is insufficient.", actor));
+        if (buyer.getBalance() < purchasePrice){
+            throw new IllegalStateException(String.format("%s's balance is insufficient.", buyer));
         }
         else{
-            actor.deductBalance(purchasePrice);
-            actor.addItemToInventory(this);
+            buyer.deductBalance(purchasePrice);
+            buyer.addItemToInventory(this);
         }
+        return purchasePrice;
     }
 
     @Override
-    public void soldBy(Actor actor){
+    public int soldBy(Actor actor){
+        int sellingPrice = 0;
         if(Math.random() <= 0.10){
-            actor.addBalance(35*2);
+            sellingPrice = 35*2;
+            actor.addBalance(sellingPrice);
         }
         else{
-            actor.addBalance(35);
+            sellingPrice = 35;
+            actor.addBalance(sellingPrice);
         }
         actor.removeItemFromInventory(this);
+        return sellingPrice;
     }
+
 }

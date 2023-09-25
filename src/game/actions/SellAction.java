@@ -8,21 +8,20 @@ import game.items.Sellable;
 
 public class SellAction extends Action {
 
-    private Actor purchaser;
     private Sellable item;
 
-    public SellAction(Actor purchaser, Sellable item) {
-        this.purchaser = purchaser;
+    public SellAction(Sellable item) {
         this.item = item;
     }
 
     @Override
     public String execute(Actor actor, GameMap map) {
-        return null;
+       int sellingPrice = item.soldBy(actor);
+       return String.format("%s sells %s for %d runes",actor,item,sellingPrice);
     }
 
     @Override
     public String menuDescription(Actor actor) {
-        return null;
+        return String.format("%s sells %s", actor,item);
     }
 }

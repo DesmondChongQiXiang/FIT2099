@@ -6,6 +6,7 @@ import edu.monash.fit2099.engine.actors.attributes.ActorAttributeOperations;
 import edu.monash.fit2099.engine.actors.attributes.BaseActorAttributes;
 import edu.monash.fit2099.engine.items.Item;
 import game.actions.ConsumeAction;
+import game.actions.SellAction;
 
 public class BloodBerry extends Item implements Consumable,Sellable{
 
@@ -27,11 +28,14 @@ public class BloodBerry extends Item implements Consumable,Sellable{
     public ActionList allowableActions(Actor owner) {
         ActionList actions = new ActionList();
         actions.add(new ConsumeAction(this));
+        actions.add(new SellAction(this));
         return actions;
     }
     @Override
-    public void soldBy(Actor actor){
-        actor.addBalance(10);
+    public int soldBy(Actor actor){
+        int sellingPrice = 10;
+        actor.addBalance(sellingPrice);
         actor.removeItemFromInventory(this);
+        return sellingPrice;
     }
 }
