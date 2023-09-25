@@ -88,12 +88,12 @@ public class Application {
         burialGround.at(21,11).setGround(new Graveyard(hollowSoldierSpawner));
 
         Gate abandonedVillageGate = new Gate();
-        abandonedVillageGate.addTravelAction(new TravelAction(burialGround.at(21, 1),"The Burial Ground"));
-        theAbandonedVillage.at(30, 0).setGround(abandonedVillageGate);
+        abandonedVillageGate.addTravelAction(new TravelAction(burialGround.at(22, 7),"The Burial Ground"));
+        theAbandonedVillage.at(30, 5).setGround(abandonedVillageGate);
 
         Gate burialGroundGate = new Gate();
-        burialGroundGate.addTravelAction(new TravelAction(theAbandonedVillage.at(30, 1),"The Abandoned Village"));
-        burialGround.at(21,0).setGround(burialGroundGate);
+        burialGroundGate.addTravelAction(new TravelAction(theAbandonedVillage.at(31, 5),"The Abandoned Village"));
+        burialGround.at(23,7).setGround(burialGroundGate);
 
 
         FancyGroundFactory ancientWoodsFactory = new FancyGroundFactory(new Dirt(),
@@ -121,11 +121,11 @@ public class Application {
         ancientWoods.at(15,11).setGround(new Bushes());
 
         Gate burialGroundGate2 = new Gate();
-        burialGroundGate2.addTravelAction(new TravelAction(ancientWoods.at(21, 1),"The Ancient Woods"));
+        burialGroundGate2.addTravelAction(new TravelAction(ancientWoods.at(22, 0),"The Ancient Woods"));
         burialGround.at(30, 14).setGround(burialGroundGate2);
 
         Gate ancientWoodsGate = new Gate();
-        ancientWoodsGate.addTravelAction(new TravelAction(burialGround.at(30, 13),"The Burial Ground"));
+        ancientWoodsGate.addTravelAction(new TravelAction(burialGround.at(31, 14),"The Burial Ground"));
         ancientWoods.at(21,0).setGround(ancientWoodsGate);
 
 
