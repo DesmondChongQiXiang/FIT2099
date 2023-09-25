@@ -5,6 +5,7 @@ import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.weapons.IntrinsicWeapon;
 import game.items.HealingVial;
 import game.items.Key;
+import game.items.Runes;
 
 public class WanderingUndead extends Enemy {
 
@@ -44,6 +45,7 @@ public class WanderingUndead extends Enemy {
       map.locationOf(this).addItem(new HealingVial());
     }
 
+    map.locationOf(this).addItem(new Runes(50));
     return super.unconscious(map);
   }
 

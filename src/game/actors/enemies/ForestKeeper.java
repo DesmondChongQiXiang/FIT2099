@@ -8,6 +8,7 @@ import game.actions.AttackAction;
 import game.behaviours.FollowBehaviour;
 import game.capabilities.Status;
 import game.items.HealingVial;
+import game.items.Runes;
 
 public class ForestKeeper extends Enemy {
   /**
@@ -31,17 +32,6 @@ public class ForestKeeper extends Enemy {
   }
 
   /**
-   * Method that can be executed when the Forest Keeper is unconscious due to natural causes or accident.
-   *
-   * @param map where the Forest Keeper fell unconscious
-   *
-   * @return a string describing what happened when the Forest Keeper is unconscious
-   */
-  public String unconscious(GameMap map) {
-    return super.unconscious(map);
-  }
-
-  /**
    * Method that can be executed when the Forest Keeper is unconscious due to the action of another actor.
    *
    * @param actor the perpetrator
@@ -53,6 +43,7 @@ public class ForestKeeper extends Enemy {
       map.locationOf(this).addItem(new HealingVial());
     }
 
+    map.locationOf(this).addItem(new Runes(50));
     return super.unconscious(actor, map);
   }
 

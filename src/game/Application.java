@@ -121,12 +121,17 @@ public class Application {
         ancientWoods.at(15,11).setGround(new Bushes());
 
         Gate burialGroundGate2 = new Gate();
-        burialGroundGate2.addTravelAction(new TravelAction(ancientWoods.at(22, 0),"The Ancient Woods"));
+        burialGroundGate2.addTravelAction(new TravelAction(ancientWoods.at(22, 4),"The Ancient Woods"));
         burialGround.at(30, 14).setGround(burialGroundGate2);
 
         Gate ancientWoodsGate = new Gate();
         ancientWoodsGate.addTravelAction(new TravelAction(burialGround.at(31, 14),"The Burial Ground"));
-        ancientWoods.at(21,0).setGround(ancientWoodsGate);
+        ancientWoods.at(21,4).setGround(ancientWoodsGate);
+
+        ancientWoods.at(10,7).addItem(new BloodBerry());
+        ancientWoods.at(20,1).addItem(new BloodBerry());
+        ancientWoods.at(15,6).addItem(new BloodBerry());
+        ancientWoods.at(3,9).addItem(new BloodBerry());
 
 
         for (String line : FancyMessage.TITLE.split("\n")) {
@@ -138,8 +143,8 @@ public class Application {
             }
         }
 
-        Player player = new Player("The Abstracted One", '@', 150,200);
-        world.addPlayer(player, theAbandonedVillage.at(29, 5));
+        Player player = new Player("The Abstracted One", '@', 150, 200, 0);
+        world.addPlayer(player, ancientWoods.at(29, 5));
 
         world.run();
     }

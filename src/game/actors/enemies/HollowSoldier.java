@@ -5,6 +5,7 @@ import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.weapons.IntrinsicWeapon;
 import game.items.HealingVial;
 import game.items.RefreshingFlask;
+import game.items.Runes;
 
 /**
  * Class representing the HollowSoldier.
@@ -47,6 +48,7 @@ public class HollowSoldier extends Enemy {
       map.locationOf(this).addItem(new HealingVial());
     }
 
+    map.locationOf(this).addItem(new Runes(100));
     return super.unconscious(map);
   }
 
