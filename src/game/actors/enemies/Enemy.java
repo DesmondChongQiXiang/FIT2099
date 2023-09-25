@@ -28,7 +28,7 @@ public abstract class Enemy extends Actor {
      */
     public Enemy(String name, char displayChar, int hitPoints){
         super(name,displayChar,hitPoints);
-        // Priority of behaviour:  1. FollowBehaviour  2. AttackBehaviour  3. WanderBehaviour
+        // Priority of behaviour:  1. AttackBehaviour  2. FollowBehaviour  3. WanderBehaviour
         this.behaviours.put(999, new WanderBehaviour());
         this.behaviours.put(997, new AttackBehaviour());
     }
@@ -66,7 +66,6 @@ public abstract class Enemy extends Actor {
         if(otherActor.hasCapability(Status.HOSTILE_TO_ENEMY)){
             actions.add(new AttackAction(this, direction));
         }
-
         return actions;
     }
 

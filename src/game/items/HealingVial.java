@@ -9,7 +9,7 @@ import game.actions.ConsumeAction;
 /**
  * A class that represents HealingVial that can increase the health of an actor.
  */
-public class HealingVial extends Item implements Consumable {
+public class HealingVial extends Item implements Consumable,Purchasable,Sellable {
 
     /**
      * Constructor.
@@ -51,5 +51,32 @@ public class HealingVial extends Item implements Consumable {
         return actions;
     }
 
+    @Override
+    public void purchasedBy(Actor actor) {
+        int purchasePrice = 0;
+        if (Math.random() <= 0.25){
+            purchasePrice = 100 + (int)(100 * 0.5f);
+        }
+        else{
+            purchasePrice = 100;
+        }
+        if (actor.getBalance() < purchasePrice){
+            throw new IllegalStateException(String.format("%s's balance is insufficient.", actor));
+        }
+        else{
+            actor.deductBalance(purchasePrice);
+            actor.addItemToInventory(this);
+        }
+    }
 
+    @Override
+    public void soldBy(Actor actor){
+        if(Math.random() <= 0.10){
+            actor.addBalance(35*2);
+        }
+        else{
+            actor.addBalance(35);
+        }
+        actor.removeItemFromInventory(this);
+    }
 }

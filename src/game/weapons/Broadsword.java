@@ -9,11 +9,13 @@ import edu.monash.fit2099.engine.weapons.WeaponItem;
 import game.actions.ActivateSkillAction;
 import game.actions.ActiveSkill;
 import game.actions.AttackAction;
+import game.items.Purchasable;
+import game.items.Sellable;
 
 /**
  * A class that represent Broadsword weapon
  */
-public class Broadsword extends WeaponItem implements ActiveSkill {
+public class Broadsword extends WeaponItem implements ActiveSkill, Sellable, Purchasable {
 
     /**
      * A counter to count the number of turn after activate the weapon skill
@@ -120,5 +122,22 @@ public class Broadsword extends WeaponItem implements ActiveSkill {
         return actions;
     }
 
+    @Override
+    public void purchasedBy(Actor actor) {
+        if (actor.getBalance() - 250 < 0){
+            throw new IllegalStateException("Player's balance is insufficient");
+        }
+        else{
+            if (Math.random() <= 0.95){
+                actor.addItemToInventory(this);
+            }
+            actor.deductBalance(250);
+        }
+    }
 
+    @Override
+    public void soldBy(Actor actor) {
+        actor.addBalance(50);
+        actor.removeItemFromInventory(this);
+    }
 }
