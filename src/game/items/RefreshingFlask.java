@@ -10,7 +10,7 @@ import game.actions.ConsumeAction;
 /**
  * A class that represents Refreshing Flask that can increase the stamina of an actor.
  */
-public class RefreshingFlask extends Item implements Consumable {
+public class RefreshingFlask extends Item implements Consumable, Sellable, Purchasable{
     /**
      * Constructor.
      */
@@ -51,5 +51,29 @@ public class RefreshingFlask extends Item implements Consumable {
         return actions;
     }
 
+    @Override
+    public void soldBy(Actor actor){
+        if (Math.random() <= 0.5){
+            actor.addBalance(25);
+        }
+        actor.removeItemFromInventory(this);
+    }
 
+    @Override
+    public void purchasedBy(Actor actor) {
+        int purchasePrice = 0;
+        if (Math.random() <= 0.1){
+            purchasePrice = 75 - (int)(75 * 0.2f);
+        }
+        else{
+            purchasePrice = 75;
+        }
+        if (actor.getBalance() < purchasePrice){
+            throw new IllegalStateException(String.format("%s's balance is insufficient.", actor));
+        }
+        else{
+            actor.deductBalance(purchasePrice);
+            actor.addItemToInventory(this);
+        }
+    }
 }
