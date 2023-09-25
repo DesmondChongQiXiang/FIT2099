@@ -3,12 +3,14 @@ package game.actions;
 import edu.monash.fit2099.engine.actions.Action;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.positions.GameMap;
-import game.capability.Ability;
+import game.capabilities.Ability;
 import game.grounds.Gate;
+
 /**
  * An Action that unlock the gate
  */
 public class UnlockGateAction extends Action {
+
     /**
      * The target gate
      */
@@ -19,7 +21,6 @@ public class UnlockGateAction extends Action {
      *
      * @param gate the target gate we are unlocking
      */
-
     public UnlockGateAction(Gate gate){
         this.gate = gate;
     }
@@ -39,9 +40,9 @@ public class UnlockGateAction extends Action {
         if (actor.hasCapability(Ability.UNLOCK_GATE)){
             gate.unlockGate();
             return "Gate is now unlocked.";
-            }
-        return "Gate is locked shut.";
         }
+        return "Gate is locked shut.";
+    }
 
     /**
      * Returns a description of this movement suitable to display in the menu.
@@ -53,4 +54,6 @@ public class UnlockGateAction extends Action {
     public String menuDescription(Actor actor) {
         return String.format("%s unlocks Gate",actor);
     }
+
+
 }

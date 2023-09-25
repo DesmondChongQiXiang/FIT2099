@@ -6,11 +6,12 @@ import edu.monash.fit2099.engine.positions.Ground;
 import edu.monash.fit2099.engine.positions.Location;
 import game.actions.TravelAction;
 import game.actions.UnlockGateAction;
+
 /**
  * A class that represents Gate.
  */
-
 public class Gate extends Ground {
+
     /**
      * Travel Action that used to transfer the actor
      */
@@ -20,6 +21,7 @@ public class Gate extends Ground {
      * The status of the gate (locked or unlocked)
      */
     private boolean isUnlocked;
+
     /**
      * Constructor.
      */
@@ -29,7 +31,7 @@ public class Gate extends Ground {
     }
 
     /**
-     * Returns a boolean whether the gate is unlocked
+     * Returns a boolean whether the gate is unlocked.
      *
      * @param actor the Actor that tried to enter
      * @return a boolean
@@ -40,7 +42,7 @@ public class Gate extends Ground {
     }
 
     /**
-     * If the gate is not unlocked returns an UnlockGateAction, otherwise return a TravelAction
+     * If the gate is not unlocked returns an UnlockGateAction, otherwise return a TravelAction.
      *
      * @param actor the Actor acting
      * @param location the current Location
@@ -60,7 +62,7 @@ public class Gate extends Ground {
     }
 
     /**
-     * set the travelAction attribute
+     * Set the travelAction attribute.
      * @param travelAction a TravelAction that can transfer an actor
      */
     public void addTravelAction(TravelAction travelAction){
@@ -68,9 +70,11 @@ public class Gate extends Ground {
     }
 
     /**
-     * set the isUnlocked attribute to true
+     * Set the isUnlocked attribute to true.
      */
     public void unlockGate(){
         isUnlocked = true;
     }
+
+
 }

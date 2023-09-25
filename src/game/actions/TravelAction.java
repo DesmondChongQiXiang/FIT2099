@@ -4,12 +4,14 @@ import edu.monash.fit2099.engine.actions.Action;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.Location;
+
 /**
  * An Action that actor can travel from one game map to another
  * Use this to do travel action
  */
 
 public class TravelAction extends Action {
+
     /**
      * The target location
      */
@@ -55,4 +57,6 @@ public class TravelAction extends Action {
     public String menuDescription(Actor actor) {
         return String.format("%s travels to %s", actor, mapName);
     }
+
+
 }

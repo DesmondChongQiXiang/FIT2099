@@ -23,4 +23,6 @@ public class Void extends Ground{
             new Display().println(location.getActor().unconscious(location.map()));
         }
     }
+
+
 }

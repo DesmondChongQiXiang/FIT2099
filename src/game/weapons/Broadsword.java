@@ -7,20 +7,24 @@ import edu.monash.fit2099.engine.actors.attributes.BaseActorAttributes;
 import edu.monash.fit2099.engine.positions.Location;
 import edu.monash.fit2099.engine.weapons.WeaponItem;
 import game.actions.ActivateSkillAction;
+import game.actions.ActiveSkill;
 import game.actions.AttackAction;
 
 /**
  * A class that represent Broadsword weapon
  */
-public class Broadsword extends WeaponItem implements WeaponSkill {
+public class Broadsword extends WeaponItem implements ActiveSkill {
+
     /**
-     * A counter to counter the number of turn after activate the weapon skill
+     * A counter to count the number of turn after activate the weapon skill
      */
     private int counter;
+
     /**
-     * A boolean that represent the status of activated
+     * A boolean that represent the status of skill activation
      */
     private boolean isActivated;
+
     /**
      * Constructor.
      */
@@ -31,8 +35,8 @@ public class Broadsword extends WeaponItem implements WeaponSkill {
     }
 
     /**
-     * List of allowable actions that the item can perform to the current actor
-     * Broadsword will decrease the stamina of the owner
+     * List of allowable actions that the item can perform to the current actor.
+     * Broadsword will decrease the stamina of the owner.
      *
      * @param owner the actor that owns the item
      * @return a list of actions contain ActivateSkillAction
@@ -45,23 +49,26 @@ public class Broadsword extends WeaponItem implements WeaponSkill {
     }
 
     /**
-     * decrease the stamina of the actor and update the status after the weapon is activated
+     * Decrease the stamina of the actor and update the status after the weapon is activated.
      *
      * @param actor the actor that activate the weapon
      * @return a String that describe the message of activate the weapon skill
      */
     @Override
     public String activateSkill(Actor actor) {
-        actor.modifyAttribute(BaseActorAttributes.STAMINA, ActorAttributeOperations.DECREASE, (int)(actor.getAttributeMaximum(BaseActorAttributes.STAMINA)*.2f));
-        this.increaseDamageMultiplier(.1f);
+        int maxStamina = actor.getAttributeMaximum(BaseActorAttributes.STAMINA);
+        int staminaCost = maxStamina / 5;  // the stamina cost to activate the focus skill is 20% of player's maximum stamina
+        actor.modifyAttribute(BaseActorAttributes.STAMINA, ActorAttributeOperations.DECREASE, staminaCost);
+        this.increaseDamageMultiplier(0.10f);
         this.updateHitRate(90);
         this.isActivated = true;
+
         return String.format("%s takes a deep breath and focuses all their might!", actor);
     }
 
     /**
-     * Inform a broadsword of the passage of time
-     * revert back the status of the activated broadsword after 5 turns
+     * Inform a broadsword of the passage of time.
+     * Revert the status of the activated broadsword after 5 turns.
      *
      * This method is called once per turn, if the Item is being carried.
      * @param currentLocation The location of the actor carrying this Item.
@@ -78,8 +85,8 @@ public class Broadsword extends WeaponItem implements WeaponSkill {
     }
 
     /**
-     * update and revert back the status of the broadsword
-     * revert back to the status same as the status before activated
+     * Update and revert the status of the broadsword.
+     * Revert the status same as the status before activated.
      */
     public void revertBack(){
         this.updateDamageMultiplier(1.0f);
@@ -88,7 +95,7 @@ public class Broadsword extends WeaponItem implements WeaponSkill {
     }
 
     /**
-     * maintain the initial status of the broadsword when the broadsword rests upon the ground.
+     * Maintain the initial status of the broadsword when the broadsword rests upon the ground.
      * This method is called once per turn, if the item rests upon the ground.
      * @param currentLocation The location of the ground on which we lie.
      */
@@ -112,4 +119,6 @@ public class Broadsword extends WeaponItem implements WeaponSkill {
         actions.add(new AttackAction(otherActor, location.toString(), this));
         return actions;
     }
+
+
 }

@@ -27,4 +27,6 @@ public class Wall extends Ground {
     public boolean canActorEnter(Actor actor) {
         return false;
     }
+
+
 }
