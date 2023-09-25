@@ -16,7 +16,6 @@ public class BloodBerry extends Item implements Consumable {
         super("BloodBerry", '*', true);
     }
 
-
     @Override
     public String consumedBy(Actor actor) {
         actor.modifyAttributeMaximum(BaseActorAttributes.HEALTH, ActorAttributeOperations.INCREASE, 5);

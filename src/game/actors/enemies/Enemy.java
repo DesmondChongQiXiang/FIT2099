@@ -66,7 +66,6 @@ public abstract class Enemy extends Actor {
         if(otherActor.hasCapability(Status.HOSTILE_TO_ENEMY)){
             actions.add(new AttackAction(this, direction));
         }
-
         return actions;
     }
 
