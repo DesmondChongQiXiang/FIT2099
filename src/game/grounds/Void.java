@@ -21,6 +21,7 @@ public class Void extends Ground{
     public void tick(Location location) {
         if (location.containsAnActor()){
             new Display().println(location.getActor().unconscious(location.map()));
+//            ret += (actor + " has stepped into the bottomless pit.\n");
         }
     }
 

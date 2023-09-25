@@ -19,7 +19,7 @@ public class HollowSoldier extends Enemy {
   }
 
   /**
-   * create a individual intrinsic weapon for Hollow Soldier
+   * Create an individual intrinsic weapon for Hollow Soldier.
    *
    * Overrides Actor.getIntrinsicWeapon()
    *
@@ -32,10 +32,10 @@ public class HollowSoldier extends Enemy {
   }
 
   /**
-   * Method that can be executed when the actor is unconscious due to the action of another actor
+   * Method that can be executed when the Hollow Soldier is unconscious due to the action of another actor
    * @param actor the perpetrator
-   * @param map where the actor fell unconscious
-   * @return a string describing what happened when the actor is unconscious
+   * @param map where the Hollow Soldier fell unconscious
+   * @return a string describing what happened when the Hollow Soldier is unconscious
    */
   @Override
   public String unconscious(Actor actor,GameMap map) {

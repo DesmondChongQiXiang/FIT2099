@@ -4,11 +4,16 @@ import edu.monash.fit2099.engine.actions.ActionList;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.weapons.IntrinsicWeapon;
+import game.actions.AttackAction;
 import game.behaviours.FollowBehaviour;
 import game.capabilities.Status;
 import game.items.HealingVial;
 
+/**
+ * Class representing the ForestKeeper.
+ */
 public class ForestKeeper extends Enemy {
+
   /**
    * Constructor.
    */
@@ -17,7 +22,7 @@ public class ForestKeeper extends Enemy {
   }
 
   /**
-   * create a individual intrinsic weapon for Forest Keeper
+   * create an individual intrinsic weapon for Forest Keeper
    *
    * Overrides Actor.getIntrinsicWeapon()
    *
@@ -67,6 +72,7 @@ public class ForestKeeper extends Enemy {
     ActionList actions = new ActionList();
     if (otherActor.hasCapability(Status.HOSTILE_TO_ENEMY)) {
       this.behaviours.put(998, new FollowBehaviour(otherActor));
+      actions.add(new AttackAction(this, direction));
     }
 
     return actions;

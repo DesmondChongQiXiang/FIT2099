@@ -14,6 +14,7 @@ import game.behaviours.WanderBehaviour;
 
 import java.util.HashMap;
 import java.util.Map;
+
 /**
  * Class representing the Enemy.
  */
@@ -29,8 +30,8 @@ public abstract class Enemy extends Actor {
     public Enemy(String name, char displayChar, int hitPoints){
         super(name,displayChar,hitPoints);
         // Priority of behaviour:  1. AttackBehaviour  2. FollowBehaviour  3. WanderBehaviour
-        this.behaviours.put(999, new WanderBehaviour());
         this.behaviours.put(997,new AttackBehaviour());
+        this.behaviours.put(999, new WanderBehaviour());
     }
 
     /**
@@ -72,5 +73,3 @@ public abstract class Enemy extends Actor {
 
 
 }
-
-
