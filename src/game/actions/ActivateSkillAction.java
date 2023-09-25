@@ -3,23 +3,23 @@ package game.actions;
 import edu.monash.fit2099.engine.actions.Action;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.positions.GameMap;
-import game.weapons.WeaponSkill;
 
 /**
- * An Action that activate weapon special skill
+ * An Action that activates weapon special skill
  */
 public class ActivateSkillAction extends Action {
+
     /**
      * Weapon used to activate the special skill of it
      */
-    private final WeaponSkill weapon;
+    private final ActiveSkill weapon;
 
     /**
-     * Constructor to create an Action that will activate the special skill of the weapons
+     * Constructor to create an Action that will activate the special skill of the weapon
      *
      * @param weapon the weapon used to activate the skill
      */
-    public ActivateSkillAction(WeaponSkill weapon) {
+    public ActivateSkillAction(ActiveSkill weapon) {
         this.weapon = weapon;
     }
 
@@ -48,4 +48,6 @@ public class ActivateSkillAction extends Action {
     public String menuDescription(Actor actor) {
         return actor + " activates the skill of " + weapon;
     }
+
+
 }

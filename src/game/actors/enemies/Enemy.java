@@ -1,4 +1,4 @@
-package game.actors;
+package game.actors.enemies;
 
 import edu.monash.fit2099.engine.actions.Action;
 import edu.monash.fit2099.engine.actions.ActionList;
@@ -7,13 +7,14 @@ import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.actors.Behaviour;
 import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.GameMap;
-import game.capability.Status;
+import game.capabilities.Status;
 import game.actions.AttackAction;
-import game.behaviour.AttackBehaviour;
-import game.behaviour.WanderBehaviour;
+import game.behaviours.AttackBehaviour;
+import game.behaviours.WanderBehaviour;
 
 import java.util.HashMap;
 import java.util.Map;
+
 /**
  * Class representing the Enemy.
  */
@@ -28,8 +29,9 @@ public abstract class Enemy extends Actor {
      */
     public Enemy(String name, char displayChar, int hitPoints){
         super(name,displayChar,hitPoints);
+        // Priority of behaviour:  1. AttackBehaviour  2. FollowBehaviour  3. WanderBehaviour
+        this.behaviours.put(997,new AttackBehaviour());
         this.behaviours.put(999, new WanderBehaviour());
-        this.behaviours.put(998,new AttackBehaviour());
     }
 
     /**
@@ -57,7 +59,7 @@ public abstract class Enemy extends Actor {
      * @param otherActor the Actor that might be performing attack
      * @param direction  String representing the direction of the other Actor
      * @param map        current GameMap
-     * @return
+     * @return A list of actions that is allowed to be executed/performed on the current actor.
      */
     @Override
     public ActionList allowableActions(Actor otherActor, String direction, GameMap map) {
@@ -65,6 +67,9 @@ public abstract class Enemy extends Actor {
         if(otherActor.hasCapability(Status.HOSTILE_TO_ENEMY)){
             actions.add(new AttackAction(this, direction));
         }
+
         return actions;
     }
+
+
 }

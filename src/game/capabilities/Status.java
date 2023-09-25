@@ -1,4 +1,4 @@
-package game.capability;
+package game.capabilities;
 
 /**
  * Use this enum class to represent a status.
@@ -7,5 +7,11 @@ package game.capability;
  * @author Riordan D. Alfredo
  */
 public enum Status {
+
+    /**
+     * To determine if other actors can attack the enemy.
+     */
     HOSTILE_TO_ENEMY
+
+
 }

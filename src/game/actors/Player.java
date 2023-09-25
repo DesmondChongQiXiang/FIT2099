@@ -11,9 +11,10 @@ import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.displays.Menu;
 import edu.monash.fit2099.engine.weapons.IntrinsicWeapon;
-import game.capability.Ability;
+import game.capabilities.Ability;
+import game.capabilities.Status;
 import game.displays.FancyMessage;
-import game.capability.Status;
+
 
 /**
  * Class representing the Player.
@@ -58,7 +59,7 @@ public class Player extends Actor {
     }
 
     /**
-     * create a individual intrinsic weapon for Player
+     * create an individual intrinsic weapon for Player
      *
      * Overrides Actor.getIntrinsicWeapon()
      *
@@ -85,7 +86,11 @@ public class Player extends Actor {
         if (lastAction.getNextAction() != null) {
             return lastAction.getNextAction();
         }
-        display.println(String.format("%s\nHP:%s\nStamina:%s",name, (" (" +this.getAttribute(BaseActorAttributes.HEALTH) + "/" +this.getAttributeMaximum(BaseActorAttributes.HEALTH) +")"),(" (" +this.getAttribute(BaseActorAttributes.STAMINA) + "/" +this.getAttributeMaximum(BaseActorAttributes.STAMINA) +")")));
+
+        display.println(this.name);
+        display.println("HP: " + this.getAttribute(BaseActorAttributes.HEALTH) + "/" + this.getAttributeMaximum(BaseActorAttributes.HEALTH));
+        display.println("Stamina: " + this.getAttribute(BaseActorAttributes.STAMINA) + "/" + this.getAttributeMaximum(BaseActorAttributes.STAMINA));
+
         // return/print the console menu
         Menu menu = new Menu(actions);
         return menu.showMenu(this, display);

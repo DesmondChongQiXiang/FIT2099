@@ -1,4 +1,4 @@
-package game.ground;
+package game.grounds;
 
 import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.Ground;
@@ -21,6 +21,9 @@ public class Void extends Ground{
     public void tick(Location location) {
         if (location.containsAnActor()){
             new Display().println(location.getActor().unconscious(location.map()));
+//            ret += (actor + " has stepped into the bottomless pit.\n");
         }
     }
+
+
 }
