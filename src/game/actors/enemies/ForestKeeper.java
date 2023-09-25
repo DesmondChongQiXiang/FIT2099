@@ -58,7 +58,7 @@ public class ForestKeeper extends Enemy {
   public ActionList allowableActions(Actor otherActor, String direction, GameMap map) {
     ActionList actions = new ActionList();
     if (otherActor.hasCapability(Status.HOSTILE_TO_ENEMY)) {
-      this.behaviours.put(997, new FollowBehaviour(otherActor));
+      this.behaviours.put(998, new FollowBehaviour(otherActor));
       actions.add(new AttackAction(this, direction));
     }
 

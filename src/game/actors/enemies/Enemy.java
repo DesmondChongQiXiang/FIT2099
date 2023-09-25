@@ -30,7 +30,7 @@ public abstract class Enemy extends Actor {
         super(name,displayChar,hitPoints);
         // Priority of behaviour:  1. FollowBehaviour  2. AttackBehaviour  3. WanderBehaviour
         this.behaviours.put(999, new WanderBehaviour());
-        this.behaviours.put(998,new AttackBehaviour());
+        this.behaviours.put(997,new AttackBehaviour());
     }
 
     /**
