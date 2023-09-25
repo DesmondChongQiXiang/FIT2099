@@ -4,6 +4,7 @@ import edu.monash.fit2099.engine.actions.ActionList;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.weapons.IntrinsicWeapon;
+import game.actions.AttackAction;
 import game.behaviours.FollowBehaviour;
 import game.capabilities.Status;
 import game.items.HealingVial;
@@ -68,6 +69,7 @@ public class RedWolf extends Enemy{
     ActionList actions = new ActionList();
     if (otherActor.hasCapability(Status.HOSTILE_TO_ENEMY)) {
       this.behaviours.put(997, new FollowBehaviour(otherActor));
+      actions.add(new AttackAction(this, direction));
     }
 
     return actions;
