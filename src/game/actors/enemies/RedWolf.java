@@ -8,10 +8,8 @@ import game.actions.AttackAction;
 import game.behaviours.FollowBehaviour;
 import game.capabilities.Status;
 import game.items.HealingVial;
+import game.items.Runes;
 
-/**
- * Class representing the RedWolf.
- */
 public class RedWolf extends Enemy{
 
   /**
@@ -22,7 +20,7 @@ public class RedWolf extends Enemy{
   }
 
   /**
-   * Create an individual intrinsic weapon for Red Wolf
+   * create a individual intrinsic weapon for Red Wolf
    *
    * Overrides Actor.getIntrinsicWeapon()
    *
@@ -35,17 +33,18 @@ public class RedWolf extends Enemy{
   }
 
   /**
-   * Method that can be executed when the Red Wolf is unconscious due to the action of another actor.
+   * Method that can be executed when the Forest Keeper is unconscious due to the action of another actor.
    *
    * @param actor the perpetrator
-   * @param map where the Red Wolf fell unconscious
-   * @return a string describing what happened when the Red Wolf is unconscious
+   * @param map where the Forest Keeper fell unconscious
+   * @return a string describing what happened when the Forest Keeper is unconscious
    */
   public String unconscious(Actor actor, GameMap map) {
     if (Math.random() <= 0.10){
       map.locationOf(this).addItem(new HealingVial());
     }
 
+    map.locationOf(this).addItem(new Runes(25));
     return super.unconscious(actor, map);
   }
 

@@ -31,7 +31,7 @@ public class Player extends Actor {
      * @param displayChar Character to represent the player in the UI
      * @param hitPoints   Player's starting number of hitpoints
      */
-    public Player(String name, char displayChar, int hitPoints, int stamina) {
+    public Player(String name, char displayChar, int hitPoints, int stamina, int mana) {
         super(name, displayChar, hitPoints);
         this.addCapability(Status.HOSTILE_TO_ENEMY);
         this.addCapability(Ability.ENTER_FLOOR);
@@ -90,6 +90,7 @@ public class Player extends Actor {
         display.println(this.name);
         display.println("HP: " + this.getAttribute(BaseActorAttributes.HEALTH) + "/" + this.getAttributeMaximum(BaseActorAttributes.HEALTH));
         display.println("Stamina: " + this.getAttribute(BaseActorAttributes.STAMINA) + "/" + this.getAttributeMaximum(BaseActorAttributes.STAMINA));
+        display.println("Runes: "+this.getBalance());
 
         // return/print the console menu
         Menu menu = new Menu(actions);

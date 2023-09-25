@@ -16,6 +16,7 @@ import game.grounds.Void;
 import game.grounds.environments.Bushes;
 import game.grounds.environments.Hut;
 import game.grounds.environments.Graveyard;
+import game.items.BloodBerry;
 import game.weapons.Broadsword;
 import game.spawners.HollowSoldierSpawner;
 import game.spawners.Spawner;
@@ -88,12 +89,12 @@ public class Application {
         burialGround.at(21,11).setGround(new Graveyard(hollowSoldierSpawner));
 
         Gate abandonedVillageGate = new Gate();
-        abandonedVillageGate.addTravelAction(new TravelAction(burialGround.at(21, 1),"The Burial Ground"));
-        theAbandonedVillage.at(30, 0).setGround(abandonedVillageGate);
+        abandonedVillageGate.addTravelAction(new TravelAction(burialGround.at(22, 7),"The Burial Ground"));
+        theAbandonedVillage.at(30, 5).setGround(abandonedVillageGate);
 
         Gate burialGroundGate = new Gate();
-        burialGroundGate.addTravelAction(new TravelAction(theAbandonedVillage.at(30, 1),"The Abandoned Village"));
-        burialGround.at(21,0).setGround(burialGroundGate);
+        burialGroundGate.addTravelAction(new TravelAction(theAbandonedVillage.at(31, 5),"The Abandoned Village"));
+        burialGround.at(23,7).setGround(burialGroundGate);
 
 
         FancyGroundFactory ancientWoodsFactory = new FancyGroundFactory(new Dirt(),
@@ -113,20 +114,26 @@ public class Application {
                 "++++...............~~~~~~~~~~~........~~~.......~~~~~~......",
                 "+++++..............~~~~~~~~~~~........~~~........~~~~~......");
 
+
         GameMap ancientWoods = new GameMap(ancientWoodsFactory,ancientWoodsMap);
         world.addGameMap(ancientWoods);
 
         ancientWoods.at(29,0).setGround(new Hut());
-
         ancientWoods.at(15,11).setGround(new Bushes());
 
         Gate burialGroundGate2 = new Gate();
-        burialGroundGate2.addTravelAction(new TravelAction(ancientWoods.at(21, 1),"The Ancient Woods"));
+        burialGroundGate2.addTravelAction(new TravelAction(ancientWoods.at(22, 4),"The Ancient Woods"));
         burialGround.at(30, 14).setGround(burialGroundGate2);
 
         Gate ancientWoodsGate = new Gate();
-        ancientWoodsGate.addTravelAction(new TravelAction(burialGround.at(30, 13),"The Burial Ground"));
-        ancientWoods.at(21,0).setGround(ancientWoodsGate);
+        ancientWoodsGate.addTravelAction(new TravelAction(burialGround.at(31, 14),"The Burial Ground"));
+        ancientWoods.at(21,4).setGround(ancientWoodsGate);
+
+        ancientWoods.at(10,7).addItem(new BloodBerry());
+        ancientWoods.at(20,1).addItem(new BloodBerry());
+        ancientWoods.at(15,6).addItem(new BloodBerry());
+        ancientWoods.at(3,9).addItem(new BloodBerry());
+
 
         for (String line : FancyMessage.TITLE.split("\n")) {
             new Display().println(line);
@@ -137,11 +144,9 @@ public class Application {
             }
         }
 
-        Player player = new Player("The Abstracted One", '@', 150,200);
+        Player player = new Player("The Abstracted One", '@', 150, 200, 0);
         world.addPlayer(player, ancientWoods.at(29, 5));
 
         world.run();
     }
-
-
 }
