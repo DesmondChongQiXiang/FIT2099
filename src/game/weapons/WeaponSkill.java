@@ -10,4 +10,6 @@ public interface WeaponSkill {
      * @param actor the actor that activates the weapon skill
      */
     String activateSkill(Actor actor);
+    boolean hasSpecialSkill();
+
 }

@@ -3,6 +3,7 @@ package game.actors.enemies;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.weapons.IntrinsicWeapon;
+import game.capabilities.Status;
 import game.items.HealingVial;
 import game.items.Key;
 import game.items.Runes;
@@ -14,6 +15,7 @@ public class WanderingUndead extends Enemy {
    */
   public WanderingUndead() {
     super("Wandering Undead", 't', 100);
+    addCapability(Status.ENEMY);
   }
 
   /**

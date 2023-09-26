@@ -14,6 +14,7 @@ import edu.monash.fit2099.engine.weapons.IntrinsicWeapon;
 import game.capabilities.Ability;
 import game.capabilities.Status;
 import game.displays.FancyMessage;
+import game.weapons.WeaponSkill;
 
 
 /**
@@ -73,14 +74,33 @@ public class Player extends Actor {
         return new IntrinsicWeapon(15,"bonks",80);
     }
 
+    public Action handleCombat(ActionList actions, GameMap map, Display display) {
+        Actor target = null;
+
+        for (Actor actor : allActorsInLocation) {
+            if (actor.hasCapability(Status.ENEMY)) {
+                target = actor;
+                break;
+            }
+        }
+
+        if (target != null && currentPlayer.getEquippedWeapon().hasSpecialSkill()) {
+            WeaponSkill weapon = (WeaponSkill) currentPlayer.getEquippedWeapon();  // Safe to cast here because we've already checked hasSpecialSkill()
+            String result = weapon.activateSkill(currentPlayer, target);
+            System.out.println(result);
+        }
+        return null;  // Placeholder: actual logic should return an appropriate Action
+    }
+
+
     /**
-     * Select and return an action to perform on the current turn.
-     * @param actions    collection of possible Actions for this Actor
-     * @param lastAction The Action this Actor took last turn. Can do interesting things in conjunction with Action.getNextAction()
-     * @param map        the map containing the Actor
-     * @param display    the I/O object to which messages may be written
-     * @return the Action to be performed
-     */
+         * Select and return an action to perform on the current turn.
+         * @param actions    collection of possible Actions for this Actor
+         * @param lastAction The Action this Actor took last turn. Can do interesting things in conjunction with Action.getNextAction()
+         * @param map        the map containing the Actor
+         * @param display    the I/O object to which messages may be written
+         * @return the Action to be performed
+         */
     @Override
     public Action playTurn(ActionList actions, Action lastAction, GameMap map, Display display) {
         // Handle multi-turn Actions
@@ -97,6 +117,8 @@ public class Player extends Actor {
         // return/print the console menu
         Menu menu = new Menu(actions);
         return menu.showMenu(this, display);
+
+
     }
 }
 

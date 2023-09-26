@@ -16,7 +16,10 @@ public class ForestKeeper extends Enemy {
    */
   public ForestKeeper(){
     super("Forest Keeper", '8', 125);
+    addCapability(Status.ENEMY);
+
   }
+
 
   /**
    * create a individual intrinsic weapon for Forest Keeper

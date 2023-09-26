@@ -91,8 +91,7 @@ public class GreatKnife extends WeaponItem implements Sellable, Purchasable, Wea
     }
 
     @Override
-    public String activateSkill(Actor actor) {
-        Actor target = getTarget();
+    public String activateSkill(Actor actor, Actor target) {  // target is now a parameter
         int staminaCost = calculateStaminaCost(actor);
 
         if (!hasEnoughStamina(actor, staminaCost)) {

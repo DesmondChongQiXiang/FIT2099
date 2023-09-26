@@ -6,6 +6,8 @@ import edu.monash.fit2099.engine.weapons.IntrinsicWeapon;
 import game.items.HealingVial;
 import game.items.RefreshingFlask;
 import game.items.Runes;
+import game.capabilities.Status;
+
 
 /**
  * Class representing the HollowSoldier.
@@ -16,7 +18,10 @@ public class HollowSoldier extends Enemy {
    * Constructor.
    */
   public HollowSoldier(){
+
     super("Hollow Soldier", '&', 200);
+    addCapability(Status.ENEMY);
+
   }
 
   /**
