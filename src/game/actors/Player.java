@@ -37,7 +37,6 @@ public class Player extends Actor {
         this.addCapability(Ability.ENTER_FLOOR);
         this.addCapability(Ability.BUYING);
         this.addAttribute(BaseActorAttributes.STAMINA, new BaseActorAttribute(stamina));
-        this.addBalance(20000);
     }
 
     @Override
