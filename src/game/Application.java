@@ -163,11 +163,16 @@ public class Application {
 
         GameMap abxervyer = new GameMap(abxervyerFactory, abxervyerMap);
         world.addGameMap(abxervyer);
+
         abxervyer.at(10, 20).setGround(new Hut());  // For spawning Forest Keeper
         abxervyer.at(11, 13).setGround(new Bushes());  // For spawning Red Wolf
 
         GiantHammer giantHammer = new GiantHammer(abxervyer);
         abxervyer.at(6, 8).addItem(giantHammer);
+        Gate abxervyerGate = new Gate();
+
+        abxervyerGate.addTravelAction(new TravelAction(theAbandonedVillage.at(31, 5), "The Abandoned Village"));
+        abxervyer.at(15, 13).setGround(abxervyerGate);
 
 
 
