@@ -5,6 +5,7 @@ import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.actors.ActorLocationsIterator;
 import edu.monash.fit2099.engine.actors.attributes.ActorAttributeOperations;
 import edu.monash.fit2099.engine.actors.attributes.BaseActorAttributes;
+import edu.monash.fit2099.engine.positions.Exit;
 import edu.monash.fit2099.engine.positions.Location;
 import edu.monash.fit2099.engine.weapons.WeaponItem;
 import game.actions.AttackAction;
@@ -13,10 +14,13 @@ import game.capabilities.Ability;
 import game.items.Purchasable;
 import game.items.Sellable;
 
+import java.util.List;
+import java.util.Random;
+
 /**
  * A class that represents the GreatKnife weapon
  */
-public class GreatKnife extends WeaponItem implements Sellable, Purchasable {
+public class GreatKnife extends WeaponItem implements Sellable, Purchasable, WeaponSkill {
 
     /**
      * Constructor.
@@ -88,36 +92,46 @@ public class GreatKnife extends WeaponItem implements Sellable, Purchasable {
 
     @Override
     public String activateSkill(Actor actor) {
-        // Here, assume that you have some mechanism to ensure that the activating actor is
-        // the correct type or has the ability to activate this skill.
-
-        // Logic to find a target. This should be replaced with the actual mechanism your game uses to determine the target of an action.
         Actor target = getTarget();
+        int staminaCost = calculateStaminaCost(actor);
 
-        int damage = 75; // Great Knife's damage
-        int staminaCost = actor.getAttributeMaximum(BaseActorAttributes.STAMINA) * 25 / 100; // 25% of player’s maximum stamina.
-
-        // Check if actor has enough stamina
-        if (actor.getAttribute(BaseActorAttributes.STAMINA) < staminaCost) {
+        if (!hasEnoughStamina(actor, staminaCost)) {
             return actor + " doesn't have enough stamina to use the special skill!";
         }
 
-        // Deal damage to the target
-        // Here, assuming you have a method to inflict damage on the target. Replace with actual method/logic.
-        target.hurt(damage);
+        dealDamageToTarget(target);
 
-        // Logic to find a new location for the actor to move to. Replace with actual method/logic.
         Location newLocation = findNewLocation(actor);
         if (newLocation != null) {
-            // Assuming that there is a way to set the location for the actor. Replace with actual method.
-            actor.setLocation(newLocation);
+            moveActorToNewLocation(actor, newLocation);
         }
 
-        // Reduce the actor's stamina
-        actor.modifyAttribute(BaseActorAttributes.STAMINA, ActorAttributeOperations.DECREASE, staminaCost);
+        reduceActorStamina(actor, staminaCost);
 
         return actor + " stabbed " + target + " and stepped away to safety!";
     }
+
+    private int calculateStaminaCost(Actor actor) {
+        return actor.getAttributeMaximum(BaseActorAttributes.STAMINA) * 25 / 100;
+    }
+
+    private boolean hasEnoughStamina(Actor actor, int staminaCost) {
+        return actor.getAttribute(BaseActorAttributes.STAMINA) >= staminaCost;
+    }
+
+    private void dealDamageToTarget(Actor target) {
+        int damage = 75;
+        target.hurt(damage);
+    }
+
+    private void moveActorToNewLocation(Actor actor, Location newLocation) {
+        actor.setLocation(newLocation);
+    }
+
+    private void reduceActorStamina(Actor actor, int staminaCost) {
+        actor.modifyAttribute(BaseActorAttributes.STAMINA, ActorAttributeOperations.DECREASE, staminaCost);
+    }
+
 
 
     public Location findNewLocation(Actor actor) {

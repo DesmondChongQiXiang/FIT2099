@@ -4,6 +4,8 @@ import edu.monash.fit2099.engine.actions.Action;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.weapons.Weapon;
+import game.capabilities.Ability;
+import game.weapons.WeaponSkill;
 
 import java.util.Random;
 
@@ -78,6 +80,16 @@ public class AttackAction extends Action {
         }
 
         return result;
+
+        if (weapon.hasCapability(Ability.HAS_SPECIAL_SKILL)) {
+            // Since the weapon has the HAS_SPECIAL_SKILL capability, it should implement the WeaponSkill interface
+            // So, we can safely call the activateSkill method
+            String skillResult = ((WeaponSkill) weapon).activateSkill(actor);
+            result += "\n" + skillResult;  // Append the skill activation result to the overall result
+        }
+
+        return result;
+
     }
     /**
      * Returns a description of this movement suitable to display in the menu.
