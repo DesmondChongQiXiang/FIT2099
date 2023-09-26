@@ -5,15 +5,20 @@ import edu.monash.fit2099.engine.actions.ActionList;
 import edu.monash.fit2099.engine.actions.DoNothingAction;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.displays.Display;
+import edu.monash.fit2099.engine.items.Item;
 import edu.monash.fit2099.engine.positions.GameMap;
 import game.actions.AttackAction;
 import game.actions.PurchaseAction;
 import game.capabilities.Ability;
-import game.capabilities.Status;
+import game.items.Sellable;
+import game.actions.SellAction;
 import game.items.HealingVial;
 import game.items.Purchasable;
 import game.items.RefreshingFlask;
 import game.weapons.Broadsword;
+import game.weapons.GreatKnife;
+import game.weapons.GiantHammer;
+
 
 public class Traveller extends Actor {
 
@@ -36,6 +41,13 @@ public class Traveller extends Actor {
             actions.add(new PurchaseAction(otherActor,new HealingVial()));
             actions.add(new PurchaseAction(otherActor,new RefreshingFlask()));
             actions.add(new PurchaseAction(otherActor,new Broadsword()));
+            actions.add(new PurchaseAction(otherActor, new GreatKnife(map)));
+        }
+
+        for (Item item : otherActor.getItemInventory()) {
+            if (item.hasCapability(Ability.SELLABLE)) {
+                actions.add(new SellAction((Sellable) item));
+            }
         }
         return actions;
     }

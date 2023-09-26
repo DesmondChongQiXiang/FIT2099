@@ -53,7 +53,6 @@ public class AttackAction extends Action {
 
     /**
      * Allow the Actor to attack
-     *
      * Overrides Action.execute()
      *
      * @see Action#execute(Actor, GameMap)

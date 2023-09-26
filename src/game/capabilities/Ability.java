@@ -16,7 +16,9 @@ public enum Ability {
      */
     UNLOCK_GATE,
     BUYING,
+    SELLABLE,
     HAS_SPECIAL_SKILL,
-    PLAYER
+    PLAYER,
+    GREAT_KNIFE
 
 }

@@ -18,7 +18,6 @@ import game.items.Sellable;
 import game.actions.ActiveSkill;
 
 import java.util.List;
-import java.util.Random;
 
 /**
  * A class that represents the GreatKnife weapon
@@ -33,6 +32,8 @@ public class GreatKnife extends WeaponItem implements Sellable, Purchasable, Act
         super("Great Knife", '>', 75, "stabs", 70);
         this.gameMap = gameMap;
         addCapability(Ability.HAS_SPECIAL_SKILL);
+        addCapability(Ability.GREAT_KNIFE);  // Unique capability
+
     }
 
     /**
@@ -99,7 +100,6 @@ public class GreatKnife extends WeaponItem implements Sellable, Purchasable, Act
     @Override
     public String activateSkill(Actor actor, Actor target, ActorLocationsIterator actorLocations) {
         int staminaCost = calculateStaminaCost(actor);
-        Location actorLocation = gameMap.locationOf(actor);
 
         // Check if the actor has enough stamina
         if (!hasEnoughStamina(actor, staminaCost)) {
@@ -120,6 +120,7 @@ public class GreatKnife extends WeaponItem implements Sellable, Purchasable, Act
 
         return actor + " stabbed " + target + " and stepped away to safety!";
     }
+
 
 
     private int calculateStaminaCost(Actor actor) {
@@ -157,13 +158,10 @@ public class GreatKnife extends WeaponItem implements Sellable, Purchasable, Act
         for (Exit exit : exits) {
             Location newLocation = exit.getDestination();
             if (newLocation.canActorEnter(actor)) {
-                return newLocation; // Return the new location found
+                return newLocation;
             }
         }
-        return null; // Return null if no valid new location is found
+        return null;
     }
-
-
-
 
 }

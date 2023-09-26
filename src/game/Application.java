@@ -22,6 +22,7 @@ import game.weapons.Broadsword;
 import game.spawners.HollowSoldierSpawner;
 import game.spawners.Spawner;
 import game.spawners.WanderingUndeadSpawner;
+import game.weapons.GiantHammer;
 
 /**
  * The main class to start the game.
@@ -134,6 +135,40 @@ public class Application {
         ancientWoods.at(20,1).addItem(new BloodBerry());
         ancientWoods.at(15,6).addItem(new BloodBerry());
         ancientWoods.at(3,9).addItem(new BloodBerry());
+
+
+        FancyGroundFactory abxervyerFactory = new FancyGroundFactory(new Dirt(), new Wall(), new Floor(), new Puddle(), new Void());
+        List<String> abxervyerMap = Arrays.asList(
+                "~~~~.......+++......~+++++..............",
+                "~~~~.......+++.......+++++..............",
+                "~~~++......+++........++++..............",
+                "~~~++......++...........+..............+",
+                "~~~~~~...........+.......~~~++........++",
+                "~~~~~~..........++++....~~~~++++......++",
+                "~~~~~~...........+++++++~~~~.++++.....++",
+                "~~~~~..............++++++~~...+++.....++",
+                "......................+++......++.....++",
+                ".......................+~~............++",
+                ".......................~~~~...........++",
+                "........................~~++...........+",
+                ".....++++...............+++++...........",
+                ".....++++~..............+++++...........",
+                "......+++~~.............++++...........~",
+                ".......++..++++.......................~~",
+                "...........+++++......................~~",
+                "...........++++++.....................~~",
+                "..........~~+++++......................~",
+                ".........~~~~++++..................~~..~"
+        );
+
+        GameMap abxervyer = new GameMap(abxervyerFactory, abxervyerMap);
+        world.addGameMap(abxervyer);
+        abxervyer.at(10, 20).setGround(new Hut());  // For spawning Forest Keeper
+        abxervyer.at(11, 13).setGround(new Bushes());  // For spawning Red Wolf
+
+        GiantHammer giantHammer = new GiantHammer(abxervyer);
+        abxervyer.at(6, 8).addItem(giantHammer);
+
 
 
         for (String line : FancyMessage.TITLE.split("\n")) {

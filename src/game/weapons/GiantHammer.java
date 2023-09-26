@@ -16,13 +16,14 @@ import edu.monash.fit2099.engine.positions.Exit;
  * A class that represents the Giant Hammer weapon
  */
 public class GiantHammer extends WeaponItem implements Sellable {
-    private GameMap gameMap; // Instance variable to store GameMap
+    private GameMap gameMap;
 
-    // Adjusted constructor to accept GameMap
     public GiantHammer(GameMap gameMap) {
         super("Giant Hammer", 'P', 160, "slams", 90);
         this.gameMap = gameMap; // Store GameMap
         addCapability(Ability.HAS_SPECIAL_SKILL);
+        addCapability(Ability.SELLABLE);
+
     }
 
     @Override
@@ -61,7 +62,7 @@ public class GiantHammer extends WeaponItem implements Sellable {
         }
 
         // Consume 5% of the actor’s maximum stamina if actor is a player
-        if (actor.hasCapability(Ability.PLAYER)) { // Assuming Ability.PLAYER is a unique capability of Player
+        if (actor.hasCapability(Ability.PLAYER)) {
             Player playerActor = (Player) actor;
             playerActor.consumeStamina((int) (0.05 * playerActor.getMaxStamina()));
         }

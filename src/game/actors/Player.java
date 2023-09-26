@@ -8,13 +8,17 @@ import edu.monash.fit2099.engine.actors.attributes.ActorAttributeOperations;
 import edu.monash.fit2099.engine.actors.attributes.BaseActorAttribute;
 import edu.monash.fit2099.engine.actors.attributes.BaseActorAttributes;
 import edu.monash.fit2099.engine.displays.Display;
+import edu.monash.fit2099.engine.items.Item;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.displays.Menu;
 import edu.monash.fit2099.engine.weapons.IntrinsicWeapon;
+import game.actions.ActivateSkillAction;
+import game.actions.ActiveSkill;
 import game.capabilities.Ability;
 import game.capabilities.Status;
 import game.displays.FancyMessage;
 
+import java.util.List;
 
 
 /**
@@ -71,27 +75,10 @@ public class Player extends Actor {
      */
     @Override
     public IntrinsicWeapon getIntrinsicWeapon() {
+
         return new IntrinsicWeapon(15,"bonks",80);
     }
 
-//    public Action handleCombat(ActionList actions, GameMap map, Display display) {
-//
-//        Actor target = null;
-//
-//        for (Actor actor : allActorsInLocation) {  // I assume `allActorsInLocation` is defined somewhere in your code
-//            if (actor.hasCapability(Status.ENEMY)) {
-//                target = actor;
-//                break;
-//            }
-//        }
-//
-//        if (target != null && this.getEquippedWeapon().hasSpecialSkill()) {
-//            WeaponSkill weapon = (WeaponSkill) this.getEquippedWeapon(); // Safe to cast here because we've already checked hasSpecialSkill()
-//            String result = weapon.activateSkill(this, target);
-//            System.out.println(result);
-//        }
-//        return null;  // Placeholder: actual logic should return an appropriate Action
-//    }
 
     public void consumeStamina(int amount) {
         this.modifyAttribute(BaseActorAttributes.STAMINA, ActorAttributeOperations.DECREASE, amount);
@@ -99,6 +86,8 @@ public class Player extends Actor {
     public int getMaxStamina() {
         return this.getAttributeMaximum(BaseActorAttributes.STAMINA);
     }
+
+
 
     /**
          * Select and return an action to perform on the current turn.
@@ -121,11 +110,21 @@ public class Player extends Actor {
         display.println("Stamina: " + this.getAttribute(BaseActorAttributes.STAMINA) + "/" + this.getAttributeMaximum(BaseActorAttributes.STAMINA));
         display.println("Runes: "+this.getBalance());
 
+        List<Item> inventory = super.getItemInventory();  // Replace with actual method if different
+
+        // Check for the GreatKnife in the inventory
+        for (Item item : inventory) {
+            if (item.hasCapability(Ability.HAS_SPECIAL_SKILL) && item.hasCapability(Ability.GREAT_KNIFE)) {
+                // Cast the item to ActiveSkill and add the special skill action to the list of allowable actions
+                actions.add(new ActivateSkillAction((ActiveSkill) item));
+                break;
+            }
+        }
+
         // return/print the console menu
         Menu menu = new Menu(actions);
         return menu.showMenu(this, display);
-
-
     }
+
 }
 
