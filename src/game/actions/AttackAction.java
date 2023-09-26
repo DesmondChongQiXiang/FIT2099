@@ -4,7 +4,6 @@ import edu.monash.fit2099.engine.actions.Action;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.weapons.Weapon;
-import game.utilities.ProbabilityGenerator;
 
 import java.util.Random;
 
@@ -22,11 +21,6 @@ public class AttackAction extends Action {
      * The direction of incoming attack.
      */
     private String direction;
-
-    /**
-     * Random number generator
-     */
-    private Random rand = new Random();
 
     /**
      * Weapon used for the attack
@@ -72,7 +66,7 @@ public class AttackAction extends Action {
             weapon = actor.getIntrinsicWeapon();
         }
 
-            if (!ProbabilityGenerator.generateProbability(weapon.chanceToHit())){
+        if (!(Math.random() * 100 <= weapon.chanceToHit())) {
             return actor + " misses " + target + ".";
         }
 
@@ -95,4 +89,6 @@ public class AttackAction extends Action {
     public String menuDescription(Actor actor) {
         return actor + " attacks " + target + " at " + direction + " with " + (weapon != null ? weapon : "Intrinsic Weapon");
     }
+
+
 }
