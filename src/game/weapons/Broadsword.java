@@ -2,6 +2,7 @@ package game.weapons;
 
 import edu.monash.fit2099.engine.actions.ActionList;
 import edu.monash.fit2099.engine.actors.Actor;
+import edu.monash.fit2099.engine.actors.ActorLocationsIterator;
 import edu.monash.fit2099.engine.actors.attributes.ActorAttributeOperations;
 import edu.monash.fit2099.engine.actors.attributes.BaseActorAttributes;
 import edu.monash.fit2099.engine.positions.Location;
@@ -58,7 +59,7 @@ public class Broadsword extends WeaponItem implements ActiveSkill, Sellable, Pur
      * @return a String that describe the message of activate the weapon skill
      */
     @Override
-    public String activateSkill(Actor actor) {
+    public String activateSkill(Actor actor, Actor target, ActorLocationsIterator actorLocations) {
         int maxStamina = actor.getAttributeMaximum(BaseActorAttributes.STAMINA);
         int staminaCost = maxStamina / 5;  // the stamina cost to activate the focus skill is 20% of player's maximum stamina
         actor.modifyAttribute(BaseActorAttributes.STAMINA, ActorAttributeOperations.DECREASE, staminaCost);

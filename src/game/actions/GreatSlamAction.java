@@ -3,7 +3,6 @@ package game.actions;
 import edu.monash.fit2099.engine.actions.Action;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.positions.GameMap;
-import game.actors.*;
 import game.weapons.*;
 
 public class GreatSlamAction extends Action {
@@ -16,7 +15,6 @@ public class GreatSlamAction extends Action {
         this.targetActor = targetActor;
         this.gameMap = gameMap;
     }
-
 
 
     @Override

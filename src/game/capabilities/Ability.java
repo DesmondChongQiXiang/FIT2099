@@ -16,6 +16,7 @@ public enum Ability {
      */
     UNLOCK_GATE,
     BUYING,
-    HAS_SPECIAL_SKILL
+    HAS_SPECIAL_SKILL,
+    PLAYER
 
 }

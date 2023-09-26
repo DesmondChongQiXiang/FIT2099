@@ -14,7 +14,7 @@ import edu.monash.fit2099.engine.weapons.IntrinsicWeapon;
 import game.capabilities.Ability;
 import game.capabilities.Status;
 import game.displays.FancyMessage;
-import game.weapons.WeaponSkill;
+
 
 
 /**
@@ -74,24 +74,24 @@ public class Player extends Actor {
         return new IntrinsicWeapon(15,"bonks",80);
     }
 
-    public Action handleCombat(ActionList actions, GameMap map, Display display) {
-
-        Actor target = null;
-
-        for (Actor actor : allActorsInLocation) {  // I assume `allActorsInLocation` is defined somewhere in your code
-            if (actor.hasCapability(Status.ENEMY)) {
-                target = actor;
-                break;
-            }
-        }
-
-        if (target != null && this.getEquippedWeapon().hasSpecialSkill()) {
-            WeaponSkill weapon = (WeaponSkill) this.getEquippedWeapon(); // Safe to cast here because we've already checked hasSpecialSkill()
-            String result = weapon.activateSkill(this, target);
-            System.out.println(result);
-        }
-        return null;  // Placeholder: actual logic should return an appropriate Action
-    }
+//    public Action handleCombat(ActionList actions, GameMap map, Display display) {
+//
+//        Actor target = null;
+//
+//        for (Actor actor : allActorsInLocation) {  // I assume `allActorsInLocation` is defined somewhere in your code
+//            if (actor.hasCapability(Status.ENEMY)) {
+//                target = actor;
+//                break;
+//            }
+//        }
+//
+//        if (target != null && this.getEquippedWeapon().hasSpecialSkill()) {
+//            WeaponSkill weapon = (WeaponSkill) this.getEquippedWeapon(); // Safe to cast here because we've already checked hasSpecialSkill()
+//            String result = weapon.activateSkill(this, target);
+//            System.out.println(result);
+//        }
+//        return null;  // Placeholder: actual logic should return an appropriate Action
+//    }
 
     public void consumeStamina(int amount) {
         this.modifyAttribute(BaseActorAttributes.STAMINA, ActorAttributeOperations.DECREASE, amount);

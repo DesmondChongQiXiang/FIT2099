@@ -6,13 +6,16 @@ import edu.monash.fit2099.engine.actors.ActorLocationsIterator;
 import edu.monash.fit2099.engine.actors.attributes.ActorAttributeOperations;
 import edu.monash.fit2099.engine.actors.attributes.BaseActorAttributes;
 import edu.monash.fit2099.engine.positions.Exit;
+import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.Location;
 import edu.monash.fit2099.engine.weapons.WeaponItem;
+import game.actions.ActivateSkillAction;
 import game.actions.AttackAction;
 import game.actions.SellAction;
 import game.capabilities.Ability;
 import game.items.Purchasable;
 import game.items.Sellable;
+import game.actions.ActiveSkill;
 
 import java.util.List;
 import java.util.Random;
@@ -20,15 +23,16 @@ import java.util.Random;
 /**
  * A class that represents the GreatKnife weapon
  */
-public class GreatKnife extends WeaponItem implements Sellable, Purchasable, WeaponSkill {
+public class GreatKnife extends WeaponItem implements Sellable, Purchasable, ActiveSkill {
 
+    private GameMap gameMap;
     /**
      * Constructor.
      */
-    public GreatKnife() {
+    public GreatKnife(GameMap gameMap) {
         super("Great Knife", '>', 75, "stabs", 70);
+        this.gameMap = gameMap;
         addCapability(Ability.HAS_SPECIAL_SKILL);
-
     }
 
     /**
@@ -56,6 +60,7 @@ public class GreatKnife extends WeaponItem implements Sellable, Purchasable, Wea
     public ActionList allowableActions(Actor otherActor, Location location) {
         ActionList actions = new ActionList();
         actions.add(new AttackAction(otherActor, location.toString(), this));
+        actions.add(new ActivateSkillAction(this));
         return actions;
     }
 
@@ -90,25 +95,32 @@ public class GreatKnife extends WeaponItem implements Sellable, Purchasable, Wea
         return sellingPrice;
     }
 
-    @Override
-    public String activateSkill(Actor actor, Actor target) {  // target is now a parameter
-        int staminaCost = calculateStaminaCost(actor);
 
+    @Override
+    public String activateSkill(Actor actor, Actor target, ActorLocationsIterator actorLocations) {
+        int staminaCost = calculateStaminaCost(actor);
+        Location actorLocation = gameMap.locationOf(actor);
+
+        // Check if the actor has enough stamina
         if (!hasEnoughStamina(actor, staminaCost)) {
             return actor + " doesn't have enough stamina to use the special skill!";
         }
 
+        // Deal damage to the target
         dealDamageToTarget(target);
 
+        // Find and move to a new location
         Location newLocation = findNewLocation(actor);
         if (newLocation != null) {
-            moveActorToNewLocation(actor, newLocation);
+            setLocation(actor, newLocation, actorLocations);
         }
 
+        // Reduce actor's stamina
         reduceActorStamina(actor, staminaCost);
 
         return actor + " stabbed " + target + " and stepped away to safety!";
     }
+
 
     private int calculateStaminaCost(Actor actor) {
         return actor.getAttributeMaximum(BaseActorAttributes.STAMINA) * 25 / 100;
@@ -123,8 +135,12 @@ public class GreatKnife extends WeaponItem implements Sellable, Purchasable, Wea
         target.hurt(damage);
     }
 
-    private void moveActorToNewLocation(Actor actor, Location newLocation) {
-        actor.setLocation(newLocation);
+    private void setLocation(Actor actor, Location newLocation, ActorLocationsIterator actorLocations) {
+        if (actorLocations.contains(actor)) {
+            actorLocations.move(actor, newLocation);
+        } else {
+            actorLocations.add(actor, newLocation);
+        }
     }
 
     private void reduceActorStamina(Actor actor, int staminaCost) {
@@ -134,7 +150,7 @@ public class GreatKnife extends WeaponItem implements Sellable, Purchasable, Wea
 
 
     public Location findNewLocation(Actor actor) {
-        Location currentLocation = actor.locationOf(actor); // assuming locationOf is a method in Actor class
+        Location currentLocation = this.gameMap.locationOf(actor);
         List<Exit> exits = currentLocation.getExits();
 
         // Additional logic to select a new location from exits
@@ -147,12 +163,7 @@ public class GreatKnife extends WeaponItem implements Sellable, Purchasable, Wea
         return null; // Return null if no valid new location is found
     }
 
-    public void setLocation(Actor actor, Location newLocation, ActorLocationsIterator actorLocations) {
-        if (actorLocations.contains(actor)) {
-            actorLocations.move(actor, newLocation); // Move actor to newLocation if actor already exists in actorLocations
-        } else {
-            actorLocations.add(actor, newLocation); // Add actor to newLocation if actor does not exist in actorLocations
-        }
-    }
+
+
 
 }

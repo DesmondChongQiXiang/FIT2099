@@ -2,18 +2,19 @@ package game.actions;
 
 import edu.monash.fit2099.engine.actions.Action;
 import edu.monash.fit2099.engine.actors.Actor;
+import edu.monash.fit2099.engine.actors.ActorLocationsIterator;
 import edu.monash.fit2099.engine.positions.GameMap;
-
 /**
  * An Action that activates weapon special skill
  */
 public class ActivateSkillAction extends Action {
+    private final Actor target;
+    private final ActorLocationsIterator actorLocations;
 
     /**
      * Weapon used to activate the special skill of it
      */
     private final ActiveSkill weapon;
-
     /**
      * Constructor to create an Action that will activate the special skill of the weapon
      *
@@ -21,6 +22,8 @@ public class ActivateSkillAction extends Action {
      */
     public ActivateSkillAction(ActiveSkill weapon) {
         this.weapon = weapon;
+        this.target = null;
+        this.actorLocations = null;
     }
 
     /**
@@ -35,9 +38,8 @@ public class ActivateSkillAction extends Action {
      */
     @Override
     public String execute(Actor actor, GameMap map) {
-        return weapon.activateSkill(actor);
+        return weapon.activateSkill(actor, target, actorLocations);
     }
-
     /**
      * Returns a description of this movement suitable to display in the menu.
      *
@@ -48,6 +50,4 @@ public class ActivateSkillAction extends Action {
     public String menuDescription(Actor actor) {
         return actor + " activates the skill of " + weapon;
     }
-
-
 }
