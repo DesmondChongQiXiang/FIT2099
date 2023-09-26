@@ -75,23 +75,30 @@ public class Player extends Actor {
     }
 
     public Action handleCombat(ActionList actions, GameMap map, Display display) {
+
         Actor target = null;
 
-        for (Actor actor : allActorsInLocation) {
+        for (Actor actor : allActorsInLocation) {  // I assume `allActorsInLocation` is defined somewhere in your code
             if (actor.hasCapability(Status.ENEMY)) {
                 target = actor;
                 break;
             }
         }
 
-        if (target != null && currentPlayer.getEquippedWeapon().hasSpecialSkill()) {
-            WeaponSkill weapon = (WeaponSkill) currentPlayer.getEquippedWeapon();  // Safe to cast here because we've already checked hasSpecialSkill()
-            String result = weapon.activateSkill(currentPlayer, target);
+        if (target != null && this.getEquippedWeapon().hasSpecialSkill()) {
+            WeaponSkill weapon = (WeaponSkill) this.getEquippedWeapon(); // Safe to cast here because we've already checked hasSpecialSkill()
+            String result = weapon.activateSkill(this, target);
             System.out.println(result);
         }
         return null;  // Placeholder: actual logic should return an appropriate Action
     }
 
+    public void consumeStamina(int amount) {
+        this.modifyAttribute(BaseActorAttributes.STAMINA, ActorAttributeOperations.DECREASE, amount);
+    }
+    public int getMaxStamina() {
+        return this.getAttributeMaximum(BaseActorAttributes.STAMINA);
+    }
 
     /**
          * Select and return an action to perform on the current turn.

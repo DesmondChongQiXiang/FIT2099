@@ -5,51 +5,35 @@ import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.positions.Location;
 import edu.monash.fit2099.engine.weapons.WeaponItem;
 import game.actions.AttackAction;
-import game.actions.SellAction;
+import game.actions.GreatSlamAction;
 import game.capabilities.Ability;
 import game.items.Sellable;
+import edu.monash.fit2099.engine.positions.GameMap;
+import game.actors.Player;
+import edu.monash.fit2099.engine.positions.Exit;
 
 /**
- * A class that represents the GiantHammer weapon
+ * A class that represents the Giant Hammer weapon
  */
 public class GiantHammer extends WeaponItem implements Sellable {
+    private GameMap gameMap; // Instance variable to store GameMap
 
-    /**
-     * Constructor.
-     */
-    public GiantHammer() {
+    // Adjusted constructor to accept GameMap
+    public GiantHammer(GameMap gameMap) {
         super("Giant Hammer", 'P', 160, "slams", 90);
+        this.gameMap = gameMap; // Store GameMap
         addCapability(Ability.HAS_SPECIAL_SKILL);
     }
 
-    /**
-     * List of allowable actions that the item can perform to the current actor.
-     *
-     * @param owner the actor that owns the item
-     * @return a list of actions
-     */
-    @Override
-    public ActionList allowableActions(Actor owner) {
-        ActionList actions = new ActionList();
-        actions.add(new SellAction(this));
-        return actions;
-    }
-
-    /**
-     * List of allowable actions that the item allows its owner do to another actor.
-     * GiantHammer can return an attacking action to the other actor.
-     *
-     * @param otherActor the other actor
-     * @param location   the location of the other actor
-     * @return a list of actions that contains an AttackAction
-     */
     @Override
     public ActionList allowableActions(Actor otherActor, Location location) {
         ActionList actions = new ActionList();
         actions.add(new AttackAction(otherActor, location.toString(), this));
-        // You might want to add another action here for the special “Great Slam” ability.
+        actions.add(new GreatSlamAction(this, otherActor, gameMap)); // Use GameMap instance variable
         return actions;
     }
+
+
 
     @Override
     public int soldBy(Actor actor) {
@@ -59,12 +43,28 @@ public class GiantHammer extends WeaponItem implements Sellable {
         return sellingPrice;
     }
 
-    /**
-     * Method to implement the special skill “Great Slam”
-     * This will need interaction with other actors and may require additional modifications.
-     */
-    public void performGreatSlam(Actor actor, Location targetLocation) {
-        // Implementation of the Great Slam, affecting the targeted enemy and surrounding actors.
-        // This will likely require interaction with other classes and actors to fully implement.
+    public void performGreatSlam(Actor actor, Actor targetActor, GameMap gameMap) {
+        int damageToTarget = this.damage();
+        targetActor.hurt(damageToTarget);
+
+
+        int damageToSurroundings = (int) (0.5 * this.damage());
+        Location targetLocation = gameMap.locationOf(targetActor);
+
+        // Deal damage to all actors in the surrounding locations of the target actor
+        for (Exit exit : targetLocation.getExits()) {
+            Location adjacentLocation = exit.getDestination();
+            if (adjacentLocation.containsAnActor()) {
+                Actor actorInLocation = adjacentLocation.getActor();
+                actorInLocation.hurt(damageToSurroundings);
+            }
+        }
+
+        // Consume 5% of the actor’s maximum stamina if actor is a player
+        if (actor.hasCapability(Ability.PLAYER)) { // Assuming Ability.PLAYER is a unique capability of Player
+            Player playerActor = (Player) actor;
+            playerActor.consumeStamina((int) (0.05 * playerActor.getMaxStamina()));
+        }
+
     }
 }
