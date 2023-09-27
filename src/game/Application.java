@@ -18,11 +18,10 @@ import game.grounds.environments.Bushes;
 import game.grounds.environments.Hut;
 import game.grounds.environments.Graveyard;
 import game.items.BloodBerry;
+import game.spawners.*;
 import game.weapons.Broadsword;
-import game.spawners.HollowSoldierSpawner;
-import game.spawners.Spawner;
-import game.spawners.WanderingUndeadSpawner;
 import game.weapons.GiantHammer;
+import game.items.Key;
 
 /**
  * The main class to start the game.
@@ -158,14 +157,21 @@ public class Application {
                 "...........+++++......................~~",
                 "...........++++++.....................~~",
                 "..........~~+++++......................~",
-                ".........~~~~++++..................~~..~"
-        );
+                ".........~~~~++++..................~~..~");
 
         GameMap abxervyer = new GameMap(abxervyerFactory, abxervyerMap);
         world.addGameMap(abxervyer);
 
-        abxervyer.at(10, 20).setGround(new Hut());  // For spawning Forest Keeper
-        abxervyer.at(11, 13).setGround(new Bushes());  // For spawning Red Wolf
+        Gate lockedGate = new Gate();
+        theAbandonedVillage.at(15, 11).setGround(lockedGate);
+
+        Key oldKey = new Key();
+        theAbandonedVillage.at(7, 11).addItem(oldKey);
+
+        abxervyer.at(10, 19).setGround(new Hut());
+        abxervyer.at(11, 13).setGround(new Bushes());
+
+
 
         GiantHammer giantHammer = new GiantHammer(abxervyer);
         abxervyer.at(6, 8).addItem(giantHammer);

@@ -43,6 +43,8 @@ public class Player extends Actor {
         this.addCapability(Ability.BUYING);
         this.addAttribute(BaseActorAttributes.STAMINA, new BaseActorAttribute(stamina));
         this.addBalance(20000);
+        this.addCapability(Ability.UNLOCK_GATE);
+
     }
 
     @Override
@@ -67,7 +69,6 @@ public class Player extends Actor {
 
     /**
      * create an individual intrinsic weapon for Player
-     *
      * Overrides Actor.getIntrinsicWeapon()
      *
      * @see Actor#getIntrinsicWeapon()
@@ -80,13 +81,24 @@ public class Player extends Actor {
     }
 
 
+    /**
+     * Consumes a specified amount of stamina from the player's current stamina.
+     * This method decreases the player's stamina attribute by the given amount.
+     *
+     * @param amount The amount of stamina to be consumed.
+     */
     public void consumeStamina(int amount) {
         this.modifyAttribute(BaseActorAttributes.STAMINA, ActorAttributeOperations.DECREASE, amount);
     }
+
+    /**
+     * Retrieves the maximum stamina that the player can have.
+     *
+     * @return The maximum value of the player's stamina attribute.
+     */
     public int getMaxStamina() {
         return this.getAttributeMaximum(BaseActorAttributes.STAMINA);
     }
-
 
 
     /**

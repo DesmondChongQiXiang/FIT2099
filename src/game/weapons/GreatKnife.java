@@ -20,13 +20,18 @@ import game.actions.ActiveSkill;
 import java.util.List;
 
 /**
- * A class that represents the GreatKnife weapon
+ * The GreatKnife class represents a specialized weapon in the game world.
+ * It extends the WeaponItem class and implements the Sellable, Purchasable, and ActiveSkill interfaces.
+ * This weapon has unique capabilities and actions, including a special skill.
+ *
+ * @author Maliha Tariq
  */
 public class GreatKnife extends WeaponItem implements Sellable, Purchasable, ActiveSkill {
 
     private GameMap gameMap;
+
     /**
-     * Constructor.
+     * Constructor to initialize the GreatKnife weapon.
      */
     public GreatKnife(GameMap gameMap) {
         super("Great Knife", '>', 75, "stabs", 70);
@@ -65,6 +70,13 @@ public class GreatKnife extends WeaponItem implements Sellable, Purchasable, Act
         return actions;
     }
 
+    /**
+     * Handles the purchase of the GreatKnife by an actor.
+     *
+     * @param actor The actor attempting to purchase the item.
+     * @return The purchase price of the item.
+     * @throws IllegalStateException if the actor's balance is insufficient.
+     */
     @Override
     public int purchasedBy(Actor actor) {
         int purchasePrice = 300;
@@ -85,6 +97,15 @@ public class GreatKnife extends WeaponItem implements Sellable, Purchasable, Act
         return purchasePrice;
     }
 
+    /**
+     * Handles the logic for selling the item by an actor.
+     * The actor's balance is increased by the selling price of the item.
+     * There is a 10% chance that the traveller will take the runes instead of paying.
+     * The item is then removed from the actor's inventory.
+     *
+     * @param actor The actor who is selling the item.
+     * @return The selling price of the item.
+     */
     @Override
     public int soldBy(Actor actor) {
         int sellingPrice = 175;
@@ -96,13 +117,18 @@ public class GreatKnife extends WeaponItem implements Sellable, Purchasable, Act
         return sellingPrice;
     }
 
-
+    /**
+     * Activates the special skill of the weapon when used by an actor.
+     *
+     * @param actor          The actor who is activating the skill.
+     * @param target         The target actor who will be affected by the skill.
+     * @param actorLocations The actor locations iterator for moving the actor.
+     * @return A string describing the outcome of activating the skill.
+     */
     @Override
     public String activateSkill(Actor actor, Actor target, ActorLocationsIterator actorLocations) {
-        int staminaCost = calculateStaminaCost(actor);
-
         // Check if the actor has enough stamina
-        if (!hasEnoughStamina(actor, staminaCost)) {
+        if (!checkAndCalculateStamina(actor)) {
             return actor + " doesn't have enough stamina to use the special skill!";
         }
 
@@ -110,58 +136,75 @@ public class GreatKnife extends WeaponItem implements Sellable, Purchasable, Act
         dealDamageToTarget(target);
 
         // Find and move to a new location
-        Location newLocation = findNewLocation(actor);
-        if (newLocation != null) {
-            setLocation(actor, newLocation, actorLocations);
+        boolean moved = findAndSetNewLocation(actor, actorLocations);
+        if (!moved) {
+            return actor + " couldn't find a new location to move to!";
         }
 
         // Reduce actor's stamina
+        int staminaCost = actor.getAttributeMaximum(BaseActorAttributes.STAMINA) * 25 / 100;
         reduceActorStamina(actor, staminaCost);
 
         return actor + " stabbed " + target + " and stepped away to safety!";
     }
 
 
-
-    private int calculateStaminaCost(Actor actor) {
-        return actor.getAttributeMaximum(BaseActorAttributes.STAMINA) * 25 / 100;
-    }
-
-    private boolean hasEnoughStamina(Actor actor, int staminaCost) {
+    /**
+     * Checks if the actor has enough stamina for the special skill and calculates the cost.
+     *
+     * @param actor The actor using the skill.
+     * @return True if the actor has enough stamina, false otherwise.
+     */
+    private boolean checkAndCalculateStamina(Actor actor) {
+        int staminaCost = actor.getAttributeMaximum(BaseActorAttributes.STAMINA) * 25 / 100;
         return actor.getAttribute(BaseActorAttributes.STAMINA) >= staminaCost;
     }
 
+    /**
+     * Deals a fixed amount of damage to the target actor.
+     *
+     * @param target The actor to be damaged.
+     */
     private void dealDamageToTarget(Actor target) {
         int damage = 75;
         target.hurt(damage);
     }
 
-    private void setLocation(Actor actor, Location newLocation, ActorLocationsIterator actorLocations) {
-        if (actorLocations.contains(actor)) {
-            actorLocations.move(actor, newLocation);
-        } else {
-            actorLocations.add(actor, newLocation);
-        }
-    }
-
+    /**
+     * Reduces the stamina of the actor by a specified amount.
+     *
+     * @param actor       The actor whose stamina will be reduced.
+     * @param staminaCost The amount by which the actor's stamina will be reduced.
+     */
     private void reduceActorStamina(Actor actor, int staminaCost) {
         actor.modifyAttribute(BaseActorAttributes.STAMINA, ActorAttributeOperations.DECREASE, staminaCost);
     }
 
 
-
-    public Location findNewLocation(Actor actor) {
+    /**
+     * Finds a new location for the actor and sets it.
+     *
+     * @param actor The actor to move.
+     * @param actorLocations The locations of all actors.
+     * @return True if the actor was successfully moved, false otherwise.
+     */
+    private boolean findAndSetNewLocation(Actor actor, ActorLocationsIterator actorLocations) {
         Location currentLocation = this.gameMap.locationOf(actor);
         List<Exit> exits = currentLocation.getExits();
 
-        // Additional logic to select a new location from exits
         for (Exit exit : exits) {
             Location newLocation = exit.getDestination();
             if (newLocation.canActorEnter(actor)) {
-                return newLocation;
+                if (actorLocations.contains(actor)) {
+                    actorLocations.move(actor, newLocation);
+                } else {
+                    actorLocations.add(actor, newLocation);
+                }
+                return true;
             }
         }
-        return null;
+        return false;
     }
+
 
 }

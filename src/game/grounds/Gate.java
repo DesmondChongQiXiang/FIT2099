@@ -6,6 +6,7 @@ import edu.monash.fit2099.engine.positions.Ground;
 import edu.monash.fit2099.engine.positions.Location;
 import game.actions.TravelAction;
 import game.actions.UnlockGateAction;
+import game.capabilities.Ability;
 
 /**
  * A class that represents Gate.
@@ -28,6 +29,7 @@ public class Gate extends Ground {
     public Gate(){
         super('=');
         isUnlocked = false;
+        addCapability(Ability.LOCKED_GATE);
     }
 
     /**
@@ -74,6 +76,7 @@ public class Gate extends Ground {
      */
     public void unlockGate(){
         isUnlocked = true;
+        removeCapability(Ability.LOCKED_GATE);
     }
 
 
