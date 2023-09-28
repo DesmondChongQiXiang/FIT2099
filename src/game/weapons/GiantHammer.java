@@ -2,14 +2,16 @@ package game.weapons;
 
 import edu.monash.fit2099.engine.actions.ActionList;
 import edu.monash.fit2099.engine.actors.Actor;
+import edu.monash.fit2099.engine.actors.attributes.ActorAttributeOperations;
+import edu.monash.fit2099.engine.actors.attributes.BaseActorAttributes;
 import edu.monash.fit2099.engine.positions.Location;
 import edu.monash.fit2099.engine.weapons.WeaponItem;
+import game.actions.ActivateSkillAction;
+import game.actions.ActiveSkill;
 import game.actions.AttackAction;
-import game.actions.GreatSlamAction;
-import game.capabilities.Ability;
+import game.capabilities.Status;
 import game.items.Sellable;
 import edu.monash.fit2099.engine.positions.GameMap;
-import game.actors.Player;
 import edu.monash.fit2099.engine.positions.Exit;
 
 /**
@@ -18,23 +20,15 @@ import edu.monash.fit2099.engine.positions.Exit;
  *
  * @author Maliha Tariq
  */
-public class GiantHammer extends WeaponItem implements Sellable {
+public class GiantHammer extends WeaponItem implements Sellable, ActiveSkill {
 
-    /**
-     * The game map where the GiantHammer exists.
-     */
-    private GameMap gameMap;
+
 
     /**
      * Constructor to initialize the GiantHammer.
-     *
-     * @param gameMap The game map where the GiantHammer exists.
      */
-    public GiantHammer(GameMap gameMap) {
+    public GiantHammer() {
         super("Giant Hammer", 'P', 160, "slams", 90);
-        this.gameMap = gameMap;
-        addCapability(Ability.HAS_SPECIAL_SKILL);
-        addCapability(Ability.SELLABLE);
     }
 
     /**
@@ -47,8 +41,10 @@ public class GiantHammer extends WeaponItem implements Sellable {
     @Override
     public ActionList allowableActions(Actor otherActor, Location location) {
         ActionList actions = new ActionList();
-        actions.add(new AttackAction(otherActor, location.toString(), this));
-        actions.add(new GreatSlamAction(this, otherActor, gameMap));
+        if (otherActor.hasCapability(Status.ENEMY)) {
+            actions.add(new AttackAction(otherActor, location.toString(), this));
+            actions.add(new ActivateSkillAction(this,otherActor));
+        }
         return actions;
     }
 
@@ -66,35 +62,29 @@ public class GiantHammer extends WeaponItem implements Sellable {
         return sellingPrice;
     }
 
-    /**
-     * Performs the Great Slam action using the GiantHammer.
-     *
-     * @param actor The actor performing the action.
-     * @param targetActor The target actor on whom the action will be performed.
-     * @param gameMap The game map where the action takes place.
-     */
-    public void performGreatSlam(Actor actor, Actor targetActor, GameMap gameMap) {
-        int damageToTarget = this.damage();
-        targetActor.hurt(damageToTarget);
+    @Override
+    public String activateSkill(Actor owner, Actor target, GameMap map) {
+        int staminaCost = (int)(owner.getAttributeMaximum(BaseActorAttributes.STAMINA) * 0.05f);
 
+        // Check if the actor has enough stamina
+        if (owner.getAttribute(BaseActorAttributes.STAMINA) <= staminaCost) {
+            return owner + " doesn't have enough stamina to use the special skill!";
+        }
 
-        int damageToSurroundings = (int) (0.5 * this.damage());
-        Location targetLocation = gameMap.locationOf(targetActor);
+        owner.modifyAttribute(BaseActorAttributes.STAMINA, ActorAttributeOperations.DECREASE, staminaCost);
+        String ret = new AttackAction(target,map.locationOf(target).toString(),this).execute(owner,map);
 
-        // Deal damage to all actors in the surrounding locations of the target actor
-        for (Exit exit : targetLocation.getExits()) {
-            Location adjacentLocation = exit.getDestination();
-            if (adjacentLocation.containsAnActor()) {
-                Actor actorInLocation = adjacentLocation.getActor();
-                actorInLocation.hurt(damageToSurroundings);
+        this.updateDamageMultiplier(0.5f);
+        Location currentLocation = map.locationOf(owner);
+
+        for (Exit exit : currentLocation.getExits()) {
+            Location destination = exit.getDestination();
+            if (destination.containsAnActor() && destination.getActor().hasCapability(Status.ENEMY)){
+                ret += "\n" + new AttackAction(destination.getActor(), map.locationOf(destination.getActor()).toString(),this).execute(owner,map);
             }
         }
-
-        // Consume 5% of the actor’s maximum stamina
-        if (actor.hasCapability(Ability.PLAYER)) {
-            Player playerActor = (Player) actor;
-            playerActor.consumeStamina((int) (0.05 * playerActor.getMaxStamina()));
-        }
-
+        ret += "\n" + new AttackAction(owner,map.locationOf(owner).toString(),this).execute(owner,map);
+        this.updateDamageMultiplier(1.0f);
+        return ret;
     }
 }

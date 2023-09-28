@@ -175,7 +175,7 @@ public class Application {
 
 
 
-        GiantHammer giantHammer = new GiantHammer(abxervyer);
+        GiantHammer giantHammer = new GiantHammer();
         abxervyer.at(6, 8).addItem(giantHammer);
         Gate abxervyerGate = new Gate();
 
@@ -194,7 +194,7 @@ public class Application {
         }
 
         Player player = new Player("The Abstracted One", '@', 150, 200, 0);
-        world.addPlayer(player, theAbandonedVillage.at(29, 5));
+        world.addPlayer(player, abxervyer.at(6, 7));
 
         Traveller traveller = new Traveller();
         ancientWoods.at(20,3).addActor(traveller);

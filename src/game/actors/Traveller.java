@@ -63,12 +63,6 @@ public class Traveller extends Actor {
             actions.add(new PurchaseAction(otherActor,new Broadsword()));
             actions.add(new PurchaseAction(otherActor, new GreatKnife()));
         }
-
-        for (Item item : otherActor.getItemInventory()) {
-            if (item.hasCapability(Ability.SELLABLE)) {
-                actions.add(new SellAction((Sellable) item));
-            }
-        }
         return actions;
     }
 }

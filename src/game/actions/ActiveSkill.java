@@ -9,9 +9,9 @@ import edu.monash.fit2099.engine.positions.GameMap;
 public interface ActiveSkill {
 
     /**
-     * @param actor the actor that activate the weapon skill
+     * @param owner the owner that activate the weapon skill
      */
-    String activateSkill(Actor actor, Actor target, GameMap map);
+    String activateSkill(Actor owner, Actor target, GameMap map);
 
 
 }
