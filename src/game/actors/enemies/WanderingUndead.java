@@ -15,7 +15,6 @@ public class WanderingUndead extends Enemy {
    */
   public WanderingUndead() {
     super("Wandering Undead", 't', 100);
-    addCapability(Status.ENEMY);
   }
 
   /**

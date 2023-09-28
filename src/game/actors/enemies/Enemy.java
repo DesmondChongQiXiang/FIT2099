@@ -31,6 +31,7 @@ public abstract class Enemy extends Actor {
         // Priority of behaviour:  1. AttackBehaviour  2. FollowBehaviour  3. WanderBehaviour
         this.behaviours.put(999, new WanderBehaviour());
         this.behaviours.put(997, new AttackBehaviour());
+        addCapability(Status.ENEMY);
     }
 
     /**
