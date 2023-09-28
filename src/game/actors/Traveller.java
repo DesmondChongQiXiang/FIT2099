@@ -61,7 +61,7 @@ public class Traveller extends Actor {
             actions.add(new PurchaseAction(otherActor,new HealingVial()));
             actions.add(new PurchaseAction(otherActor,new RefreshingFlask()));
             actions.add(new PurchaseAction(otherActor,new Broadsword()));
-            actions.add(new PurchaseAction(otherActor, new GreatKnife(map)));
+            actions.add(new PurchaseAction(otherActor, new GreatKnife()));
         }
 
         for (Item item : otherActor.getItemInventory()) {

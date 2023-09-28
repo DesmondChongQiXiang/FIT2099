@@ -162,14 +162,16 @@ public class Application {
         GameMap abxervyer = new GameMap(abxervyerFactory, abxervyerMap);
         world.addGameMap(abxervyer);
 
-        Gate lockedGate = new Gate();
-        theAbandonedVillage.at(15, 11).setGround(lockedGate);
-
-        Key oldKey = new Key();
-        theAbandonedVillage.at(7, 11).addItem(oldKey);
+//        Gate lockedGate = new Gate();
+//        theAbandonedVillage.at(15, 11).setGround(lockedGate);
+//
+//        Key oldKey = new Key();
+//        theAbandonedVillage.at(7, 11).addItem(oldKey);
 
         abxervyer.at(10, 19).setGround(new Hut());
+        abxervyer.at(32, 0).setGround(new Hut());
         abxervyer.at(11, 13).setGround(new Bushes());
+        abxervyer.at(36, 18).setGround(new Bushes());
 
 
 
@@ -192,7 +194,7 @@ public class Application {
         }
 
         Player player = new Player("The Abstracted One", '@', 150, 200, 0);
-        world.addPlayer(player, ancientWoods.at(21, 4));
+        world.addPlayer(player, theAbandonedVillage.at(29, 5));
 
         Traveller traveller = new Traveller();
         ancientWoods.at(20,3).addActor(traveller);

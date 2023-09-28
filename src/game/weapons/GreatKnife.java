@@ -35,7 +35,7 @@ public class GreatKnife extends WeaponItem implements Sellable, Purchasable, Act
     /**
      * Constructor to initialize the GreatKnife weapon.
      */
-    public GreatKnife(GameMap gameMap) {
+    public GreatKnife() {
         super("Great Knife", '>', 75, "stabs", 70);
 
     }
