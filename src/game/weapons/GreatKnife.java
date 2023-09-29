@@ -112,6 +112,7 @@ public class GreatKnife extends WeaponItem implements Sellable, Purchasable, Act
             }
             else{
                 actor.deductBalance(soldPrice);
+                throw new IllegalStateException("Seller rob " + actor +" of his runes");
             }
         }
         else{
