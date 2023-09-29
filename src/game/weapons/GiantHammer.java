@@ -64,14 +64,30 @@ public class GiantHammer extends WeaponItem implements Sellable, ActiveSkill {
 
     @Override
     public String activateSkill(Actor owner, Actor target, GameMap map) {
+        try{
+            staminaConsumedByActivateSkill(owner);
+        }
+        catch(Exception e){
+            return e.getMessage();
+        }
+        return skillAction(owner,target,map);
+    }
+
+    @Override
+    public void staminaConsumedByActivateSkill(Actor owner) {
         int staminaCost = (int)(owner.getAttributeMaximum(BaseActorAttributes.STAMINA) * 0.05f);
 
         // Check if the actor has enough stamina
         if (owner.getAttribute(BaseActorAttributes.STAMINA) <= staminaCost) {
-            return owner + " doesn't have enough stamina to use the special skill!";
+            throw new IllegalStateException(owner + " doesn't have enough stamina to use the special skill!");
         }
+        else {
+            owner.modifyAttribute(BaseActorAttributes.STAMINA, ActorAttributeOperations.DECREASE, staminaCost);
+        }
+    }
 
-        owner.modifyAttribute(BaseActorAttributes.STAMINA, ActorAttributeOperations.DECREASE, staminaCost);
+    @Override
+    public String skillAction(Actor owner, Actor target, GameMap map) {
         String ret = new AttackAction(target,map.locationOf(target).toString(),this).execute(owner,map);
 
         this.updateDamageMultiplier(0.5f);

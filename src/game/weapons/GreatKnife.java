@@ -131,24 +131,27 @@ public class GreatKnife extends WeaponItem implements Sellable, Purchasable, Act
      */
     @Override
     public String activateSkill(Actor owner, Actor target, GameMap map) {
+        try{
+            staminaConsumedByActivateSkill(owner);
+        }
+        catch(Exception e){
+            return e.getMessage();
+        }
+        return skillAction(owner,target,map);
+    }
+
+
+    @Override
+    public void staminaConsumedByActivateSkill(Actor owner) {
         int staminaCost = (int)(owner.getAttributeMaximum(BaseActorAttributes.STAMINA) * 0.25f);
 
         // Check if the actor has enough stamina
         if (owner.getAttribute(BaseActorAttributes.STAMINA) <= staminaCost) {
-            return owner + " doesn't have enough stamina to use the special skill!";
+            throw new IllegalStateException(owner + " doesn't have enough stamina to use the special skill!");
         }
-
-        owner.modifyAttribute(BaseActorAttributes.STAMINA, ActorAttributeOperations.DECREASE, staminaCost);
-
-        String ret = new AttackAction(target,map.locationOf(target).toString(),this).execute(owner,map);
-        try {
-            Location exit = selectExit(owner, map);
-            ret += "\n" + new MoveActorAction(exit,("to " + exit)).execute(owner,map);
+        else {
+            owner.modifyAttribute(BaseActorAttributes.STAMINA, ActorAttributeOperations.DECREASE, staminaCost);
         }
-        catch(Exception e){
-            ret += "\n" + e.getMessage();
-        }
-        return ret;
     }
 
 
@@ -169,5 +172,18 @@ public class GreatKnife extends WeaponItem implements Sellable, Purchasable, Act
             }
         }
         throw new IllegalStateException(String.format("%s fails to step away",actor));
+    }
+
+    @Override
+    public String skillAction(Actor owner, Actor target, GameMap map) {
+        String ret = new AttackAction(target,map.locationOf(target).toString(),this).execute(owner,map);
+        try {
+            Location exit = selectExit(owner, map);
+            ret += "\n" + new MoveActorAction(exit,("to " + exit)).execute(owner,map);
+        }
+        catch(Exception e){
+            ret += "\n" + e.getMessage();
+        }
+        return ret;
     }
 }

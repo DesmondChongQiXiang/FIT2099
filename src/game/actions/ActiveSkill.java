@@ -13,5 +13,7 @@ public interface ActiveSkill {
      */
     String activateSkill(Actor owner, Actor target, GameMap map);
 
+    void staminaConsumedByActivateSkill(Actor owner);
 
+    String skillAction(Actor owner, Actor target, GameMap map);
 }
