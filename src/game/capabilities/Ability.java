@@ -14,5 +14,6 @@ public enum Ability {
     /**
      * To indicate if the actor has an old key to unlock the gate.
      */
-    UNLOCK_GATE
+    UNLOCK_GATE,
+    BUYING
 }

@@ -35,6 +35,7 @@ public class Player extends Actor {
         super(name, displayChar, hitPoints);
         this.addCapability(Status.HOSTILE_TO_ENEMY);
         this.addCapability(Ability.ENTER_FLOOR);
+        this.addCapability(Ability.BUYING);
         this.addAttribute(BaseActorAttributes.STAMINA, new BaseActorAttribute(stamina));
     }
 

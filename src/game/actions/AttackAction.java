@@ -23,11 +23,6 @@ public class AttackAction extends Action {
     private String direction;
 
     /**
-     * Random number generator
-     */
-    private Random rand = new Random();
-
-    /**
      * Weapon used for the attack
      */
     private Weapon weapon;
@@ -71,7 +66,7 @@ public class AttackAction extends Action {
             weapon = actor.getIntrinsicWeapon();
         }
 
-        if (!(rand.nextInt(100) <= weapon.chanceToHit())) {
+        if (!(Math.random() * 100 <= weapon.chanceToHit())) {
             return actor + " misses " + target + ".";
         }
 

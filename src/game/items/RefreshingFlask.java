@@ -6,11 +6,12 @@ import edu.monash.fit2099.engine.actors.attributes.ActorAttributeOperations;
 import edu.monash.fit2099.engine.actors.attributes.BaseActorAttributes;
 import edu.monash.fit2099.engine.items.Item;
 import game.actions.ConsumeAction;
+import game.actions.SellAction;
 
 /**
  * A class that represents Refreshing Flask that can increase the stamina of an actor.
  */
-public class RefreshingFlask extends Item implements Consumable {
+public class RefreshingFlask extends Item implements Consumable, Sellable, Purchasable{
     /**
      * Constructor.
      */
@@ -48,8 +49,37 @@ public class RefreshingFlask extends Item implements Consumable {
     public ActionList allowableActions(Actor owner) {
         ActionList actions = new ActionList();
         actions.add(new ConsumeAction(this));
+        actions.add(new SellAction(this));
         return actions;
     }
 
+    @Override
+    public int soldBy(Actor actor){
+        int sellingPrice = 0;
+        if (Math.random() <= 0.5){
+            sellingPrice = 25;
+            actor.addBalance(sellingPrice);
+        }
+        actor.removeItemFromInventory(this);
+        return sellingPrice;
+    }
 
+    @Override
+    public int purchasedBy(Actor buyer) {
+        int purchasePrice = 0;
+        if (Math.random() <= 0.1){
+            purchasePrice = 75 - (int)(75 * 0.2f);
+        }
+        else{
+            purchasePrice = 75;
+        }
+        if (buyer.getBalance() < purchasePrice){
+            throw new IllegalStateException(String.format("%s's balance is insufficient.", buyer));
+        }
+        else{
+            buyer.deductBalance(purchasePrice);
+            buyer.addItemToInventory(this);
+        }
+        return purchasePrice;
+    }
 }
