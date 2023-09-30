@@ -1,7 +1,7 @@
 package game.actions;
 
 import edu.monash.fit2099.engine.actors.Actor;
-import edu.monash.fit2099.engine.actors.ActorLocationsIterator;
+import edu.monash.fit2099.engine.positions.GameMap;
 
 /**
  * Represent a weapon that have a special skill
@@ -9,9 +9,11 @@ import edu.monash.fit2099.engine.actors.ActorLocationsIterator;
 public interface ActiveSkill {
 
     /**
-     * @param actor the actor that activate the weapon skill
+     * @param owner the owner that activate the weapon skill
      */
-    String activateSkill(Actor actor, Actor target, ActorLocationsIterator actorLocations);
+    String activateSkill(Actor owner, Actor target, GameMap map);
 
+    void staminaConsumedByActivateSkill(Actor owner);
 
+    String skillAction(Actor owner, Actor target, GameMap map);
 }

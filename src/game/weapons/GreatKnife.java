@@ -1,6 +1,7 @@
 package game.weapons;
 
 import edu.monash.fit2099.engine.actions.ActionList;
+import edu.monash.fit2099.engine.actions.MoveActorAction;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.actors.ActorLocationsIterator;
 import edu.monash.fit2099.engine.actors.attributes.ActorAttributeOperations;
@@ -13,6 +14,7 @@ import game.actions.ActivateSkillAction;
 import game.actions.AttackAction;
 import game.actions.SellAction;
 import game.capabilities.Ability;
+import game.capabilities.Status;
 import game.items.Purchasable;
 import game.items.Sellable;
 import game.actions.ActiveSkill;
@@ -28,16 +30,13 @@ import java.util.List;
  */
 public class GreatKnife extends WeaponItem implements Sellable, Purchasable, ActiveSkill {
 
-    private GameMap gameMap;
+
 
     /**
      * Constructor to initialize the GreatKnife weapon.
      */
-    public GreatKnife(GameMap gameMap) {
+    public GreatKnife() {
         super("Great Knife", '>', 75, "stabs", 70);
-        this.gameMap = gameMap;
-        addCapability(Ability.HAS_SPECIAL_SKILL);
-        addCapability(Ability.GREAT_KNIFE);  // Unique capability
 
     }
 
@@ -65,36 +64,34 @@ public class GreatKnife extends WeaponItem implements Sellable, Purchasable, Act
     @Override
     public ActionList allowableActions(Actor otherActor, Location location) {
         ActionList actions = new ActionList();
-        actions.add(new AttackAction(otherActor, location.toString(), this));
-        actions.add(new ActivateSkillAction(this));
+        if (otherActor.hasCapability(Status.ENEMY)) {
+            actions.add(new AttackAction(otherActor, location.toString(), this));
+            actions.add(new ActivateSkillAction(this,otherActor));
+        }
         return actions;
     }
 
     /**
      * Handles the purchase of the GreatKnife by an actor.
      *
-     * @param actor The actor attempting to purchase the item.
+     * @param buyer The actor attempting to purchase the item.
      * @return The purchase price of the item.
      * @throws IllegalStateException if the actor's balance is insufficient.
      */
     @Override
-    public int purchasedBy(Actor actor) {
+    public int purchasedBy(Actor buyer) {
         int purchasePrice = 300;
-        if (actor.getBalance() < purchasePrice) {
-            throw new IllegalStateException("Player's balance is insufficient");
-        } else {
-            if (Math.random() <= 0.05) { // 5% chance that the price will be tripled
-                int tripledPrice = purchasePrice * 3;
-                if (actor.getBalance() < tripledPrice) {
-                    throw new IllegalStateException("Player's balance is insufficient for the tripled price");
-                }
-                actor.deductBalance(tripledPrice);
-            } else {
-                actor.deductBalance(purchasePrice);
-            }
-            actor.addItemToInventory(this);
+        if (Math.random() <= 0.05){
+            purchasePrice *= 3;
         }
-        return purchasePrice;
+        if (buyer.getBalance() - purchasePrice < 0){
+            throw new IllegalStateException("Player's balance is insufficient");
+        }
+        else {
+            buyer.deductBalance(purchasePrice);
+            buyer.addItemToInventory(this);
+            return purchasePrice;
+        }
     }
 
     /**
@@ -108,76 +105,54 @@ public class GreatKnife extends WeaponItem implements Sellable, Purchasable, Act
      */
     @Override
     public int soldBy(Actor actor) {
-        int sellingPrice = 175;
-        actor.addBalance(sellingPrice);
-        if (Math.random() <= 0.10) { // 10% chance that the traveller takes the runes instead
-            actor.deductBalance(sellingPrice);
+        int soldPrice = 175;
+        if (Math.random() <= 0.1){// 10% chance that the traveller takes the runes instead
+            if (actor.getBalance() < soldPrice){
+                actor.deductBalance(actor.getBalance());
+            }
+            else{
+                actor.deductBalance(soldPrice);
+                throw new IllegalStateException("Seller rob " + actor +" of his runes");
+            }
+        }
+        else{
+            actor.addBalance(soldPrice);
         }
         actor.removeItemFromInventory(this);
-        return sellingPrice;
+        return soldPrice;
     }
 
     /**
      * Activates the special skill of the weapon when used by an actor.
      *
-     * @param actor          The actor who is activating the skill.
+     * @param owner         The actor who is activating the skill.
      * @param target         The target actor who will be affected by the skill.
-     * @param actorLocations The actor locations iterator for moving the actor.
+     * @param map           The map that processing this action
      * @return A string describing the outcome of activating the skill.
      */
     @Override
-    public String activateSkill(Actor actor, Actor target, ActorLocationsIterator actorLocations) {
+    public String activateSkill(Actor owner, Actor target, GameMap map) {
+        try{
+            staminaConsumedByActivateSkill(owner);
+        }
+        catch(Exception e){
+            return e.getMessage();
+        }
+        return skillAction(owner,target,map);
+    }
+
+
+    @Override
+    public void staminaConsumedByActivateSkill(Actor owner) {
+        int staminaCost = (int)(owner.getAttributeMaximum(BaseActorAttributes.STAMINA) * 0.25f);
+
         // Check if the actor has enough stamina
-        if (!checkAndCalculateStamina(actor)) {
-            return actor + " doesn't have enough stamina to use the special skill!";
+        if (owner.getAttribute(BaseActorAttributes.STAMINA) <= staminaCost) {
+            throw new IllegalStateException(owner + " doesn't have enough stamina to use the special skill!");
         }
-
-        // Deal damage to the target
-        dealDamageToTarget(target);
-
-        // Find and move to a new location
-        boolean moved = findAndSetNewLocation(actor, actorLocations);
-        if (!moved) {
-            return actor + " couldn't find a new location to move to!";
+        else {
+            owner.modifyAttribute(BaseActorAttributes.STAMINA, ActorAttributeOperations.DECREASE, staminaCost);
         }
-
-        // Reduce actor's stamina
-        int staminaCost = actor.getAttributeMaximum(BaseActorAttributes.STAMINA) * 25 / 100;
-        reduceActorStamina(actor, staminaCost);
-
-        return actor + " stabbed " + target + " and stepped away to safety!";
-    }
-
-
-    /**
-     * Checks if the actor has enough stamina for the special skill and calculates the cost.
-     *
-     * @param actor The actor using the skill.
-     * @return True if the actor has enough stamina, false otherwise.
-     */
-    private boolean checkAndCalculateStamina(Actor actor) {
-        int staminaCost = actor.getAttributeMaximum(BaseActorAttributes.STAMINA) * 25 / 100;
-        return actor.getAttribute(BaseActorAttributes.STAMINA) >= staminaCost;
-    }
-
-    /**
-     * Deals a fixed amount of damage to the target actor.
-     *
-     * @param target The actor to be damaged.
-     */
-    private void dealDamageToTarget(Actor target) {
-        int damage = 75;
-        target.hurt(damage);
-    }
-
-    /**
-     * Reduces the stamina of the actor by a specified amount.
-     *
-     * @param actor       The actor whose stamina will be reduced.
-     * @param staminaCost The amount by which the actor's stamina will be reduced.
-     */
-    private void reduceActorStamina(Actor actor, int staminaCost) {
-        actor.modifyAttribute(BaseActorAttributes.STAMINA, ActorAttributeOperations.DECREASE, staminaCost);
     }
 
 
@@ -185,26 +160,31 @@ public class GreatKnife extends WeaponItem implements Sellable, Purchasable, Act
      * Finds a new location for the actor and sets it.
      *
      * @param actor The actor to move.
-     * @param actorLocations The locations of all actors.
-     * @return True if the actor was successfully moved, false otherwise.
+     * @param map The map that contain the actor
+     * @return the location that the actor is going to move to.
      */
-    private boolean findAndSetNewLocation(Actor actor, ActorLocationsIterator actorLocations) {
-        Location currentLocation = this.gameMap.locationOf(actor);
-        List<Exit> exits = currentLocation.getExits();
+    private Location selectExit(Actor actor, GameMap map){
+        Location currentLocation = map.locationOf(actor);
 
-        for (Exit exit : exits) {
-            Location newLocation = exit.getDestination();
-            if (newLocation.canActorEnter(actor)) {
-                if (actorLocations.contains(actor)) {
-                    actorLocations.move(actor, newLocation);
-                } else {
-                    actorLocations.add(actor, newLocation);
-                }
-                return true;
+        for (Exit exit : currentLocation.getExits()) {
+            Location destination = exit.getDestination();
+            if (destination.canActorEnter(actor) && destination.canActorEnter(actor)) {
+                return destination;
             }
         }
-        return false;
+        throw new IllegalStateException(String.format("%s fails to step away",actor));
     }
 
-
+    @Override
+    public String skillAction(Actor owner, Actor target, GameMap map) {
+        String ret = new AttackAction(target,map.locationOf(target).toString(),this).execute(owner,map);
+        try {
+            Location exit = selectExit(owner, map);
+            ret += "\n" + new MoveActorAction(exit,("to " + exit)).execute(owner,map);
+        }
+        catch(Exception e){
+            ret += "\n" + e.getMessage();
+        }
+        return ret;
+    }
 }

@@ -122,21 +122,9 @@ public class Player extends Actor {
         display.println("Stamina: " + this.getAttribute(BaseActorAttributes.STAMINA) + "/" + this.getAttributeMaximum(BaseActorAttributes.STAMINA));
         display.println("Runes: "+this.getBalance());
 
-        List<Item> inventory = super.getItemInventory();  // Replace with actual method if different
-
-        // Check for the GreatKnife in the inventory
-        for (Item item : inventory) {
-            if (item.hasCapability(Ability.HAS_SPECIAL_SKILL) && item.hasCapability(Ability.GREAT_KNIFE)) {
-                // Cast the item to ActiveSkill and add the special skill action to the list of allowable actions
-                actions.add(new ActivateSkillAction((ActiveSkill) item));
-                break;
-            }
-        }
-
         // return/print the console menu
         Menu menu = new Menu(actions);
         return menu.showMenu(this, display);
     }
-
 }
 

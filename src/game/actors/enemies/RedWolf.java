@@ -18,7 +18,6 @@ public class RedWolf extends Enemy{
   public RedWolf(){
 
     super("Red Wolf", 'r', 25);
-    addCapability(Status.ENEMY);
   }
 
   /**

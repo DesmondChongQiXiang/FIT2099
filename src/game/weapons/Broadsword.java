@@ -5,6 +5,7 @@ import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.actors.ActorLocationsIterator;
 import edu.monash.fit2099.engine.actors.attributes.ActorAttributeOperations;
 import edu.monash.fit2099.engine.actors.attributes.BaseActorAttributes;
+import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.Location;
 import edu.monash.fit2099.engine.weapons.WeaponItem;
 import game.actions.ActivateSkillAction;
@@ -53,21 +54,42 @@ public class Broadsword extends WeaponItem implements ActiveSkill, Sellable, Pur
     }
 
     /**
-     * Decrease the stamina of the actor and update the status after the weapon is activated.
+     * Decrease the stamina of the owner and update the status after the weapon is activated.
      *
-     * @param actor the actor that activate the weapon
+     * @param owner the owner that activate the weapon
      * @return a String that describe the message of activate the weapon skill
      */
     @Override
-    public String activateSkill(Actor actor, Actor target, ActorLocationsIterator actorLocations) {
-        int maxStamina = actor.getAttributeMaximum(BaseActorAttributes.STAMINA);
-        int staminaCost = maxStamina / 5;  // the stamina cost to activate the focus skill is 20% of player's maximum stamina
-        actor.modifyAttribute(BaseActorAttributes.STAMINA, ActorAttributeOperations.DECREASE, staminaCost);
+    public String activateSkill(Actor owner, Actor target, GameMap map) {
+        try{
+            staminaConsumedByActivateSkill(owner);
+        }
+        catch(Exception e){
+            return e.getMessage();
+        }
+        return skillAction(owner,target,map);
+    }
+
+    @Override
+    public void staminaConsumedByActivateSkill(Actor owner) {
+        int staminaCost = (int)(owner.getAttributeMaximum(BaseActorAttributes.STAMINA) * 0.20f);
+
+        // Check if the actor has enough stamina
+        if (owner.getAttribute(BaseActorAttributes.STAMINA) <= staminaCost) {
+            throw new IllegalStateException(owner + " doesn't have enough stamina to use the special skill!");
+        }
+        else {
+            owner.modifyAttribute(BaseActorAttributes.STAMINA, ActorAttributeOperations.DECREASE, staminaCost);
+        }
+    }
+
+    @Override
+    public String skillAction(Actor owner, Actor target, GameMap map) {
         this.increaseDamageMultiplier(0.10f);
         this.updateHitRate(90);
         this.isActivated = true;
 
-        return String.format("%s takes a deep breath and focuses all their might!", actor);
+        return String.format("%s takes a deep breath and focuses all their might!", owner);
     }
 
     /**

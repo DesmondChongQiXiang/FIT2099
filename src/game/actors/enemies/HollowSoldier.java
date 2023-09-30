@@ -20,8 +20,6 @@ public class HollowSoldier extends Enemy {
   public HollowSoldier(){
 
     super("Hollow Soldier", '&', 200);
-    addCapability(Status.ENEMY);
-
   }
 
   /**
