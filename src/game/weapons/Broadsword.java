@@ -16,8 +16,11 @@ import game.items.Purchasable;
 import game.items.Sellable;
 
 /**
- * A class that represent Broadsword weapon
+ * The Broadsword class represents a specialized weapon in the game.
+ * It extends the WeaponItem class and implements the ActiveSkill, Sellable, and Purchasable interfaces.
+ * This weapon has unique capabilities and actions, including a special skill.
  */
+
 public class Broadsword extends WeaponItem implements ActiveSkill, Sellable, Purchasable {
 
     /**
@@ -70,6 +73,11 @@ public class Broadsword extends WeaponItem implements ActiveSkill, Sellable, Pur
         return skillAction(owner,target,map);
     }
 
+    /**
+     * Consumes stamina when the special skill is activated.
+     *
+     * @param owner The actor activating the skill.
+     */
     @Override
     public void staminaConsumedByActivateSkill(Actor owner) {
         int staminaCost = (int)(owner.getAttributeMaximum(BaseActorAttributes.STAMINA) * 0.20f);
@@ -83,6 +91,14 @@ public class Broadsword extends WeaponItem implements ActiveSkill, Sellable, Pur
         }
     }
 
+    /**
+     * Executes the skill action, which includes increasing damage multiplier and hit rate.
+     *
+     * @param owner The actor activating the skill.
+     * @param target The target actor.
+     * @param map The game map.
+     * @return A string describing the outcome.
+     */
     @Override
     public String skillAction(Actor owner, Actor target, GameMap map) {
         this.increaseDamageMultiplier(0.10f);
@@ -147,6 +163,12 @@ public class Broadsword extends WeaponItem implements ActiveSkill, Sellable, Pur
         return actions;
     }
 
+    /**
+     * Handles the purchase of the item.
+     *
+     * @param actor The actor attempting to purchase the item.
+     * @return The purchase price of the item.
+     */
     @Override
     public int purchasedBy(Actor actor) {
 
@@ -163,6 +185,12 @@ public class Broadsword extends WeaponItem implements ActiveSkill, Sellable, Pur
         return purchasePrice;
     }
 
+    /**
+     * Handles the selling of the item.
+     *
+     * @param actor The actor selling the item.
+     * @return The selling price of the item.
+     */
     @Override
     public int soldBy(Actor actor) {
         int sellingPrice = 100;

@@ -21,7 +21,6 @@ import game.items.BloodBerry;
 import game.spawners.*;
 import game.weapons.Broadsword;
 import game.weapons.GiantHammer;
-import game.items.Key;
 
 /**
  * The main class to start the game.
@@ -161,12 +160,6 @@ public class Application {
 
         GameMap abxervyer = new GameMap(abxervyerFactory, abxervyerMap);
         world.addGameMap(abxervyer);
-
-//        Gate lockedGate = new Gate();
-//        theAbandonedVillage.at(15, 11).setGround(lockedGate);
-//
-//        Key oldKey = new Key();
-//        theAbandonedVillage.at(7, 11).addItem(oldKey);
 
         abxervyer.at(10, 19).setGround(new Hut());
         abxervyer.at(32, 0).setGround(new Hut());
