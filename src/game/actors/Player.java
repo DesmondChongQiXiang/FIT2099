@@ -8,17 +8,12 @@ import edu.monash.fit2099.engine.actors.attributes.ActorAttributeOperations;
 import edu.monash.fit2099.engine.actors.attributes.BaseActorAttribute;
 import edu.monash.fit2099.engine.actors.attributes.BaseActorAttributes;
 import edu.monash.fit2099.engine.displays.Display;
-import edu.monash.fit2099.engine.items.Item;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.displays.Menu;
 import edu.monash.fit2099.engine.weapons.IntrinsicWeapon;
-import game.actions.ActivateSkillAction;
-import game.actions.ActiveSkill;
 import game.capabilities.Ability;
 import game.capabilities.Status;
 import game.displays.FancyMessage;
-
-import java.util.List;
 
 
 /**
@@ -78,26 +73,6 @@ public class Player extends Actor {
     public IntrinsicWeapon getIntrinsicWeapon() {
 
         return new IntrinsicWeapon(15,"bonks",80);
-    }
-
-
-    /**
-     * Consumes a specified amount of stamina from the player's current stamina.
-     * This method decreases the player's stamina attribute by the given amount.
-     *
-     * @param amount The amount of stamina to be consumed.
-     */
-    public void consumeStamina(int amount) {
-        this.modifyAttribute(BaseActorAttributes.STAMINA, ActorAttributeOperations.DECREASE, amount);
-    }
-
-    /**
-     * Retrieves the maximum stamina that the player can have.
-     *
-     * @return The maximum value of the player's stamina attribute.
-     */
-    public int getMaxStamina() {
-        return this.getAttributeMaximum(BaseActorAttributes.STAMINA);
     }
 
 

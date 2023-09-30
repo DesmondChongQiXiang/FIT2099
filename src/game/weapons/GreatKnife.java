@@ -17,7 +17,6 @@ import game.items.Purchasable;
 import game.items.Sellable;
 import game.actions.ActiveSkill;
 
-
 /**
  * The GreatKnife class represents a specialized weapon in the game world.
  * It extends the WeaponItem class and implements the Sellable, Purchasable, and ActiveSkill interfaces.
@@ -153,7 +152,6 @@ public class GreatKnife extends WeaponItem implements Sellable, Purchasable, Act
             owner.modifyAttribute(BaseActorAttributes.STAMINA, ActorAttributeOperations.DECREASE, staminaCost);
         }
     }
-
 
     /**
      * Selects an exit location for the actor to move to.

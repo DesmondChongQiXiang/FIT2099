@@ -88,7 +88,7 @@ public class GiantHammer extends WeaponItem implements Sellable, ActiveSkill {
     public void staminaConsumedByActivateSkill(Actor owner) {
         int staminaCost = (int)(owner.getAttributeMaximum(BaseActorAttributes.STAMINA) * 0.05f);
 
-        // Check if the actor has enough stamina
+        // Checks if the actor has enough stamina
         if (owner.getAttribute(BaseActorAttributes.STAMINA) <= staminaCost) {
             throw new IllegalStateException(owner + " doesn't have enough stamina to use the special skill!");
         }
