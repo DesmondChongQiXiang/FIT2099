@@ -2,8 +2,10 @@ package game.weapons;
 
 import edu.monash.fit2099.engine.actions.ActionList;
 import edu.monash.fit2099.engine.actors.Actor;
+import edu.monash.fit2099.engine.actors.ActorLocationsIterator;
 import edu.monash.fit2099.engine.actors.attributes.ActorAttributeOperations;
 import edu.monash.fit2099.engine.actors.attributes.BaseActorAttributes;
+import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.Location;
 import edu.monash.fit2099.engine.weapons.WeaponItem;
 import game.actions.ActivateSkillAction;
@@ -14,8 +16,11 @@ import game.items.Purchasable;
 import game.items.Sellable;
 
 /**
- * A class that represent Broadsword weapon
+ * The Broadsword class represents a specialized weapon in the game.
+ * It extends the WeaponItem class and implements the ActiveSkill, Sellable, and Purchasable interfaces.
+ * This weapon has unique capabilities and actions, including a special skill.
  */
+
 public class Broadsword extends WeaponItem implements ActiveSkill, Sellable, Purchasable {
 
     /**
@@ -52,21 +57,55 @@ public class Broadsword extends WeaponItem implements ActiveSkill, Sellable, Pur
     }
 
     /**
-     * Decrease the stamina of the actor and update the status after the weapon is activated.
+     * Decrease the stamina of the owner and update the status after the weapon is activated.
      *
-     * @param actor the actor that activate the weapon
+     * @param owner the owner that activate the weapon
      * @return a String that describe the message of activate the weapon skill
      */
     @Override
-    public String activateSkill(Actor actor) {
-        int maxStamina = actor.getAttributeMaximum(BaseActorAttributes.STAMINA);
-        int staminaCost = maxStamina / 5;  // the stamina cost to activate the focus skill is 20% of player's maximum stamina
-        actor.modifyAttribute(BaseActorAttributes.STAMINA, ActorAttributeOperations.DECREASE, staminaCost);
+    public String activateSkill(Actor owner, Actor target, GameMap map) {
+        try{
+            staminaConsumedByActivateSkill(owner);
+        }
+        catch(Exception e){
+            return e.getMessage();
+        }
+        return skillAction(owner,target,map);
+    }
+
+    /**
+     * Consumes stamina when the special skill is activated.
+     *
+     * @param owner The actor activating the skill.
+     */
+    @Override
+    public void staminaConsumedByActivateSkill(Actor owner) {
+        int staminaCost = (int)(owner.getAttributeMaximum(BaseActorAttributes.STAMINA) * 0.20f);
+
+        // Check if the actor has enough stamina
+        if (owner.getAttribute(BaseActorAttributes.STAMINA) <= staminaCost) {
+            throw new IllegalStateException(owner + " doesn't have enough stamina to use the special skill!");
+        }
+        else {
+            owner.modifyAttribute(BaseActorAttributes.STAMINA, ActorAttributeOperations.DECREASE, staminaCost);
+        }
+    }
+
+    /**
+     * Executes the skill action, which includes increasing damage multiplier and hit rate.
+     *
+     * @param owner The actor activating the skill.
+     * @param target The target actor.
+     * @param map The game map.
+     * @return A string describing the outcome.
+     */
+    @Override
+    public String skillAction(Actor owner, Actor target, GameMap map) {
         this.increaseDamageMultiplier(0.10f);
         this.updateHitRate(90);
         this.isActivated = true;
 
-        return String.format("%s takes a deep breath and focuses all their might!", actor);
+        return String.format("%s takes a deep breath and focuses all their might!", owner);
     }
 
     /**
@@ -124,6 +163,12 @@ public class Broadsword extends WeaponItem implements ActiveSkill, Sellable, Pur
         return actions;
     }
 
+    /**
+     * Handles the purchase of the item.
+     *
+     * @param actor The actor attempting to purchase the item.
+     * @return The purchase price of the item.
+     */
     @Override
     public int purchasedBy(Actor actor) {
 
@@ -140,6 +185,12 @@ public class Broadsword extends WeaponItem implements ActiveSkill, Sellable, Pur
         return purchasePrice;
     }
 
+    /**
+     * Handles the selling of the item.
+     *
+     * @param actor The actor selling the item.
+     * @return The selling price of the item.
+     */
     @Override
     public int soldBy(Actor actor) {
         int sellingPrice = 100;

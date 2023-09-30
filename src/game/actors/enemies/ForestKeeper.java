@@ -18,6 +18,7 @@ public class ForestKeeper extends Enemy {
     super("Forest Keeper", '8', 125);
   }
 
+
   /**
    * create a individual intrinsic weapon for Forest Keeper
    *

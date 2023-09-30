@@ -12,6 +12,10 @@ public enum Status {
     /**
      * To determine if other actors can attack the enemy.
      */
-    HOSTILE_TO_ENEMY
+    HOSTILE_TO_ENEMY,
+    /**
+     * To determine if the actor is an enemy.
+     */
+    ENEMY
 
 }

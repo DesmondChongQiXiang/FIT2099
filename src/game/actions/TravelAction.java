@@ -3,7 +3,9 @@ package game.actions;
 import edu.monash.fit2099.engine.actions.Action;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.positions.GameMap;
+import edu.monash.fit2099.engine.positions.Ground;
 import edu.monash.fit2099.engine.positions.Location;
+import game.capabilities.Ability;
 
 /**
  * An Action that actor can travel from one game map to another
@@ -33,7 +35,6 @@ public class TravelAction extends Action {
 
     /**
      * Allow the Actor to travel
-     *
      * Overrides Action.execute()
      *
      * @see Action#execute(Actor, GameMap)
@@ -43,8 +44,12 @@ public class TravelAction extends Action {
      */
     @Override
     public String execute(Actor actor, GameMap map) {
+        Ground ground = map.at(moveToLocation.x(), moveToLocation.y()).getGround();
+        if (ground.hasCapability(Ability.LOCKED_GATE)) {
+            return "The gate is locked. You can't travel.";
+        }
         map.moveActor(actor, moveToLocation);
-        return String.format("%s travelled to %s",actor,mapName);
+        return String.format("%s travelled to %s", actor, mapName);
     }
 
     /**

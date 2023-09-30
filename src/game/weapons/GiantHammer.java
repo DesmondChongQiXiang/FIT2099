@@ -2,55 +2,56 @@ package game.weapons;
 
 import edu.monash.fit2099.engine.actions.ActionList;
 import edu.monash.fit2099.engine.actors.Actor;
+import edu.monash.fit2099.engine.actors.attributes.ActorAttributeOperations;
+import edu.monash.fit2099.engine.actors.attributes.BaseActorAttributes;
 import edu.monash.fit2099.engine.positions.Location;
 import edu.monash.fit2099.engine.weapons.WeaponItem;
+import game.actions.ActivateSkillAction;
+import game.actions.ActiveSkill;
 import game.actions.AttackAction;
-import game.actions.SellAction;
-import game.capabilities.Ability;
+import game.capabilities.Status;
 import game.items.Sellable;
+import edu.monash.fit2099.engine.positions.GameMap;
+import edu.monash.fit2099.engine.positions.Exit;
 
 /**
- * A class that represents the GiantHammer weapon
+ * The GiantHammer class represents a specialized weapon item that has unique actions and abilities.
+ * It extends the WeaponItem class and implements the Sellable & ActiveSkill interface.
+ *
+ * @author Maliha Tariq
+ * Modified By: Desmond Chong
  */
-public class GiantHammer extends WeaponItem implements Sellable {
-
+public class GiantHammer extends WeaponItem implements Sellable, ActiveSkill {
     /**
-     * Constructor.
+     * Constructor to initialize the GiantHammer.
      */
     public GiantHammer() {
         super("Giant Hammer", 'P', 160, "slams", 90);
-        addCapability(Ability.HAS_SPECIAL_SKILL);
     }
 
     /**
-     * List of allowable actions that the item can perform to the current actor.
+     * Returns the allowable actions that can be performed with this weapon.
      *
-     * @param owner the actor that owns the item
-     * @return a list of actions
-     */
-    @Override
-    public ActionList allowableActions(Actor owner) {
-        ActionList actions = new ActionList();
-        actions.add(new SellAction(this));
-        return actions;
-    }
-
-    /**
-     * List of allowable actions that the item allows its owner do to another actor.
-     * GiantHammer can return an attacking action to the other actor.
-     *
-     * @param otherActor the other actor
-     * @param location   the location of the other actor
-     * @return a list of actions that contains an AttackAction
+     * @param otherActor The actor performing the action.
+     * @param location The location where the action takes place.
+     * @return A list of allowable actions.
      */
     @Override
     public ActionList allowableActions(Actor otherActor, Location location) {
         ActionList actions = new ActionList();
-        actions.add(new AttackAction(otherActor, location.toString(), this));
-        // You might want to add another action here for the special “Great Slam” ability.
+        if (otherActor.hasCapability(Status.ENEMY)) {
+            actions.add(new AttackAction(otherActor, location.toString(), this));
+            actions.add(new ActivateSkillAction(this,otherActor));
+        }
         return actions;
     }
 
+    /**
+     * Defines the selling process of the GiantHammer.
+     *
+     * @param actor The actor selling the item.
+     * @return The selling price of the item.
+     */
     @Override
     public int soldBy(Actor actor) {
         int sellingPrice = 250;
@@ -60,11 +61,65 @@ public class GiantHammer extends WeaponItem implements Sellable {
     }
 
     /**
-     * Method to implement the special skill “Great Slam”
-     * This will need interaction with other actors and may require additional modifications.
+     * Activates the special skill of the GiantHammer.
+     *
+     * @param owner The actor owning the weapon.
+     * @param target The target actor.
+     * @param map The game map.
+     * @return A string describing the outcome of the skill activation.
      */
-    public void performGreatSlam(Actor actor, Location targetLocation) {
-        // Implementation of the Great Slam, affecting the targeted enemy and surrounding actors.
-        // This will likely require interaction with other classes and actors to fully implement.
+    @Override
+    public String activateSkill(Actor owner, Actor target, GameMap map) {
+        try{
+            staminaConsumedByActivateSkill(owner);
+        }
+        catch(Exception e){
+            return e.getMessage();
+        }
+        return skillAction(owner,target,map);
+    }
+
+    /**
+     * Consumes stamina when the special skill is activated.
+     *
+     * @param owner The actor owning the weapon.
+     */
+    @Override
+    public void staminaConsumedByActivateSkill(Actor owner) {
+        int staminaCost = (int)(owner.getAttributeMaximum(BaseActorAttributes.STAMINA) * 0.05f);
+
+        // Checks if the actor has enough stamina
+        if (owner.getAttribute(BaseActorAttributes.STAMINA) <= staminaCost) {
+            throw new IllegalStateException(owner + " doesn't have enough stamina to use the special skill!");
+        }
+        else {
+            owner.modifyAttribute(BaseActorAttributes.STAMINA, ActorAttributeOperations.DECREASE, staminaCost);
+        }
+    }
+
+    /**
+     * Executes the skill action.
+     *
+     * @param owner The actor owning the weapon.
+     * @param target The target actor.
+     * @param map The game map.
+     * @return A string describing the outcome of the skill action.
+     */
+    @Override
+    public String skillAction(Actor owner, Actor target, GameMap map) {
+        String ret = new AttackAction(target,map.locationOf(target).toString(),this).execute(owner,map);
+
+        this.updateDamageMultiplier(0.5f);
+        Location currentLocation = map.locationOf(owner);
+
+        for (Exit exit : currentLocation.getExits()) {
+            Location destination = exit.getDestination();
+            if (destination.containsAnActor() && destination.getActor().hasCapability(Status.ENEMY)){
+                ret += "\n" + new AttackAction(destination.getActor(), map.locationOf(destination.getActor()).toString(),this).execute(owner,map);
+            }
+        }
+        ret += "\n" + new AttackAction(owner,map.locationOf(owner).toString(),this).execute(owner,map);
+        this.updateDamageMultiplier(1.0f);
+        return ret;
     }
 }
