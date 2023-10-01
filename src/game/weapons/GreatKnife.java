@@ -3,7 +3,6 @@ package game.weapons;
 import edu.monash.fit2099.engine.actions.ActionList;
 import edu.monash.fit2099.engine.actions.MoveActorAction;
 import edu.monash.fit2099.engine.actors.Actor;
-import edu.monash.fit2099.engine.actors.ActorLocationsIterator;
 import edu.monash.fit2099.engine.actors.attributes.ActorAttributeOperations;
 import edu.monash.fit2099.engine.actors.attributes.BaseActorAttributes;
 import edu.monash.fit2099.engine.positions.Exit;
@@ -13,13 +12,10 @@ import edu.monash.fit2099.engine.weapons.WeaponItem;
 import game.actions.ActivateSkillAction;
 import game.actions.AttackAction;
 import game.actions.SellAction;
-import game.capabilities.Ability;
 import game.capabilities.Status;
 import game.items.Purchasable;
 import game.items.Sellable;
 import game.actions.ActiveSkill;
-
-import java.util.List;
 
 /**
  * The GreatKnife class represents a specialized weapon in the game world.
@@ -27,11 +23,9 @@ import java.util.List;
  * This weapon has unique capabilities and actions, including a special skill.
  *
  * @author Maliha Tariq
+ * Modified by: Desmond Chong
  */
 public class GreatKnife extends WeaponItem implements Sellable, Purchasable, ActiveSkill {
-
-
-
     /**
      * Constructor to initialize the GreatKnife weapon.
      */
@@ -141,7 +135,11 @@ public class GreatKnife extends WeaponItem implements Sellable, Purchasable, Act
         return skillAction(owner,target,map);
     }
 
-
+    /**
+     * Consumes stamina when the special skill is activated.
+     *
+     * @param owner The actor activating the skill.
+     */
     @Override
     public void staminaConsumedByActivateSkill(Actor owner) {
         int staminaCost = (int)(owner.getAttributeMaximum(BaseActorAttributes.STAMINA) * 0.25f);
@@ -155,13 +153,13 @@ public class GreatKnife extends WeaponItem implements Sellable, Purchasable, Act
         }
     }
 
-
     /**
-     * Finds a new location for the actor and sets it.
+     * Selects an exit location for the actor to move to.
      *
      * @param actor The actor to move.
-     * @param map The map that contain the actor
-     * @return the location that the actor is going to move to.
+     * @param map The game map.
+     * @return The new location for the actor.
+     * @throws IllegalStateException if no suitable exit is found.
      */
     private Location selectExit(Actor actor, GameMap map){
         Location currentLocation = map.locationOf(actor);
@@ -175,6 +173,14 @@ public class GreatKnife extends WeaponItem implements Sellable, Purchasable, Act
         throw new IllegalStateException(String.format("%s fails to step away",actor));
     }
 
+    /**
+     * Executes the skill action, which includes attacking and potentially moving the actor.
+     *
+     * @param owner The actor activating the skill.
+     * @param target The target actor.
+     * @param map The game map.
+     * @return A string describing the outcome.
+     */
     @Override
     public String skillAction(Actor owner, Actor target, GameMap map) {
         String ret = new AttackAction(target,map.locationOf(target).toString(),this).execute(owner,map);

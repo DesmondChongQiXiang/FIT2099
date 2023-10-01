@@ -16,14 +16,12 @@ import edu.monash.fit2099.engine.positions.Exit;
 
 /**
  * The GiantHammer class represents a specialized weapon item that has unique actions and abilities.
- * It extends the WeaponItem class and implements the Sellable interface.
+ * It extends the WeaponItem class and implements the Sellable & ActiveSkill interface.
  *
  * @author Maliha Tariq
+ * Modified By: Desmond Chong
  */
 public class GiantHammer extends WeaponItem implements Sellable, ActiveSkill {
-
-
-
     /**
      * Constructor to initialize the GiantHammer.
      */
@@ -62,6 +60,14 @@ public class GiantHammer extends WeaponItem implements Sellable, ActiveSkill {
         return sellingPrice;
     }
 
+    /**
+     * Activates the special skill of the GiantHammer.
+     *
+     * @param owner The actor owning the weapon.
+     * @param target The target actor.
+     * @param map The game map.
+     * @return A string describing the outcome of the skill activation.
+     */
     @Override
     public String activateSkill(Actor owner, Actor target, GameMap map) {
         try{
@@ -73,11 +79,16 @@ public class GiantHammer extends WeaponItem implements Sellable, ActiveSkill {
         return skillAction(owner,target,map);
     }
 
+    /**
+     * Consumes stamina when the special skill is activated.
+     *
+     * @param owner The actor owning the weapon.
+     */
     @Override
     public void staminaConsumedByActivateSkill(Actor owner) {
         int staminaCost = (int)(owner.getAttributeMaximum(BaseActorAttributes.STAMINA) * 0.05f);
 
-        // Check if the actor has enough stamina
+        // Checks if the actor has enough stamina
         if (owner.getAttribute(BaseActorAttributes.STAMINA) <= staminaCost) {
             throw new IllegalStateException(owner + " doesn't have enough stamina to use the special skill!");
         }
@@ -86,6 +97,14 @@ public class GiantHammer extends WeaponItem implements Sellable, ActiveSkill {
         }
     }
 
+    /**
+     * Executes the skill action.
+     *
+     * @param owner The actor owning the weapon.
+     * @param target The target actor.
+     * @param map The game map.
+     * @return A string describing the outcome of the skill action.
+     */
     @Override
     public String skillAction(Actor owner, Actor target, GameMap map) {
         String ret = new AttackAction(target,map.locationOf(target).toString(),this).execute(owner,map);
