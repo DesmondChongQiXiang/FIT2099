@@ -4,7 +4,13 @@ import edu.monash.fit2099.engine.actions.ActionList;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.actors.attributes.BaseActorAttributes;
 import edu.monash.fit2099.engine.items.Item;
+import edu.monash.fit2099.engine.positions.Location;
+import game.actions.ActivateSkillAction;
+import game.actions.AttackAction;
 import game.actions.ConsumeAction;
+import game.actions.SellAction;
+import game.capabilities.Ability;
+import game.capabilities.Status;
 
 /**
  * A class that represents HealingVial that can increase the health of an actor.
@@ -51,32 +57,51 @@ public class HealingVial extends Item implements Consumable,Purchasable,Sellable
         return actions;
     }
 
+    /**
+     * Returns the allowable actions that can be performed with this weapon.
+     *
+     * @param otherActor The actor performing the action.
+     * @param location The location where the action takes place.
+     * @return A list of allowable actions.
+     */
     @Override
-    public void purchasedBy(Actor actor) {
-        int purchasePrice = 0;
+    public ActionList allowableActions(Actor otherActor, Location location) {
+        ActionList actions = new ActionList();
+        if (otherActor.hasCapability(Ability.BUYING)) {
+            actions.add(new SellAction(this));
+        }
+        return actions;
+    }
+
+
+    @Override
+    public int purchasedBy(Actor buyer, int purchasePrice) {
         if (Math.random() <= 0.25){
-            purchasePrice = 100 + (int)(100 * 0.5f);
+            purchasePrice = purchasePrice + (int)(purchasePrice * 0.5f);
+        }
+        if (buyer.getBalance() < purchasePrice){
+            throw new IllegalStateException(String.format("%s's balance is insufficient.", buyer));
         }
         else{
-            purchasePrice = 100;
+            buyer.deductBalance(purchasePrice);
+            buyer.addItemToInventory(this);
         }
-        if (actor.getBalance() < purchasePrice){
-            throw new IllegalStateException(String.format("%s's balance is insufficient.", actor));
-        }
-        else{
-            actor.deductBalance(purchasePrice);
-            actor.addItemToInventory(this);
-        }
+        return purchasePrice;
     }
 
     @Override
-    public void soldBy(Actor actor){
+    public int soldBy(Actor actor){
+        int sellingPrice = 0;
         if(Math.random() <= 0.10){
-            actor.addBalance(35*2);
+            sellingPrice = 35*2;
+            actor.addBalance(sellingPrice);
         }
         else{
-            actor.addBalance(35);
+            sellingPrice = 35;
+            actor.addBalance(sellingPrice);
         }
         actor.removeItemFromInventory(this);
+        return sellingPrice;
     }
+
 }

@@ -16,6 +16,7 @@ public class RedWolf extends Enemy{
    * Constructor.
    */
   public RedWolf(){
+
     super("Red Wolf", 'r', 25);
   }
 

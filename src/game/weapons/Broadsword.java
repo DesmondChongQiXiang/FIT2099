@@ -2,19 +2,27 @@ package game.weapons;
 
 import edu.monash.fit2099.engine.actions.ActionList;
 import edu.monash.fit2099.engine.actors.Actor;
+import edu.monash.fit2099.engine.actors.ActorLocationsIterator;
 import edu.monash.fit2099.engine.actors.attributes.ActorAttributeOperations;
 import edu.monash.fit2099.engine.actors.attributes.BaseActorAttributes;
+import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.Location;
 import edu.monash.fit2099.engine.weapons.WeaponItem;
 import game.actions.ActivateSkillAction;
 import game.actions.ActiveSkill;
 import game.actions.AttackAction;
+import game.actions.SellAction;
+import game.capabilities.Ability;
+import game.capabilities.Status;
 import game.items.Purchasable;
 import game.items.Sellable;
 
 /**
- * A class that represent Broadsword weapon
+ * The Broadsword class represents a specialized weapon in the game.
+ * It extends the WeaponItem class and implements the ActiveSkill, Sellable, and Purchasable interfaces.
+ * This weapon has unique capabilities and actions, including a special skill.
  */
+
 public class Broadsword extends WeaponItem implements ActiveSkill, Sellable, Purchasable {
 
     /**
@@ -51,21 +59,75 @@ public class Broadsword extends WeaponItem implements ActiveSkill, Sellable, Pur
     }
 
     /**
-     * Decrease the stamina of the actor and update the status after the weapon is activated.
+     * List of allowable actions that the item allows its owner do to other actor.
+     * broadsword can return an attacking action to the other actor.
      *
-     * @param actor the actor that activate the weapon
+     * @param otherActor the other actor
+     * @param location the location of the other actor
+     * @return a list of actions that contains an AttackAction
+     */
+    @Override
+    public ActionList allowableActions(Actor otherActor, Location location) {
+        ActionList actions = new ActionList();
+        if (otherActor.hasCapability(Status.ENEMY)) {
+            actions.add(new AttackAction(otherActor, location.toString(), this));
+        }
+        if (otherActor.hasCapability(Ability.BUYING)) {
+            actions.add(new SellAction(this));
+        }
+        return actions;
+    }
+
+    /**
+     * Decrease the stamina of the owner and update the status after the weapon is activated.
+     *
+     * @param owner the owner that activate the weapon
      * @return a String that describe the message of activate the weapon skill
      */
     @Override
-    public String activateSkill(Actor actor) {
-        int maxStamina = actor.getAttributeMaximum(BaseActorAttributes.STAMINA);
-        int staminaCost = maxStamina / 5;  // the stamina cost to activate the focus skill is 20% of player's maximum stamina
-        actor.modifyAttribute(BaseActorAttributes.STAMINA, ActorAttributeOperations.DECREASE, staminaCost);
+    public String activateSkill(Actor owner, Actor target, GameMap map) {
+        try{
+            staminaConsumedByActivateSkill(owner);
+        }
+        catch(Exception e){
+            return e.getMessage();
+        }
+        return skillAction(owner,target,map);
+    }
+
+    /**
+     * Consumes stamina when the special skill is activated.
+     *
+     * @param owner The actor activating the skill.
+     */
+    @Override
+    public void staminaConsumedByActivateSkill(Actor owner) {
+        int staminaCost = (int)(owner.getAttributeMaximum(BaseActorAttributes.STAMINA) * 0.20f);
+
+        // Check if the actor has enough stamina
+        if (owner.getAttribute(BaseActorAttributes.STAMINA) <= staminaCost) {
+            throw new IllegalStateException(owner + " doesn't have enough stamina to use the special skill!");
+        }
+        else {
+            owner.modifyAttribute(BaseActorAttributes.STAMINA, ActorAttributeOperations.DECREASE, staminaCost);
+        }
+    }
+
+    /**
+     * Executes the skill action, which includes increasing damage multiplier and hit rate.
+     *
+     * @param owner The actor activating the skill.
+     * @param target The target actor.
+     * @param map The game map.
+     * @return A string describing the outcome.
+     */
+    @Override
+    public String skillAction(Actor owner, Actor target, GameMap map) {
         this.increaseDamageMultiplier(0.10f);
         this.updateHitRate(90);
         this.isActivated = true;
 
-        return String.format("%s takes a deep breath and focuses all their might!", actor);
+        return String.format("%s takes a deep breath and focuses all their might!", owner);
     }
 
     /**
@@ -107,37 +169,38 @@ public class Broadsword extends WeaponItem implements ActiveSkill, Sellable, Pur
         this.updateHitRate(80);
     }
 
+
     /**
-     * List of allowable actions that the item allows its owner do to other actor.
-     * broadsword can return an attacking action to the other actor.
+     * Handles the purchase of the item.
      *
-     * @param otherActor the other actor
-     * @param location the location of the other actor
-     * @return a list of actions that contains an AttackAction
+     * @param actor The actor attempting to purchase the item.
+     * @return The purchase price of the item.
      */
     @Override
-    public ActionList allowableActions(Actor otherActor, Location location) {
-        ActionList actions = new ActionList();
-        actions.add(new AttackAction(otherActor, location.toString(), this));
-        return actions;
-    }
-
-    @Override
-    public void purchasedBy(Actor actor) {
-        if (actor.getBalance() - 250 < 0){
+    public int purchasedBy(Actor actor, int purchasePrice) {
+        if (actor.getBalance() - purchasePrice < 0){
             throw new IllegalStateException("Player's balance is insufficient");
         }
         else{
             if (Math.random() <= 0.95){
                 actor.addItemToInventory(this);
             }
-            actor.deductBalance(250);
+            actor.deductBalance(purchasePrice);
         }
+        return purchasePrice;
     }
 
+    /**
+     * Handles the selling of the item.
+     *
+     * @param actor The actor selling the item.
+     * @return The selling price of the item.
+     */
     @Override
-    public void soldBy(Actor actor) {
-        actor.addBalance(50);
+    public int soldBy(Actor actor) {
+        int sellingPrice = 100;
+        actor.addBalance(sellingPrice);
         actor.removeItemFromInventory(this);
+        return sellingPrice;
     }
 }

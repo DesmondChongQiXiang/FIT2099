@@ -5,7 +5,10 @@ import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.actors.attributes.ActorAttributeOperations;
 import edu.monash.fit2099.engine.actors.attributes.BaseActorAttributes;
 import edu.monash.fit2099.engine.items.Item;
+import edu.monash.fit2099.engine.positions.Location;
 import game.actions.ConsumeAction;
+import game.actions.SellAction;
+import game.capabilities.Ability;
 
 /**
  * A class that represents Refreshing Flask that can increase the stamina of an actor.
@@ -51,29 +54,45 @@ public class RefreshingFlask extends Item implements Consumable, Sellable, Purch
         return actions;
     }
 
+    /**
+     * Returns the allowable actions that can be performed with this weapon.
+     *
+     * @param otherActor The actor performing the action.
+     * @param location The location where the action takes place.
+     * @return A list of allowable actions.
+     */
     @Override
-    public void soldBy(Actor actor){
-        if (Math.random() <= 0.5){
-            actor.addBalance(25);
+    public ActionList allowableActions(Actor otherActor, Location location) {
+        ActionList actions = new ActionList();
+        if (otherActor.hasCapability(Ability.BUYING)) {
+            actions.add(new SellAction(this));
         }
-        actor.removeItemFromInventory(this);
+        return actions;
     }
 
     @Override
-    public void purchasedBy(Actor actor) {
-        int purchasePrice = 0;
+    public int soldBy(Actor actor){
+        int sellingPrice = 0;
+        if (Math.random() <= 0.5){
+            sellingPrice = 25;
+            actor.addBalance(sellingPrice);
+        }
+        actor.removeItemFromInventory(this);
+        return sellingPrice;
+    }
+
+    @Override
+    public int purchasedBy(Actor buyer, int purchasePrice) {
         if (Math.random() <= 0.1){
-            purchasePrice = 75 - (int)(75 * 0.2f);
+            purchasePrice = purchasePrice - (int)(purchasePrice * 0.2f);
+        }
+        if (buyer.getBalance() < purchasePrice){
+            throw new IllegalStateException(String.format("%s's balance is insufficient.", buyer));
         }
         else{
-            purchasePrice = 75;
+            buyer.deductBalance(purchasePrice);
+            buyer.addItemToInventory(this);
         }
-        if (actor.getBalance() < purchasePrice){
-            throw new IllegalStateException(String.format("%s's balance is insufficient.", actor));
-        }
-        else{
-            actor.deductBalance(purchasePrice);
-            actor.addItemToInventory(this);
-        }
+        return purchasePrice;
     }
 }
