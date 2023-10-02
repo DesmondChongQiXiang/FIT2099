@@ -22,4 +22,9 @@ public enum Ability {
      * To indicate that the actor has the ability to buy items.
      */
     BUYING,
+
+    /**
+     * To indicate that the actor can enter the floor.
+     */
+    ENTER_VOID,
 }

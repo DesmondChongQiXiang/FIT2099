@@ -166,8 +166,6 @@ public class Application {
         abxervyer.at(11, 13).setGround(new Bushes());
         abxervyer.at(36, 18).setGround(new Bushes());
 
-
-
         GiantHammer giantHammer = new GiantHammer();
         abxervyer.at(6, 8).addItem(giantHammer);
         Gate abxervyerGate = new Gate();
@@ -175,7 +173,9 @@ public class Application {
         abxervyerGate.addTravelAction(new TravelAction(theAbandonedVillage.at(31, 5), "The Abandoned Village"));
         abxervyer.at(15, 13).setGround(abxervyerGate);
 
-
+        Gate ancientWoodsGate2 = new Gate();
+        ancientWoodsGate2.addTravelAction(new TravelAction(abxervyer.at(39, 13), "Abxervyer, The Forest Watcher"));
+        ancientWoods.at(0, 6).setGround(ancientWoodsGate2);
 
         for (String line : FancyMessage.TITLE.split("\n")) {
             new Display().println(line);
