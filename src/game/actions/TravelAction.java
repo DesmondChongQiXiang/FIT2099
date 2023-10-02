@@ -44,10 +44,6 @@ public class TravelAction extends Action {
      */
     @Override
     public String execute(Actor actor, GameMap map) {
-        Ground ground = map.at(moveToLocation.x(), moveToLocation.y()).getGround();
-        if (ground.hasCapability(Ability.LOCKED_GATE)) {
-            return "The gate is locked. You can't travel.";
-        }
         map.moveActor(actor, moveToLocation);
         return String.format("%s travelled to %s", actor, mapName);
     }
