@@ -4,8 +4,13 @@ import edu.monash.fit2099.engine.actions.ActionList;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.actors.attributes.BaseActorAttributes;
 import edu.monash.fit2099.engine.items.Item;
+import edu.monash.fit2099.engine.positions.Location;
+import game.actions.ActivateSkillAction;
+import game.actions.AttackAction;
 import game.actions.ConsumeAction;
 import game.actions.SellAction;
+import game.capabilities.Ability;
+import game.capabilities.Status;
 
 /**
  * A class that represents HealingVial that can increase the health of an actor.
@@ -49,19 +54,30 @@ public class HealingVial extends Item implements Consumable,Purchasable,Sellable
     public ActionList allowableActions(Actor owner) {
         ActionList actions = new ActionList();
         actions.add(new ConsumeAction(this));
-        actions.add(new SellAction(this));
+        return actions;
+    }
+
+    /**
+     * Returns the allowable actions that can be performed with this weapon.
+     *
+     * @param otherActor The actor performing the action.
+     * @param location The location where the action takes place.
+     * @return A list of allowable actions.
+     */
+    @Override
+    public ActionList allowableActions(Actor otherActor, Location location) {
+        ActionList actions = new ActionList();
+        if (otherActor.hasCapability(Ability.BUYING)) {
+            actions.add(new SellAction(this));
+        }
         return actions;
     }
 
 
     @Override
-    public int purchasedBy(Actor buyer) {
-        int purchasePrice = 0;
+    public int purchasedBy(Actor buyer, int purchasePrice) {
         if (Math.random() <= 0.25){
-            purchasePrice = 100 + (int)(100 * 0.5f);
-        }
-        else{
-            purchasePrice = 100;
+            purchasePrice = purchasePrice + (int)(purchasePrice * 0.5f);
         }
         if (buyer.getBalance() < purchasePrice){
             throw new IllegalStateException(String.format("%s's balance is insufficient.", buyer));

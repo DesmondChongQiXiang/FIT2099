@@ -16,13 +16,19 @@ public class PurchaseAction extends Action {
     private final Purchasable item;
 
     /**
+     * The item's purchase price
+     */
+    private final int originalPrice;
+
+    /**
      * Initializes a new PurchaseAction.
      *
-     * @param buyer The actor who will be buying the item.
      * @param item The item to be purchased.
+     * @param originalPrice the price of the item
      */
-    public PurchaseAction(Actor buyer, Purchasable item){
+    public PurchaseAction(Purchasable item, int originalPrice){
         this.item = item;
+        this.originalPrice = originalPrice;
     }
 
     /**
@@ -35,8 +41,8 @@ public class PurchaseAction extends Action {
     @Override
     public String execute(Actor actor, GameMap map) {
         try{
-            int purchasePrice = item.purchasedBy(actor);
-            return String.format("%s successfully purchased %s for %d runes.",actor, item, purchasePrice);
+            int finalPrice = item.purchasedBy(actor,this.originalPrice);
+            return String.format("%s successfully purchased %s for %d runes.",actor, item, finalPrice);
         }
         catch (Exception e){
             return e.getMessage();

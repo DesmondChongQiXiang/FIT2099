@@ -9,6 +9,8 @@ import edu.monash.fit2099.engine.weapons.WeaponItem;
 import game.actions.ActivateSkillAction;
 import game.actions.ActiveSkill;
 import game.actions.AttackAction;
+import game.actions.SellAction;
+import game.capabilities.Ability;
 import game.capabilities.Status;
 import game.items.Sellable;
 import edu.monash.fit2099.engine.positions.GameMap;
@@ -42,6 +44,9 @@ public class GiantHammer extends WeaponItem implements Sellable, ActiveSkill {
         if (otherActor.hasCapability(Status.ENEMY)) {
             actions.add(new AttackAction(otherActor, location.toString(), this));
             actions.add(new ActivateSkillAction(this,otherActor));
+        }
+        if (otherActor.hasCapability(Ability.BUYING)) {
+            actions.add(new SellAction(this));
         }
         return actions;
     }
