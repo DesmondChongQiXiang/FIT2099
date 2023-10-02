@@ -11,6 +11,7 @@ import edu.monash.fit2099.engine.positions.World;
 import game.actions.TravelAction;
 import game.actors.Player;
 import game.actors.Traveller;
+import game.actors.enemies.ForestWatcher;
 import game.displays.FancyMessage;
 import game.grounds.*;
 import game.grounds.Void;
@@ -161,21 +162,19 @@ public class Application {
         GameMap abxervyer = new GameMap(abxervyerFactory, abxervyerMap);
         world.addGameMap(abxervyer);
 
+
         abxervyer.at(10, 19).setGround(new Hut());
         abxervyer.at(32, 0).setGround(new Hut());
         abxervyer.at(11, 13).setGround(new Bushes());
         abxervyer.at(36, 18).setGround(new Bushes());
 
+        Gate ancientWoodsGate2 = new Gate();
+        ancientWoodsGate2.addTravelAction(new TravelAction(abxervyer.at(39, 13), "Abxervyer, The Forest Watcher"));
+        ancientWoods.at(0, 6).setGround(ancientWoodsGate2);
 
 
         GiantHammer giantHammer = new GiantHammer();
-        abxervyer.at(6, 8).addItem(giantHammer);
-        Gate abxervyerGate = new Gate();
-
-        abxervyerGate.addTravelAction(new TravelAction(theAbandonedVillage.at(31, 5), "The Abandoned Village"));
-        abxervyer.at(15, 13).setGround(abxervyerGate);
-
-
+        abxervyer.at(39, 12).addItem(giantHammer);
 
         for (String line : FancyMessage.TITLE.split("\n")) {
             new Display().println(line);
@@ -187,10 +186,13 @@ public class Application {
         }
 
         Player player = new Player("The Abstracted One", '@', 150, 200, 0);
-        world.addPlayer(player, ancientWoods.at(21, 4));
+        world.addPlayer(player, abxervyer.at(39, 13));
 
         Traveller traveller = new Traveller();
         ancientWoods.at(20,3).addActor(traveller);
+
+        ForestWatcher forestWatcher = new ForestWatcher();
+        abxervyer.at((abxervyer.getXRange().max())/2,(abxervyer.getYRange().max())/2).addActor(forestWatcher);
 
         world.run();
     }
