@@ -3,12 +3,11 @@ package game.actors.enemies;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.weapons.IntrinsicWeapon;
+import game.capabilities.Status;
 import game.items.HealingVial;
 import game.items.Key;
+import game.items.Runes;
 
-/**
- * Class representing the WanderingUndead.
- */
 public class WanderingUndead extends Enemy {
 
   /**
@@ -32,10 +31,10 @@ public class WanderingUndead extends Enemy {
   }
 
   /**
-   * Method that can be executed when the Wandering Undead is unconscious due to the action of another actor
+   * Method that can be executed when the actor is unconscious due to the action of another actor
    * @param actor the perpetrator
-   * @param map where the Wandering Undead fell unconscious
-   * @return a string describing what happened when the Wandering Undead is unconscious
+   * @param map where the actor fell unconscious
+   * @return a string describing what happened when the actor is unconscious
    */
   @Override
   public String unconscious(Actor actor,GameMap map) {
@@ -47,6 +46,7 @@ public class WanderingUndead extends Enemy {
       map.locationOf(this).addItem(new HealingVial());
     }
 
+    map.locationOf(this).addItem(new Runes(50));
     return super.unconscious(map);
   }
 

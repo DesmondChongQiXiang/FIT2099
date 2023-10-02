@@ -14,5 +14,12 @@ public enum Ability {
     /**
      * To indicate if the actor has an old key to unlock the gate.
      */
-    UNLOCK_GATE
+    UNLOCK_GATE,
+
+    LOCKED_GATE,
+
+    /**
+     * To indicate that the actor has the ability to buy items.
+     */
+    BUYING,
 }

@@ -5,7 +5,6 @@ import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.weapons.Weapon;
 
-import java.util.Random;
 
 /**
  * An Action that attack another actor
@@ -21,11 +20,6 @@ public class AttackAction extends Action {
      * The direction of incoming attack.
      */
     private String direction;
-
-    /**
-     * Random number generator
-     */
-    private Random rand = new Random();
 
     /**
      * Weapon used for the attack
@@ -57,7 +51,6 @@ public class AttackAction extends Action {
 
     /**
      * Allow the Actor to attack
-     *
      * Overrides Action.execute()
      *
      * @see Action#execute(Actor, GameMap)
@@ -71,7 +64,7 @@ public class AttackAction extends Action {
             weapon = actor.getIntrinsicWeapon();
         }
 
-        if (!(rand.nextInt(100) <= weapon.chanceToHit())) {
+        if (!(Math.random() * 100 <= weapon.chanceToHit())) {
             return actor + " misses " + target + ".";
         }
 
@@ -83,6 +76,8 @@ public class AttackAction extends Action {
         }
 
         return result;
+
+
     }
     /**
      * Returns a description of this movement suitable to display in the menu.

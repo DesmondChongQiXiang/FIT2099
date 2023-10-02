@@ -5,6 +5,9 @@ import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.weapons.IntrinsicWeapon;
 import game.items.HealingVial;
 import game.items.RefreshingFlask;
+import game.items.Runes;
+import game.capabilities.Status;
+
 
 /**
  * Class representing the HollowSoldier.
@@ -15,11 +18,12 @@ public class HollowSoldier extends Enemy {
    * Constructor.
    */
   public HollowSoldier(){
+
     super("Hollow Soldier", '&', 200);
   }
 
   /**
-   * Create an individual intrinsic weapon for Hollow Soldier.
+   * create a individual intrinsic weapon for Hollow Soldier
    *
    * Overrides Actor.getIntrinsicWeapon()
    *
@@ -32,10 +36,10 @@ public class HollowSoldier extends Enemy {
   }
 
   /**
-   * Method that can be executed when the Hollow Soldier is unconscious due to the action of another actor
+   * Method that can be executed when the actor is unconscious due to the action of another actor
    * @param actor the perpetrator
-   * @param map where the Hollow Soldier fell unconscious
-   * @return a string describing what happened when the Hollow Soldier is unconscious
+   * @param map where the actor fell unconscious
+   * @return a string describing what happened when the actor is unconscious
    */
   @Override
   public String unconscious(Actor actor,GameMap map) {
@@ -47,6 +51,7 @@ public class HollowSoldier extends Enemy {
       map.locationOf(this).addItem(new HealingVial());
     }
 
+    map.locationOf(this).addItem(new Runes(100));
     return super.unconscious(map);
   }
 
