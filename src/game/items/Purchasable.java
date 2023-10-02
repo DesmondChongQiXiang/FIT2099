@@ -11,7 +11,8 @@ public interface Purchasable{
      * Determines the logic for purchasing the item.
      *
      * @param buyer The actor who is purchasing the item.
+     * @param purchasePrice the item purchase price
      * @return The purchase price of the item.
      */
-    int purchasedBy(Actor buyer);
+    int purchasedBy(Actor buyer, int purchasePrice);
 }
