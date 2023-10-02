@@ -75,13 +75,9 @@ public class HealingVial extends Item implements Consumable,Purchasable,Sellable
 
 
     @Override
-    public int purchasedBy(Actor buyer) {
-        int purchasePrice = 0;
+    public int purchasedBy(Actor buyer, int purchasePrice) {
         if (Math.random() <= 0.25){
-            purchasePrice = 100 + (int)(100 * 0.5f);
-        }
-        else{
-            purchasePrice = 100;
+            purchasePrice = purchasePrice + (int)(purchasePrice * 0.5f);
         }
         if (buyer.getBalance() < purchasePrice){
             throw new IllegalStateException(String.format("%s's balance is insufficient.", buyer));

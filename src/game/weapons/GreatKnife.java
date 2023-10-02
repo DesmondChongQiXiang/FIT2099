@@ -64,8 +64,7 @@ public class GreatKnife extends WeaponItem implements Sellable, Purchasable, Act
      * @throws IllegalStateException if the actor's balance is insufficient.
      */
     @Override
-    public int purchasedBy(Actor buyer) {
-        int purchasePrice = 300;
+    public int purchasedBy(Actor buyer,int purchasePrice) {
         if (Math.random() <= 0.05){
             purchasePrice *= 3;
         }

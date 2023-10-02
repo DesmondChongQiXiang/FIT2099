@@ -59,6 +59,26 @@ public class Broadsword extends WeaponItem implements ActiveSkill, Sellable, Pur
     }
 
     /**
+     * List of allowable actions that the item allows its owner do to other actor.
+     * broadsword can return an attacking action to the other actor.
+     *
+     * @param otherActor the other actor
+     * @param location the location of the other actor
+     * @return a list of actions that contains an AttackAction
+     */
+    @Override
+    public ActionList allowableActions(Actor otherActor, Location location) {
+        ActionList actions = new ActionList();
+        if (otherActor.hasCapability(Status.ENEMY)) {
+            actions.add(new AttackAction(otherActor, location.toString(), this));
+        }
+        if (otherActor.hasCapability(Ability.BUYING)) {
+            actions.add(new SellAction(this));
+        }
+        return actions;
+    }
+
+    /**
      * Decrease the stamina of the owner and update the status after the weapon is activated.
      *
      * @param owner the owner that activate the weapon
@@ -149,25 +169,6 @@ public class Broadsword extends WeaponItem implements ActiveSkill, Sellable, Pur
         this.updateHitRate(80);
     }
 
-    /**
-     * List of allowable actions that the item allows its owner do to other actor.
-     * broadsword can return an attacking action to the other actor.
-     *
-     * @param otherActor the other actor
-     * @param location the location of the other actor
-     * @return a list of actions that contains an AttackAction
-     */
-    @Override
-    public ActionList allowableActions(Actor otherActor, Location location) {
-        ActionList actions = new ActionList();
-        if (otherActor.hasCapability(Status.ENEMY)) {
-            actions.add(new AttackAction(otherActor, location.toString(), this));
-        }
-        if (otherActor.hasCapability(Ability.BUYING)) {
-            actions.add(new SellAction(this));
-        }
-        return actions;
-    }
 
     /**
      * Handles the purchase of the item.
@@ -176,18 +177,16 @@ public class Broadsword extends WeaponItem implements ActiveSkill, Sellable, Pur
      * @return The purchase price of the item.
      */
     @Override
-    public int purchasedBy(Actor actor) {
-
-        if (actor.getBalance() - 250 < 0){
+    public int purchasedBy(Actor actor, int purchasePrice) {
+        if (actor.getBalance() - purchasePrice < 0){
             throw new IllegalStateException("Player's balance is insufficient");
         }
         else{
             if (Math.random() <= 0.95){
                 actor.addItemToInventory(this);
             }
-            actor.deductBalance(250);
+            actor.deductBalance(purchasePrice);
         }
-        int purchasePrice = 250;
         return purchasePrice;
     }
 

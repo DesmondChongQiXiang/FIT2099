@@ -59,10 +59,17 @@ public class Traveller extends Actor {
     public ActionList allowableActions(Actor otherActor, String direction, GameMap map) {
         ActionList actions = new ActionList();
         if(otherActor.hasCapability(Ability.BUYING)){
-            actions.add(new PurchaseAction(otherActor,new HealingVial()));
-            actions.add(new PurchaseAction(otherActor,new RefreshingFlask()));
-            actions.add(new PurchaseAction(otherActor,new Broadsword()));
-            actions.add(new PurchaseAction(otherActor, new GreatKnife()));
+            int healingVialPrice = 100;
+            actions.add(new PurchaseAction(new HealingVial(), healingVialPrice));
+
+            int refreshingFlaskPrice = 75;
+            actions.add(new PurchaseAction(new RefreshingFlask(),refreshingFlaskPrice));
+
+            int broadswordPrice = 250;
+            actions.add(new PurchaseAction(new Broadsword(),broadswordPrice));
+
+            int greatKnifePrice = 300;
+            actions.add(new PurchaseAction(new GreatKnife(),greatKnifePrice));
         }
         return actions;
     }
