@@ -156,7 +156,7 @@ public class GreatKnife extends WeaponItem implements Sellable, Purchasable, Act
 
         for (Exit exit : currentLocation.getExits()) {
             Location destination = exit.getDestination();
-            if (destination.canActorEnter(actor) && destination.canActorEnter(actor)) {
+            if (!destination.containsAnActor() && destination.canActorEnter(actor)) {
                 return destination;
             }
         }
