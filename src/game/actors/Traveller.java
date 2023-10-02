@@ -30,6 +30,7 @@ public class Traveller extends Actor {
      */
     public Traveller() {
         super("Traveller", 'ඞ', 0);
+        this.addCapability(Ability.BUYING);
     }
 
     /**

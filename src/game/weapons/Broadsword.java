@@ -12,6 +12,8 @@ import game.actions.ActivateSkillAction;
 import game.actions.ActiveSkill;
 import game.actions.AttackAction;
 import game.actions.SellAction;
+import game.capabilities.Ability;
+import game.capabilities.Status;
 import game.items.Purchasable;
 import game.items.Sellable;
 
@@ -158,8 +160,12 @@ public class Broadsword extends WeaponItem implements ActiveSkill, Sellable, Pur
     @Override
     public ActionList allowableActions(Actor otherActor, Location location) {
         ActionList actions = new ActionList();
-        actions.add(new AttackAction(otherActor, location.toString(), this));
-        actions.add(new SellAction(this));
+        if (otherActor.hasCapability(Status.ENEMY)) {
+            actions.add(new AttackAction(otherActor, location.toString(), this));
+        }
+        if (otherActor.hasCapability(Ability.BUYING)) {
+            actions.add(new SellAction(this));
+        }
         return actions;
     }
 

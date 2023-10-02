@@ -12,6 +12,7 @@ import edu.monash.fit2099.engine.weapons.WeaponItem;
 import game.actions.ActivateSkillAction;
 import game.actions.AttackAction;
 import game.actions.SellAction;
+import game.capabilities.Ability;
 import game.capabilities.Status;
 import game.items.Purchasable;
 import game.items.Sellable;
@@ -35,19 +36,6 @@ public class GreatKnife extends WeaponItem implements Sellable, Purchasable, Act
     }
 
     /**
-     * List of allowable actions that the item can perform to the current actor.
-     *
-     * @param owner the actor that owns the item
-     * @return a list of actions
-     */
-    @Override
-    public ActionList allowableActions(Actor owner) {
-        ActionList actions = new ActionList();
-        actions.add(new SellAction(this));
-        return actions;
-    }
-
-    /**
      * List of allowable actions that the item allows its owner do to another actor.
      * GreatKnife can return an attacking action to the other actor.
      *
@@ -61,6 +49,9 @@ public class GreatKnife extends WeaponItem implements Sellable, Purchasable, Act
         if (otherActor.hasCapability(Status.ENEMY)) {
             actions.add(new AttackAction(otherActor, location.toString(), this));
             actions.add(new ActivateSkillAction(this,otherActor));
+        }
+        if (otherActor.hasCapability(Ability.BUYING)) {
+            actions.add(new SellAction(this));
         }
         return actions;
     }
