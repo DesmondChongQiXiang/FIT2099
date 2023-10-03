@@ -16,7 +16,7 @@ public class PurchaseAction extends Action {
     private final Purchasable item;
 
     /**
-     * The item's purchase price
+     * The item's original purchase price.
      */
     private final int originalPrice;
 

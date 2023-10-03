@@ -10,14 +10,12 @@ import edu.monash.fit2099.engine.actions.MoveActorAction;
 
 /**
  * A class that figures out a MoveAction that will move the actor one step closer to a target Actor.
- *
- * @author Yoong Qian Xin
  */
 public class FollowBehaviour implements Behaviour {
   private Actor target;
 
   /**
-   * Constructor.
+   * Constructor to initialize the FollowBehaviour.
    *
    * @param subject the Actor to follow
    */
@@ -25,6 +23,13 @@ public class FollowBehaviour implements Behaviour {
     this.target = subject;
   }
 
+  /**
+   * Returns a MoveActorAction to move the actor one step closer to the target Actor.
+   *
+   * @param actor the Actor enacting the behaviour
+   * @param map   the map that actor is currently on
+   * @return a MoveActorAction, or null if no suitable action is possible
+   */
   @Override
   public Action getAction(Actor actor, GameMap map) {
     if(!map.contains(target) || !map.contains(actor))
@@ -54,9 +59,8 @@ public class FollowBehaviour implements Behaviour {
    * Compute the Manhattan distance between two locations.
    *
    * @param a the first location
-   * @param b the first location
-   *
-   * @return the number of steps between a and b if you only move in the four cardinal directions.
+   * @param b the second location
+   * @return the number of steps between a and b if you only move in the four cardinal directions
    */
   private int distance(Location a, Location b) {
     return Math.abs(a.x() - b.x()) + Math.abs(a.y() - b.y());

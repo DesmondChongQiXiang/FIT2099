@@ -5,9 +5,8 @@ import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.weapons.Weapon;
 
-
 /**
- * An Action that attack another actor
+ * An Action that allows an actor to attack another actor.
  */
 public class AttackAction extends Action {
 
@@ -17,20 +16,21 @@ public class AttackAction extends Action {
     private Actor target;
 
     /**
-     * The direction of incoming attack.
+     * The direction of the incoming attack (only used for display purposes).
      */
     private String direction;
 
     /**
-     * Weapon used for the attack
+     * The weapon used for the attack.
      */
     private Weapon weapon;
 
     /**
-     * Constructor.
+     * Constructor for AttackAction.
      *
-     * @param target the Actor to attack
-     * @param direction the direction where the attack should be performed (only used for display purposes)
+     * @param target    The Actor to attack.
+     * @param direction The direction where the attack should be performed (only used for display purposes).
+     * @param weapon    The weapon used for the attack.
      */
     public AttackAction(Actor target, String direction, Weapon weapon) {
         this.target = target;
@@ -39,10 +39,10 @@ public class AttackAction extends Action {
     }
 
     /**
-     * Constructor with intrinsic weapon as default
+     * Constructor for AttackAction with intrinsic weapon as the default.
      *
-     * @param target the actor to attack
-     * @param direction the direction where the attack should be performed (only used for display purposes)
+     * @param target    The Actor to attack.
+     * @param direction The direction where the attack should be performed (only used for display purposes).
      */
     public AttackAction(Actor target, String direction) {
         this.target = target;
@@ -50,13 +50,12 @@ public class AttackAction extends Action {
     }
 
     /**
-     * Allow the Actor to attack
+     * Allows the Actor to attack the target.
      * Overrides Action.execute()
      *
-     * @see Action#execute(Actor, GameMap)
      * @param actor The actor performing the action.
-     * @param map The map the actor is on.
-     * @return a description of the Action suitable for the menu
+     * @param map   The map the actor is on.
+     * @return A description of the Action suitable for the menu.
      */
     @Override
     public String execute(Actor actor, GameMap map) {

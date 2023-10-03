@@ -10,10 +10,13 @@ import game.capabilities.Status;
 import game.items.HealingVial;
 import game.items.Runes;
 
+/**
+ * Class representing the Red Wolf, a type of Enemy actor in the game.
+ */
 public class RedWolf extends Enemy{
 
   /**
-   * Constructor.
+   * Constructor to create a Red Wolf enemy.
    */
   public RedWolf(){
 
@@ -21,12 +24,11 @@ public class RedWolf extends Enemy{
   }
 
   /**
-   * create a individual intrinsic weapon for Red Wolf
-   *
-   * Overrides Actor.getIntrinsicWeapon()
+   * Creates an individual intrinsic weapon for the Red Wolf.
+   * Overrides Actor.getIntrinsicWeapon().
    *
    * @see Actor#getIntrinsicWeapon()
-   * @return a new Intrinsic Weapon
+   * @return A new Intrinsic Weapon for the Red Wolf.
    */
   @Override
   public IntrinsicWeapon getIntrinsicWeapon() {
@@ -34,11 +36,11 @@ public class RedWolf extends Enemy{
   }
 
   /**
-   * Method that can be executed when the Forest Keeper is unconscious due to the action of another actor.
+   * Method that can be executed when the Red Wolf is unconscious due to the action of another actor.
    *
-   * @param actor the perpetrator
-   * @param map where the Forest Keeper fell unconscious
-   * @return a string describing what happened when the Forest Keeper is unconscious
+   * @param actor The perpetrator who caused the Red Wolf to become unconscious.
+   * @param map   The GameMap where the Red Wolf fell unconscious.
+   * @return A string describing what happened when the Red Wolf is unconscious.
    */
   public String unconscious(Actor actor, GameMap map) {
     if (Math.random() <= 0.10){
@@ -50,11 +52,11 @@ public class RedWolf extends Enemy{
   }
 
   /**
-   * Enemy can follow actor that has the HOSTILE_TO_ENEMY capability.
+   * Defines the allowable actions for the Red Wolf based on the presence of hostile actors.
    *
-   * @param otherActor the Actor that might be performing attack
-   * @param direction  String representing the direction of the other Actor
-   * @param map        current GameMap
+   * @param otherActor The Actor that might be performing an attack.
+   * @param direction  String representing the direction of the other Actor.
+   * @param map        The current GameMap.
    * @return A list of actions that is allowed to be executed/performed on the current actor.
    */
   public ActionList allowableActions(Actor otherActor, String direction, GameMap map) {

@@ -8,14 +8,13 @@ import game.items.RefreshingFlask;
 import game.items.Runes;
 import game.capabilities.Status;
 
-
 /**
- * Class representing the HollowSoldier.
+ * Class representing the Hollow Soldier, a type of Enemy actor in the game.
  */
 public class HollowSoldier extends Enemy {
 
   /**
-   * Constructor.
+   * Constructor to create a Hollow Soldier enemy.
    */
   public HollowSoldier(){
 
@@ -23,12 +22,11 @@ public class HollowSoldier extends Enemy {
   }
 
   /**
-   * create a individual intrinsic weapon for Hollow Soldier
-   *
-   * Overrides Actor.getIntrinsicWeapon()
+   * Creates an individual intrinsic weapon for the Hollow Soldier.
+   * Overrides Actor.getIntrinsicWeapon().
    *
    * @see Actor#getIntrinsicWeapon()
-   * @return a new Intrinsic Weapon
+   * @return A new Intrinsic Weapon for the Hollow Soldier.
    */
   @Override
   public IntrinsicWeapon getIntrinsicWeapon() {
@@ -36,10 +34,11 @@ public class HollowSoldier extends Enemy {
   }
 
   /**
-   * Method that can be executed when the actor is unconscious due to the action of another actor
-   * @param actor the perpetrator
-   * @param map where the actor fell unconscious
-   * @return a string describing what happened when the actor is unconscious
+   * Method that can be executed when the Hollow Soldier is unconscious due to the action of another actor.
+   *
+   * @param actor The perpetrator who caused the Hollow Soldier to become unconscious.
+   * @param map   The GameMap where the Hollow Soldier fell unconscious.
+   * @return A string describing what happened when the Hollow Soldier is unconscious.
    */
   @Override
   public String unconscious(Actor actor,GameMap map) {

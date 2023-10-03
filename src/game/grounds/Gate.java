@@ -9,22 +9,25 @@ import game.actions.UnlockGateAction;
 import game.capabilities.Ability;
 
 /**
- * A class that represents Gate.
+ * The `Gate` class represents a gate or door that can be locked or unlocked in the game. It is a type of ground
+ * environment represented by the character '=' on the game map.
+ * Created by:
+ * Modified by:
  */
 public class Gate extends Ground {
 
     /**
-     * Travel Action that used to transfer the actor
+     * Travel Action that is used to transfer an actor through the gate.
      */
     private TravelAction travelAction;
 
     /**
-     * The status of the gate (locked or unlocked)
+     * The status of the gate (locked or unlocked).
      */
     private boolean isUnlocked;
 
     /**
-     * Constructor.
+     * Constructor to create a `Gate` instance. Initially, the gate is locked and has the capability `LOCKED_GATE`.
      */
     public Gate(){
         super('=');
@@ -33,10 +36,10 @@ public class Gate extends Ground {
     }
 
     /**
-     * Returns a boolean whether the gate is unlocked.
+     * Checks whether the gate is unlocked and allows an actor to enter if it is unlocked.
      *
-     * @param actor the Actor that tried to enter
-     * @return a boolean
+     * @param actor the Actor attempting to enter
+     * @return true if the gate is unlocked and the actor can enter, false otherwise
      */
     @Override
     public boolean canActorEnter(Actor actor) {
@@ -44,12 +47,14 @@ public class Gate extends Ground {
     }
 
     /**
-     * If the gate is not unlocked returns an UnlockGateAction, otherwise return a TravelAction.
+     * Returns a list of allowable actions for an actor at this gate location. If the gate is locked, it provides an
+     * `UnlockGateAction` to unlock the gate. If the gate is unlocked, it provides the `TravelAction` to transfer the
+     * actor through the gate.
      *
      * @param actor the Actor acting
      * @param location the current Location
      * @param direction the direction of the Ground from the Actor
-     * @return a collections of Actions that contains either UnlockGateAction or TravelAction
+     * @return a collection of Actions, which may contain an UnlockGateAction or a TravelAction
      */
     @Override
     public ActionList allowableActions(Actor actor, Location location, String direction) {
@@ -64,7 +69,8 @@ public class Gate extends Ground {
     }
 
     /**
-     * Set the travelAction attribute.
+     * Sets the travelAction attribute, which allows an actor to pass through the gate.
+     *
      * @param travelAction a TravelAction that can transfer an actor
      */
     public void addTravelAction(TravelAction travelAction){
@@ -72,7 +78,7 @@ public class Gate extends Ground {
     }
 
     /**
-     * Set the isUnlocked attribute to true.
+     * Unlocks the gate by setting the isUnlocked attribute to true and removing the LOCKED_GATE capability.
      */
     public void unlockGate(){
         isUnlocked = true;

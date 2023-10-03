@@ -1,21 +1,27 @@
 package game.capabilities;
 
-
 /**
- * Use this enum class to represent a status.
- * Example #1: if the player is sleeping, you can attack a Status.SLEEP to the player class
- * Created by:
- * @author Riordan D. Alfredo
+ * Enum representing different status conditions that actors can have in the game.
+ * These statuses can be attached to actor classes to influence their behavior or interactions.
+ *
+ * Example usage:
+ * - To indicate that a player is sleeping, attach Status.SLEEP to the player class.
+ * - To determine if an actor can attack another actor, use Status.HOSTILE_TO_ENEMY capability.
+ * - To identify an enemy actor, use Status.ENEMY.
+ *
+ * @see game.actors.Player
+ * @see game.actors.enemies.Enemy
  */
 public enum Status {
 
     /**
-     * To determine if other actors can attack the enemy.
+     * Status indicating that an actor is hostile and can attack enemies.
      */
     HOSTILE_TO_ENEMY,
+
     /**
-     * To determine if the actor is an enemy.
+     * Status indicating that an actor is an enemy.
      */
-    ENEMY
+    ENEMY,
 
 }

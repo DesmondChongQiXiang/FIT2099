@@ -1,30 +1,42 @@
 package game.capabilities;
 
 /**
- * Use this enum to represent abilities.
- * Example #1: if the player is capable jumping over walls, you can attach Ability.WALL_JUMP to the player class
+ * Enum representing various abilities that actors can possess in the game.
+ * These abilities can be attached to actor classes to enable specific behaviors.
+ *
+ * Example usage:
+ * - To indicate that a player can enter a special floor, attach Ability.ENTER_FLOOR to the player class.
+ * - To check if an actor can unlock a gate with an old key, use Ability.UNLOCK_GATE capability.
+ * - To allow an actor to buy items, attach Ability.BUYING to the actor class.
+ * - To indicate that an actor can enter a void area, use Ability.ENTER_VOID.
+ *
+ * @see Actor
+ * @see game.actors.Player
  */
 public enum Ability {
 
     /**
-     * To indicate that the actor can enter the floor.
+     * Ability indicating that the actor can enter a special floor.
      */
     ENTER_FLOOR,
 
     /**
-     * To indicate if the actor has an old key to unlock the gate.
+     * Ability indicating that the actor can unlock a gate.
      */
     UNLOCK_GATE,
 
+    /**
+     * Ability indicating that a gate is locked.
+     */
     LOCKED_GATE,
 
     /**
-     * To indicate that the actor has the ability to buy items.
+     * Ability indicating that the actor has the ability to buy items.
      */
     BUYING,
 
     /**
-     * To indicate that the actor can enter the floor.
+     * Ability indicating that the actor can enter a void area.
      */
     ENTER_VOID,
 }

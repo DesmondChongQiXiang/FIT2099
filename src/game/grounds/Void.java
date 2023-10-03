@@ -5,16 +5,25 @@ import edu.monash.fit2099.engine.positions.Ground;
 import edu.monash.fit2099.engine.positions.Location;
 import game.capabilities.Ability;
 
+/**
+ * The `Void` class represents a dangerous void space on the game map. It is a type of ground environment
+ * represented by the character '+' on the game map. Stepping on the void space without the 'Ability.ENTER_VOID'
+ * capability will cause an actor to become unconscious.
+ * Created by:
+ * Modified by:
+ */
 public class Void extends Ground{
     /**
-     * Constructor.
+     * Constructor to create a `Void` instance. It is represented by the character '+'.
      */
     public Void() {
         super('+');
     }
 
     /**
-     * Void can kill an actor when the actor step on it
+     * Checks if an actor is on the void space and does not have the 'Ability.ENTER_VOID' capability. If so, it causes
+     * the actor to become unconscious.
+     *
      * @param location The location of the Ground
      */
     @Override

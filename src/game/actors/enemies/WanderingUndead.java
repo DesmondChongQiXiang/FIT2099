@@ -8,22 +8,24 @@ import game.items.HealingVial;
 import game.items.Key;
 import game.items.Runes;
 
+/**
+ * Class representing the Wandering Undead, a type of Enemy actor in the game.
+ */
 public class WanderingUndead extends Enemy {
 
   /**
-   * Constructor.
+   * Constructor to create a Wandering Undead enemy.
    */
   public WanderingUndead() {
     super("Wandering Undead", 't', 100);
   }
 
   /**
-   * create a individual intrinsic weapon for Wandering Undead
-   *
-   * Overrides Actor.getIntrinsicWeapon()
+   * Creates an individual intrinsic weapon for the Wandering Undead.
+   * Overrides Actor.getIntrinsicWeapon().
    *
    * @see Actor#getIntrinsicWeapon()
-   * @return a new Intrinsic Weapon
+   * @return A new Intrinsic Weapon for the Wandering Undead.
    */
   @Override
   public IntrinsicWeapon getIntrinsicWeapon() {
@@ -31,10 +33,11 @@ public class WanderingUndead extends Enemy {
   }
 
   /**
-   * Method that can be executed when the actor is unconscious due to the action of another actor
-   * @param actor the perpetrator
-   * @param map where the actor fell unconscious
-   * @return a string describing what happened when the actor is unconscious
+   * Method that can be executed when the Wandering Undead is unconscious due to the action of another actor.
+   *
+   * @param actor The perpetrator who caused the Wandering Undead to become unconscious.
+   * @param map   The GameMap where the Wandering Undead fell unconscious.
+   * @return A string describing what happened when the Wandering Undead is unconscious.
    */
   @Override
   public String unconscious(Actor actor,GameMap map) {
