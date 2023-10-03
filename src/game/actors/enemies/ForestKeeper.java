@@ -10,22 +10,25 @@ import game.capabilities.Status;
 import game.items.HealingVial;
 import game.items.Runes;
 
+/**
+ * Class representing the Forest Keeper, an enemy actor in the game.
+ */
 public class ForestKeeper extends Enemy {
+
   /**
-   * Constructor.
+   * Constructor to create a Forest Keeper.
    */
   public ForestKeeper(){
     super("Forest Keeper", '8', 125);
   }
 
-
   /**
-   * create a individual intrinsic weapon for Forest Keeper
+   * Create an individual intrinsic weapon for the Forest Keeper.
    *
-   * Overrides Actor.getIntrinsicWeapon()
+   * Overrides Actor.getIntrinsicWeapon().
    *
    * @see Actor#getIntrinsicWeapon()
-   * @return a new Intrinsic Weapon
+   * @return A new Intrinsic Weapon for the Forest Keeper.
    */
   @Override
   public IntrinsicWeapon getIntrinsicWeapon() {
@@ -49,12 +52,12 @@ public class ForestKeeper extends Enemy {
   }
 
   /**
-   * Enemy can follow actor that has the HOSTILE_TO_ENEMY capability.
+   * Enemy can follow an actor that has the HOSTILE_TO_ENEMY capability.
    *
-   * @param otherActor the Actor that might be performing attack
-   * @param direction  String representing the direction of the other Actor
-   * @param map        current GameMap
-   * @return A list of actions that is allowed to be executed/performed on the current actor.
+   * @param otherActor The Actor that might be performing an attack.
+   * @param direction  String representing the direction of the other Actor.
+   * @param map        Current GameMap.
+   * @return A list of actions that are allowed to be executed/performed on the current actor.
    */
   public ActionList allowableActions(Actor otherActor, String direction, GameMap map) {
     ActionList actions = new ActionList();

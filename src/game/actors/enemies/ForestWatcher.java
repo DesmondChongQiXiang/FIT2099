@@ -13,9 +13,12 @@ import game.grounds.Gate;
 import game.items.HealingVial;
 import game.items.Runes;
 
+/**
+ * Class representing the Forest Watcher, a type of Enemy actor in the game.
+ */
 public class ForestWatcher extends Enemy{
     /**
-     * Constructor.
+     * Constructor to create a Forest Watcher enemy.
      */
     public ForestWatcher(){
         super("Forest Watcher", 'Y', 2000);
@@ -23,12 +26,11 @@ public class ForestWatcher extends Enemy{
     }
 
     /**
-     * create a individual intrinsic weapon for Forest Watcher
-     *
-     * Overrides Actor.getIntrinsicWeapon()
+     * Creates an individual intrinsic weapon for the Forest Watcher.
+     * Overrides Actor.getIntrinsicWeapon().
      *
      * @see Actor#getIntrinsicWeapon()
-     * @return a new Intrinsic Weapon
+     * @return A new Intrinsic Weapon for the Forest Watcher.
      */
     @Override
     public IntrinsicWeapon getIntrinsicWeapon() {
@@ -51,11 +53,11 @@ public class ForestWatcher extends Enemy{
     /**
      * At each turn, select a valid action to perform.
      *
-     * @param actions    collection of possible Actions for this Actor
-     * @param lastAction The Action this Actor took last turn. Can do interesting things in conjunction with Action.getNextAction()
-     * @param map        the map containing the Actor
-     * @param display    the I/O object to which messages may be written
-     * @return the valid action that can be performed in that iteration or null if no valid action is found
+     * @param actions    Collection of possible Actions for this Actor.
+     * @param lastAction The Action this Actor took last turn. Can do interesting things in conjunction with Action.getNextAction().
+     * @param map        The map containing the Actor.
+     * @param display    The I/O object to which messages may be written.
+     * @return The valid action that can be performed in that iteration or null if no valid action is found.
      */
     @Override
     public Action playTurn(ActionList actions, Action lastAction, GameMap map, Display display) {
