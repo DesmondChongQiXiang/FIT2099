@@ -2,7 +2,6 @@ package game.weapons;
 
 import edu.monash.fit2099.engine.actions.ActionList;
 import edu.monash.fit2099.engine.actors.Actor;
-import edu.monash.fit2099.engine.actors.ActorLocationsIterator;
 import edu.monash.fit2099.engine.actors.attributes.ActorAttributeOperations;
 import edu.monash.fit2099.engine.actors.attributes.BaseActorAttributes;
 import edu.monash.fit2099.engine.positions.GameMap;
@@ -21,8 +20,13 @@ import game.items.Sellable;
  * The Broadsword class represents a specialized weapon in the game.
  * It extends the WeaponItem class and implements the ActiveSkill, Sellable, and Purchasable interfaces.
  * This weapon has unique capabilities and actions, including a special skill.
+ *
+ * The Broadsword allows its owner to activate a special skill that temporarily boosts damage and hit rate,
+ * but it consumes stamina. The skill can be used in combat with enemy actors.
+ *
+ * Additionally, the Broadsword can be bought and sold, and its purchase price and selling price may vary.
+ * The skill's effects are reverted after a certain number of turns.
  */
-
 public class Broadsword extends WeaponItem implements ActiveSkill, Sellable, Purchasable {
 
     /**
