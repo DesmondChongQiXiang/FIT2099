@@ -1,7 +1,15 @@
 package game.actors.enemies;
 
+import edu.monash.fit2099.engine.actions.Action;
+import edu.monash.fit2099.engine.actions.ActionList;
+import edu.monash.fit2099.engine.actions.DoNothingAction;
 import edu.monash.fit2099.engine.actors.Actor;
-
+import edu.monash.fit2099.engine.actors.Behaviour;
+import edu.monash.fit2099.engine.displays.Display;
+import edu.monash.fit2099.engine.positions.GameMap;
+import game.grounds.Gate;
+import game.items.Runes;
+import game.weather.WeatherControl;
 import edu.monash.fit2099.engine.weapons.IntrinsicWeapon;
 import game.capabilities.Ability;
 
@@ -13,7 +21,7 @@ public class ForestWatcher extends Enemy {
         super("Forest Watcher", 'Y', 2000);
         this.addCapability(Ability.ENTER_VOID);
     }
-
+    private WeatherControl weatherControl;
     /**
      * create a individual intrinsic weapon for Forest Watcher
      * <p>
@@ -39,6 +47,10 @@ public class ForestWatcher extends Enemy {
         map.locationOf(this).addItem(new Runes(5000));
         return super.unconscious(actor, map);
     }
+    public void controlWeather() {
+        // Logic to control weather based on game state
+        // Example: weatherControl.setCurrentWeather("sunny");
+    }
 
     /**
      * At each turn, select a valid action to perform.
@@ -51,6 +63,7 @@ public class ForestWatcher extends Enemy {
      */
     @Override
     public Action playTurn(ActionList actions, Action lastAction, GameMap map, Display display) {
+        controlWeather();
         for (Behaviour behaviour : behaviours.values()) {
             Action action = behaviour.getAction(this, map);
             if(action != null)

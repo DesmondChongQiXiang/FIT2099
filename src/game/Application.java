@@ -22,6 +22,7 @@ import game.items.BloodBerry;
 import game.spawners.*;
 import game.weapons.Broadsword;
 import game.weapons.GiantHammer;
+import game.weather.WeatherControl;
 
 /**
  * The main class to start the game.
@@ -190,6 +191,8 @@ public class Application {
 
         Traveller traveller = new Traveller();
         ancientWoods.at(20,3).addActor(traveller);
+// Create WeatherControl and inject it into ForestWatcher
+        WeatherControl weatherControl = new WeatherControl();
 
         ForestWatcher forestWatcher = new ForestWatcher();
         abxervyer.at((abxervyer.getXRange().max())/2,(abxervyer.getYRange().max())/2).addActor(forestWatcher);

@@ -2,6 +2,8 @@ package game.spawners;
 
 import edu.monash.fit2099.engine.positions.Location;
 import game.actors.enemies.RedWolf;
+import game.weather.WeatherControl;
+
 
 public class RedWolfSpawner implements Spawner{
 
@@ -11,11 +13,14 @@ public class RedWolfSpawner implements Spawner{
    * @param location the location of spawn the enemy
    */
   @Override
-  public void spawn(Location location){
-    if (Math.random() <= 0.30 && !location.containsAnActor()) {
+  public void spawn(Location location, WeatherControl weatherControl){
+    double spawnRate = "sunny".equals(weatherControl.getCurrentWeather()) ? 0.30 : 0.45;
+    if (Math.random() <= spawnRate && !location.containsAnActor()) {
       location.addActor(new RedWolf());
     }
   }
+
+
 
 
 }
