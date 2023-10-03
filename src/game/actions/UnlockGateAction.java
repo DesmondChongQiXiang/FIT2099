@@ -7,19 +7,19 @@ import game.capabilities.Ability;
 import game.grounds.Gate;
 
 /**
- * An Action that unlock the gate
+ * An Action that allows an actor to unlock a gate.
  */
 public class UnlockGateAction extends Action {
 
     /**
-     * The target gate
+     * The target gate to unlock.
      */
     private final Gate gate;
 
     /**
-     * Constructor to create an Action that will unlock a gate
+     * Constructor to create an Action that will unlock a gate.
      *
-     * @param gate the target gate we are unlocking
+     * @param gate The target gate to unlock.
      */
     public UnlockGateAction(Gate gate){
         this.gate = gate;

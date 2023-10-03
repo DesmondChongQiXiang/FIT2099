@@ -8,10 +8,9 @@ import edu.monash.fit2099.engine.positions.Location;
 import game.capabilities.Ability;
 
 /**
- * An Action that actor can travel from one game map to another
- * Use this to do travel action
+ * An Action that allows an actor to travel from one game map to another.
+ * Use this to perform travel actions.
  */
-
 public class TravelAction extends Action {
 
     /**
@@ -19,14 +18,15 @@ public class TravelAction extends Action {
      */
     private final Location moveToLocation;
     /**
-     * The target map
+     * The name of the target map.
      */
     private final String mapName;
 
     /**
-     * Constructor to create an Action that will make the actor travel from one game map to another
+     * Constructor to create an Action that will make the actor travel from one game map to another.
      *
-     * @param moveToLocation the location that the actor will be transferred to
+     * @param moveToLocation The location that the actor will be transferred to.
+     * @param map        The name of the target map.
      */
     public TravelAction(Location moveToLocation, String map){
         this.moveToLocation = moveToLocation;
