@@ -5,15 +5,15 @@ import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.actors.attributes.BaseActorAttributes;
 import edu.monash.fit2099.engine.items.Item;
 import edu.monash.fit2099.engine.positions.Location;
-import game.actions.ActivateSkillAction;
-import game.actions.AttackAction;
 import game.actions.ConsumeAction;
 import game.actions.SellAction;
 import game.capabilities.Ability;
-import game.capabilities.Status;
+
 
 /**
- * A class that represents HealingVial that can increase the health of an actor.
+ * A class that represents a Healing Vial that can increase the health of an actor.
+ * Created by:
+ * Modified by:
  */
 public class HealingVial extends Item implements Consumable,Purchasable,Sellable {
 
@@ -30,7 +30,6 @@ public class HealingVial extends Item implements Consumable,Purchasable,Sellable
      * They must be picked up by the player before being consumed.
      *
      * @param actor the actor who owns the HealingVial item
-     *
      * @return a description of what happened (the result of the action being performed) that can be displayed to the user.
      */
     @Override
@@ -43,12 +42,11 @@ public class HealingVial extends Item implements Consumable,Purchasable,Sellable
     }
 
     /**
-     * List of allowable actions that the Healing Vial can perform to the current actor.
+     * List of allowable actions that the Healing Vial can perform on the current actor.
      * The Player can perform ConsumeAction on HealingVial.
      *
      * @param owner the actor that owns the item
-     *
-     * @return a list of Actions for actor acts on the HealingVials item
+     * @return a list of Actions for actor acts on the HealingVial item
      */
     @Override
     public ActionList allowableActions(Actor owner) {
@@ -58,10 +56,10 @@ public class HealingVial extends Item implements Consumable,Purchasable,Sellable
     }
 
     /**
-     * Returns the allowable actions that can be performed with this weapon.
+     * Returns the allowable actions that can be performed with this item.
      *
      * @param otherActor The actor performing the action.
-     * @param location The location where the action takes place.
+     * @param location   The location where the action takes place.
      * @return A list of allowable actions.
      */
     @Override
@@ -73,7 +71,14 @@ public class HealingVial extends Item implements Consumable,Purchasable,Sellable
         return actions;
     }
 
-
+    /**
+     * Handles the purchase of the HealingVial by an actor.
+     *
+     * @param buyer         The actor buying the item.
+     * @param purchasePrice The purchase price of the item.
+     * @return The price at which the item was purchased.
+     * @throws IllegalStateException if the buyer's balance is insufficient.
+     */
     @Override
     public int purchasedBy(Actor buyer, int purchasePrice) {
         if (Math.random() <= 0.25){
@@ -89,6 +94,12 @@ public class HealingVial extends Item implements Consumable,Purchasable,Sellable
         return purchasePrice;
     }
 
+    /**
+     * Handles the sale of the HealingVial by an actor.
+     *
+     * @param actor The actor selling the item.
+     * @return The price at which the item was sold.
+     */
     @Override
     public int soldBy(Actor actor){
         int sellingPrice = 0;
