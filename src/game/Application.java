@@ -193,7 +193,6 @@ public class Application {
 
         ForestWatcher forestWatcher = new ForestWatcher();
         abxervyer.at((abxervyer.getXRange().max())/2,(abxervyer.getYRange().max())/2).addActor(forestWatcher);
-
         world.run();
     }
 }

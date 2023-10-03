@@ -38,6 +38,5 @@ public enum Ability {
     /**
      * Ability indicating that the actor can enter a void area.
      */
-    ENTER_VOID
-
+    ENTER_VOID,
 }
