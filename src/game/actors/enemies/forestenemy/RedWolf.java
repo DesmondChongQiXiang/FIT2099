@@ -1,26 +1,28 @@
-package game.actors.enemies;
+package game.actors.enemies.forestenemy;
 
 import edu.monash.fit2099.engine.actions.ActionList;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.weapons.IntrinsicWeapon;
 import game.actions.AttackAction;
+import game.actors.enemies.Enemy;
 import game.behaviours.FollowBehaviour;
 import game.capabilities.Status;
 import game.items.HealingVial;
 import game.items.Runes;
 
-public class ForestKeeper extends Enemy {
+public class RedWolf extends ForestEnemy {
+
   /**
    * Constructor.
    */
-  public ForestKeeper(){
-    super("Forest Keeper", '8', 125);
+  public RedWolf(){
+
+    super("Red Wolf", 'r', 25);
   }
 
-
   /**
-   * create a individual intrinsic weapon for Forest Keeper
+   * create a individual intrinsic weapon for Red Wolf
    *
    * Overrides Actor.getIntrinsicWeapon()
    *
@@ -29,7 +31,7 @@ public class ForestKeeper extends Enemy {
    */
   @Override
   public IntrinsicWeapon getIntrinsicWeapon() {
-    return new IntrinsicWeapon(25, "punches", 75);
+    return new IntrinsicWeapon(15, "bites", 80);
   }
 
   /**
@@ -40,31 +42,11 @@ public class ForestKeeper extends Enemy {
    * @return a string describing what happened when the Forest Keeper is unconscious
    */
   public String unconscious(Actor actor, GameMap map) {
-    if (Math.random() <= 0.20){
+    if (Math.random() <= 0.10){
       map.locationOf(this).addItem(new HealingVial());
     }
 
-    map.locationOf(this).addItem(new Runes(50));
+    map.locationOf(this).addItem(new Runes(25));
     return super.unconscious(actor, map);
   }
-
-  /**
-   * Enemy can follow actor that has the HOSTILE_TO_ENEMY capability.
-   *
-   * @param otherActor the Actor that might be performing attack
-   * @param direction  String representing the direction of the other Actor
-   * @param map        current GameMap
-   * @return A list of actions that is allowed to be executed/performed on the current actor.
-   */
-  public ActionList allowableActions(Actor otherActor, String direction, GameMap map) {
-    ActionList actions = new ActionList();
-    if (otherActor.hasCapability(Status.HOSTILE_TO_ENEMY)) {
-      this.behaviours.put(998, new FollowBehaviour(otherActor));
-      actions.add(new AttackAction(this, direction));
-    }
-
-    return actions;
-  }
-
-
 }

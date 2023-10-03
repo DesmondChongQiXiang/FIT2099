@@ -1,29 +1,25 @@
-package game.actors.enemies;
+package game.actors.enemies.villageenemy;
 
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.weapons.IntrinsicWeapon;
-import game.items.HealingVial;
-import game.items.RefreshingFlask;
-import game.items.Runes;
+import game.actors.enemies.Enemy;
 import game.capabilities.Status;
+import game.items.HealingVial;
+import game.items.Key;
+import game.items.Runes;
 
-
-/**
- * Class representing the HollowSoldier.
- */
-public class HollowSoldier extends Enemy {
+public class WanderingUndead extends VillageEnemy {
 
   /**
    * Constructor.
    */
-  public HollowSoldier(){
-
-    super("Hollow Soldier", '&', 200);
+  public WanderingUndead() {
+    super("Wandering Undead", 't', 100);
   }
 
   /**
-   * create a individual intrinsic weapon for Hollow Soldier
+   * create a individual intrinsic weapon for Wandering Undead
    *
    * Overrides Actor.getIntrinsicWeapon()
    *
@@ -32,7 +28,7 @@ public class HollowSoldier extends Enemy {
    */
   @Override
   public IntrinsicWeapon getIntrinsicWeapon() {
-    return new IntrinsicWeapon(50, "whacks", 50);
+    return new IntrinsicWeapon(30, "whacks", 50);
   }
 
   /**
@@ -43,15 +39,15 @@ public class HollowSoldier extends Enemy {
    */
   @Override
   public String unconscious(Actor actor,GameMap map) {
-    if(Math.random() <=  0.30){
-      map.locationOf(this).addItem(new RefreshingFlask());
+    if (Math.random() <= 0.25) {
+      map.locationOf(this).addItem(new Key());
     }
 
-    if (Math.random() <= 0.20){
+    if (Math.random() <= 0.20) {
       map.locationOf(this).addItem(new HealingVial());
     }
 
-    map.locationOf(this).addItem(new Runes(100));
+    map.locationOf(this).addItem(new Runes(50));
     return super.unconscious(map);
   }
 
