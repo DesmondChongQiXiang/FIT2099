@@ -4,14 +4,15 @@ import edu.monash.fit2099.engine.positions.Location;
 import game.actors.enemies.WanderingUndead;
 
 /**
- * A class that represents spawner of Wandering Undead
+ * A spawner class responsible for spawning the Wandering Undead enemy in the game world.
+ * The Wandering Undead has a 25% chance of spawning at the specified location if it does not already contain an actor.
  */
 public class WanderingUndeadSpawner implements Spawner{
 
   /**
-   * Spawn the Wandering Undead enemy
+   * Spawn the Wandering Undead enemy at the specified location if conditions are met.
    *
-   * @param location the location of spawn the enemy
+   * @param location The location where the enemy is potentially spawned.
    */
   @Override
   public void spawn(Location location){
