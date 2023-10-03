@@ -8,7 +8,7 @@ import game.actors.enemies.Enemy;
 import game.behaviours.FollowBehaviour;
 import game.capabilities.Status;
 
-public class ForestEnemy extends Enemy {
+public abstract class ForestEnemy extends Enemy {
     /**
      * Constructor.
      */
