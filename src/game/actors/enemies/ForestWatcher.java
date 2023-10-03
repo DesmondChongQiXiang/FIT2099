@@ -1,34 +1,26 @@
 package game.actors.enemies;
 
-import edu.monash.fit2099.engine.actions.Action;
-import edu.monash.fit2099.engine.actions.ActionList;
-import edu.monash.fit2099.engine.actions.DoNothingAction;
 import edu.monash.fit2099.engine.actors.Actor;
-import edu.monash.fit2099.engine.actors.Behaviour;
-import edu.monash.fit2099.engine.displays.Display;
-import edu.monash.fit2099.engine.positions.GameMap;
+
 import edu.monash.fit2099.engine.weapons.IntrinsicWeapon;
 import game.capabilities.Ability;
-import game.grounds.Gate;
-import game.items.HealingVial;
-import game.items.Runes;
 
-public class ForestWatcher extends Enemy{
+public class ForestWatcher extends Enemy {
     /**
      * Constructor.
      */
-    public ForestWatcher(){
+    public ForestWatcher() {
         super("Forest Watcher", 'Y', 2000);
         this.addCapability(Ability.ENTER_VOID);
     }
 
     /**
      * create a individual intrinsic weapon for Forest Watcher
-     *
+     * <p>
      * Overrides Actor.getIntrinsicWeapon()
      *
-     * @see Actor#getIntrinsicWeapon()
      * @return a new Intrinsic Weapon
+     * @see Actor#getIntrinsicWeapon()
      */
     @Override
     public IntrinsicWeapon getIntrinsicWeapon() {
