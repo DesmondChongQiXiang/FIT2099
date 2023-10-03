@@ -11,6 +11,7 @@ import edu.monash.fit2099.engine.positions.World;
 import game.actions.TravelAction;
 import game.actors.Player;
 import game.actors.Traveller;
+import game.actors.enemies.ForestWatcher;
 import game.displays.FancyMessage;
 import game.grounds.*;
 import game.grounds.Void;
@@ -177,6 +178,8 @@ public class Application {
         ancientWoodsGate2.addTravelAction(new TravelAction(abxervyer.at(39, 13), "Abxervyer, The Forest Watcher"));
         ancientWoods.at(0, 6).setGround(ancientWoodsGate2);
 
+        abxervyer.at(39, 12).addItem(giantHammer);
+
         for (String line : FancyMessage.TITLE.split("\n")) {
             new Display().println(line);
             try {
@@ -192,6 +195,8 @@ public class Application {
         Traveller traveller = new Traveller();
         ancientWoods.at(20,3).addActor(traveller);
 
+        ForestWatcher forestWatcher = new ForestWatcher();
+        abxervyer.at((abxervyer.getXRange().max())/2,(abxervyer.getYRange().max())/2).addActor(forestWatcher);
         world.run();
     }
 }
