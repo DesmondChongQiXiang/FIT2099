@@ -27,14 +27,16 @@ public class ForestWatcher extends Enemy {
 
     private int turnCount;
     private WeatherManager weatherManager;
+    private Gate abxyverGate;
     /**
      * Constructor.
      */
-    public ForestWatcher(WeatherManager weatherManager) {
+    public ForestWatcher(WeatherManager weatherManager, Gate abxyverGate) {
         super("Forest Watcher", 'Y', 2000);
         this.addCapability(Ability.ENTER_VOID);
         this.turnCount = 0;
         this.weatherManager = weatherManager;
+        this.abxyverGate = abxyverGate;
     }
 
     /**
@@ -58,7 +60,7 @@ public class ForestWatcher extends Enemy {
      * @return a string describing what happened when the Forest Watcher is unconscious
      */
     public String unconscious(Actor actor, GameMap map) {
-        map.locationOf(this).setGround(new Gate());
+        map.locationOf(this).setGround(abxyverGate);
         map.locationOf(this).addItem(new Runes(5000));
         return super.unconscious(actor, map);
     }
