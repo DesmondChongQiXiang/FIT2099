@@ -17,5 +17,13 @@ public class RedWolfSpawner implements ForestEnemySpawner {
     return new RedWolf();
   }
 
+  @Override
+  public void sunnyMode() {
+    
+  }
 
+  @Override
+  public void rainyMode() {
+
+  }
 }

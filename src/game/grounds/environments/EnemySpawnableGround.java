@@ -10,12 +10,12 @@ public abstract class EnemySpawnableGround extends Ground {
   /**
    * the chance of spawn an enemy
    */
-  private int spawnRate;
+  protected int spawnRate;
 
   /**
    * the spawner of enemy
    */
-  private Spawner spawner;
+  protected Spawner spawner;
 
   /**
    * Constructor.
@@ -37,4 +37,7 @@ public abstract class EnemySpawnableGround extends Ground {
     }
   }
 
+  public void setSpawnRate(int spawnRate) {
+    this.spawnRate = spawnRate;
+  }
 }

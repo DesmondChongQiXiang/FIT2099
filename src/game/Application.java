@@ -1,5 +1,6 @@
 package game;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -21,6 +22,7 @@ import game.grounds.environments.forestenemyspawnableground.Hut;
 import game.grounds.environments.villageenemyspawnableground.AbandonedVillageGraveyard;
 import game.grounds.environments.villageenemyspawnableground.BurialGroundGraveyard;
 import game.items.BloodBerry;
+import game.spawners.forestenemyspawner.ForestEnemySpawner;
 import game.spawners.forestenemyspawner.ForestKeeperSpawner;
 import game.spawners.forestenemyspawner.RedWolfSpawner;
 import game.spawners.villageenemyspawner.HollowSoldierSpawner;
@@ -165,10 +167,26 @@ public class Application {
         GameMap abxervyer = new GameMap(abxervyerFactory, abxervyerMap);
         world.addGameMap(abxervyer);
 
-        ForestEnemySpawnableGround hut1 = new Hut(new ForestKeeperSpawner();
-        ForestEnemySpawnableGround hut2 = new Hut(new ForestKeeperSpawner();
-        ForestEnemySpawnableGround bush1 = new Bushes(new RedWolfSpawner());
-        ForestEnemySpawnableGround bush2 = new Bushes(new RedWolfSpawner());
+        ForestEnemySpawner forestKeeperSpawner1 = new ForestKeeperSpawner();
+        ForestEnemySpawner forestKeeperSpawner2 = new ForestKeeperSpawner();
+        ForestEnemySpawner redWolfSpawner1 = new RedWolfSpawner();
+        ForestEnemySpawner redWolfSpawner2 = new RedWolfSpawner();
+        ForestEnemySpawnableGround hut1 = new Hut(forestKeeperSpawner1);
+        ForestEnemySpawnableGround hut2 = new Hut(forestKeeperSpawner2);
+        ForestEnemySpawnableGround bush1 = new Bushes(redWolfSpawner1);
+        ForestEnemySpawnableGround bush2 = new Bushes(redWolfSpawner2);
+
+        ArrayList<ForestEnemySpawner> forestEnemySpawnerList = new ArrayList<>();
+        ArrayList<ForestEnemySpawnableGround> forestEnemySpawnableGroundList = new ArrayList<>();
+        forestEnemySpawnerList.add(forestKeeperSpawner1);
+        forestEnemySpawnerList.add(forestKeeperSpawner2);
+        forestEnemySpawnerList.add(redWolfSpawner1);
+        forestEnemySpawnerList.add(redWolfSpawner2);
+        forestEnemySpawnableGroundList.add(hut1);
+        forestEnemySpawnableGroundList.add(hut2);
+        forestEnemySpawnableGroundList.add(bush1);
+        forestEnemySpawnableGroundList.add(bush2);
+
         abxervyer.at(10, 19).setGround(hut1);
         abxervyer.at(32, 0).setGround(hut2);
         abxervyer.at(11, 13).setGround(bush1);
@@ -177,7 +195,6 @@ public class Application {
         Gate ancientWoodsGate2 = new Gate();
         ancientWoodsGate2.addTravelAction(new TravelAction(abxervyer.at(39, 13), "Abxervyer, The Forest Watcher"));
         ancientWoods.at(0, 6).setGround(ancientWoodsGate2);
-
 
         GiantHammer giantHammer = new GiantHammer();
         abxervyer.at(39, 12).addItem(giantHammer);
@@ -197,7 +214,7 @@ public class Application {
         Traveller traveller = new Traveller();
         ancientWoods.at(20,3).addActor(traveller);
 
-        ForestWatcher forestWatcher = new ForestWatcher();
+        ForestWatcher forestWatcher = new ForestWatcher(forestEnemySpawnerList,forestEnemySpawnableGroundList);
         abxervyer.at((abxervyer.getXRange().max())/2,(abxervyer.getYRange().max())/2).addActor(forestWatcher);
         world.run();
     }
