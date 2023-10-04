@@ -31,15 +31,13 @@ public class Player extends Actor {
      * @param displayChar Character to represent the player in the UI.
      * @param hitPoints  Player's starting number of hitpoints.
      * @param stamina    Player's starting stamina.
-     * @param mana       Player's starting mana.
      */
-    public Player(String name, char displayChar, int hitPoints, int stamina, int mana) {
+    public Player(String name, char displayChar, int hitPoints, int stamina) {
         super(name, displayChar, hitPoints);
         this.addCapability(Status.HOSTILE_TO_ENEMY);
         this.addCapability(Ability.ENTER_FLOOR);
         this.addCapability(Ability.BUYING);
         this.addAttribute(BaseActorAttributes.STAMINA, new BaseActorAttribute(stamina));
-        this.addCapability(Ability.UNLOCK_GATE);
     }
 
     /**
