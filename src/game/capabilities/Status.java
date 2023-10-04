@@ -10,7 +10,6 @@ package game.capabilities;
  * - To identify an enemy actor, use Status.ENEMY.
  *
  * @see game.actors.Player
- * @see game.actors.enemi.Enemy
  */
 public enum Status {
 

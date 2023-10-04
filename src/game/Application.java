@@ -16,6 +16,7 @@ import game.displays.FancyMessage;
 import game.grounds.*;
 import game.grounds.Void;
 import game.grounds.environments.forestenemyspawnableground.Bushes;
+import game.grounds.environments.forestenemyspawnableground.ForestEnemySpawnableGround;
 import game.grounds.environments.forestenemyspawnableground.Hut;
 import game.grounds.environments.villageenemyspawnableground.AbandonedVillageGraveyard;
 import game.grounds.environments.villageenemyspawnableground.BurialGroundGraveyard;
@@ -164,11 +165,14 @@ public class Application {
         GameMap abxervyer = new GameMap(abxervyerFactory, abxervyerMap);
         world.addGameMap(abxervyer);
 
-
-        abxervyer.at(10, 19).setGround(new Hut(new ForestKeeperSpawner()));
-        abxervyer.at(32, 0).setGround(new Hut(new ForestKeeperSpawner()));
-        abxervyer.at(11, 13).setGround(new Bushes(new RedWolfSpawner()));
-        abxervyer.at(36, 18).setGround(new Bushes(new RedWolfSpawner()));
+        ForestEnemySpawnableGround hut1 = new Hut(new ForestKeeperSpawner();
+        ForestEnemySpawnableGround hut2 = new Hut(new ForestKeeperSpawner();
+        ForestEnemySpawnableGround bush1 = new Bushes(new RedWolfSpawner());
+        ForestEnemySpawnableGround bush2 = new Bushes(new RedWolfSpawner());
+        abxervyer.at(10, 19).setGround(hut1);
+        abxervyer.at(32, 0).setGround(hut2);
+        abxervyer.at(11, 13).setGround(bush1);
+        abxervyer.at(36, 18).setGround(bush2);
 
         Gate ancientWoodsGate2 = new Gate();
         ancientWoodsGate2.addTravelAction(new TravelAction(abxervyer.at(39, 13), "Abxervyer, The Forest Watcher"));
@@ -193,7 +197,7 @@ public class Application {
         Traveller traveller = new Traveller();
         ancientWoods.at(20,3).addActor(traveller);
 
-        ForestWatcher forestWatcher = new ForestWatcher();
+        ForestWatcher forestWatcher = new ForestWatcher(hut1);
         abxervyer.at((abxervyer.getXRange().max())/2,(abxervyer.getYRange().max())/2).addActor(forestWatcher);
         world.run();
     }
