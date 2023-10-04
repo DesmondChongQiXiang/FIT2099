@@ -1,10 +1,12 @@
 package game.grounds.environments.villageenemyspawnableground;
 
-import game.spawners.villageenemyspawner.HollowSoldierSpawner;
-import game.spawners.villageenemyspawner.VillageEnemySpawner;
+import game.actors.enemies.forestenemy.ForestEnemy;
+import game.actors.enemies.villageenemy.HollowSoldier;
+import game.actors.enemies.villageenemy.VillageEnemy;
+import game.spawners.Spawner;
 
-public class BurialGroundGraveyard extends VillageEnemySpawnableGround{
-    public BurialGroundGraveyard(HollowSoldierSpawner hollowSoldierSpawner){
+public class BurialGroundGraveyard<H extends HollowSoldier> extends VillageEnemySpawnableGround<H>{
+    public BurialGroundGraveyard(Spawner<H> hollowSoldierSpawner){
         super('n',10,hollowSoldierSpawner);
     }
 }

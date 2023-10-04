@@ -1,13 +1,14 @@
 package game.grounds.environments.villageenemyspawnableground;
 
-import game.spawners.villageenemyspawner.WanderingUndeadSpawner;
+import game.actors.enemies.villageenemy.WanderingUndead;
+import game.spawners.Spawner;
 
-public class AbandonedVillageGraveyard extends VillageEnemySpawnableGround {
+public class AbandonedVillageGraveyard<W extends WanderingUndead> extends VillageEnemySpawnableGround<W> {
 
     /**
      * Constructor.
      */
-    public AbandonedVillageGraveyard(WanderingUndeadSpawner wanderingUndeadSpawner){
+    public AbandonedVillageGraveyard(Spawner<W> wanderingUndeadSpawner){
         super('n',25,wanderingUndeadSpawner);
     }
 }

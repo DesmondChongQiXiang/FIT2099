@@ -5,7 +5,7 @@ import edu.monash.fit2099.engine.positions.Location;
 import game.actors.enemies.Enemy;
 import game.spawners.Spawner;
 
-public abstract class EnemySpawnableGround extends Ground {
+public abstract class EnemySpawnableGround<E extends Enemy> extends Ground {
 
   /**
    * the chance of spawn an enemy
@@ -15,7 +15,7 @@ public abstract class EnemySpawnableGround extends Ground {
   /**
    * the spawner of enemy
    */
-  protected Spawner spawner;
+  protected Spawner<E> spawner;
 
   /**
    * Constructor.
@@ -32,7 +32,7 @@ public abstract class EnemySpawnableGround extends Ground {
    */
   @Override
   public void tick(Location location) {
-    if (Math.random() <= ((double)spawnRate/100) && !location.containsAnActor()) {
+    if (Math.random() <= ((double) spawnRate / 100) && !location.containsAnActor()) {
       location.addActor(spawner.spawn());
     }
   }

@@ -1,32 +1,34 @@
 package game.grounds.environments.forestenemyspawnableground;
 
 import game.actors.enemies.Enemy;
+import game.actors.enemies.forestenemy.ForestEnemy;
 import game.actors.enemies.forestenemy.ForestKeeper;
-import game.spawners.forestenemyspawner.ForestEnemySpawner;
-import game.spawners.forestenemyspawner.ForestKeeperSpawner;
+import game.actors.enemies.forestenemy.RedWolf;
+import game.actors.enemies.villageenemy.HollowSoldier;
+import game.spawners.Spawner;
 
-public class Hut extends ForestEnemySpawnableGround {
+public class Hut<F extends ForestKeeper> extends ForestEnemySpawnableGround<F> {
 
   /**
    * Constructor.
    */
-  public Hut(ForestEnemySpawner forestKeeperSpawner){
+  public Hut(Spawner<F> forestKeeperSpawner){
     super('h', 15,forestKeeperSpawner);
   }
 
   @Override
-  public void sunnyMode(){
+  public void sunnyMode() {
     super.setSpawnRate(30);
-    for (Enemy enemy : forestEnemyList){
-      enemy.sunnyMode();
+    for(ForestEnemy forestEnemy: forestEnemyList){
+      forestEnemy.sunnyMode();
     }
   }
 
   @Override
-  public void rainyMode(){
+  public void rainyMode() {
     super.setSpawnRate(15);
-    for (Enemy enemy : forestEnemyList){
-      enemy.rainyMode();
+    for(ForestEnemy forestEnemy: forestEnemyList){
+      forestEnemy.rainyMode();
     }
   }
 }

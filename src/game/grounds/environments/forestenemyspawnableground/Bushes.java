@@ -1,31 +1,31 @@
 package game.grounds.environments.forestenemyspawnableground;
 
-import game.actors.enemies.Enemy;
-import game.spawners.forestenemyspawner.ForestEnemySpawner;
-import game.spawners.forestenemyspawner.RedWolfSpawner;
+import game.actors.enemies.forestenemy.ForestEnemy;
+import game.actors.enemies.forestenemy.RedWolf;
+import game.spawners.Spawner;
 
-public class Bushes extends ForestEnemySpawnableGround {
+public class Bushes<R extends RedWolf> extends ForestEnemySpawnableGround<R> {
 
   /**
    * Constructor.
    */
-  public Bushes(ForestEnemySpawner redWolfSpawner) {
-    super('m', 30, redWolfSpawner);
+  public Bushes(Spawner<R> redWolfSpawner){
+    super('m', 30,redWolfSpawner);
   }
 
   @Override
   public void sunnyMode() {
     super.setSpawnRate(30);
-    for (Enemy enemy : forestEnemyList){
-      enemy.sunnyMode();
+    for(ForestEnemy forestEnemy:forestEnemyList){
+      forestEnemy.sunnyMode();
     }
   }
 
   @Override
   public void rainyMode() {
     super.setSpawnRate(45);
-    for (Enemy enemy : forestEnemyList){
-      enemy.rainyMode();
+    for(ForestEnemy forestEnemy:forestEnemyList){
+      forestEnemy.rainyMode();
     }
   }
 }
