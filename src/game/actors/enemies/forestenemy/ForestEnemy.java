@@ -33,4 +33,8 @@ public abstract class ForestEnemy extends Enemy {
 
         return actions;
     }
+
+    public abstract void sunnyMode();
+
+    public abstract void rainyMode();
 }

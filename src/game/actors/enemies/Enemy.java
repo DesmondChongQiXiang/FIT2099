@@ -52,4 +52,6 @@ public abstract class Enemy extends Actor {
         }
         return new DoNothingAction();
     }
+
+
 }

@@ -49,4 +49,14 @@ public class RedWolf extends ForestEnemy {
     map.locationOf(this).addItem(new Runes(25));
     return super.unconscious(actor, map);
   }
+
+  @Override
+  public void sunnyMode(){
+    this.updateDamageMultiplier(3);
+  }
+
+  @Override
+  public void rainyMode(){
+    this.updateDamageMultiplier(1);
+  }
 }

@@ -48,4 +48,14 @@ public class ForestKeeper extends ForestEnemy {
     map.locationOf(this).addItem(new Runes(50));
     return super.unconscious(actor, map);
   }
+
+  @Override
+  public void sunnyMode(){
+
+  }
+
+  @Override
+  public void rainyMode(){
+    this.heal(10);
+  }
 }

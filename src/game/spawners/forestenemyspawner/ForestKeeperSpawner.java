@@ -17,4 +17,12 @@ public class ForestKeeperSpawner implements ForestEnemySpawner {
   public Enemy spawn(){
     return new ForestKeeper();
   }
+
+  @Override
+  public void sunnyMode() {
+  }
+
+  @Override
+  public void rainyMode() {
+  }
 }
