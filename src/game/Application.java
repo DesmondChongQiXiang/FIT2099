@@ -14,7 +14,7 @@ import game.actors.Player;
 import game.actors.Traveller;
 import game.actors.enemies.forestenemy.ForestEnemy;
 import game.actors.enemies.forestenemy.ForestKeeper;
-import game.actors.enemies.forestenemy.ForestWatcher;
+import game.actors.enemies.ForestWatcher;
 import game.actors.enemies.forestenemy.RedWolf;
 import game.actors.enemies.villageenemy.HollowSoldier;
 import game.actors.enemies.villageenemy.WanderingUndead;
@@ -29,7 +29,9 @@ import game.grounds.environments.villageenemyspawnableground.BurialGroundGraveya
 import game.items.BloodBerry;
 import game.weapons.Broadsword;
 import game.weapons.GiantHammer;
+import game.weathers.Weather;
 import game.weathers.WeatherControllable;
+import game.weathers.WeatherManager;
 
 /**
  * The main class to start the game.
@@ -210,7 +212,8 @@ public class Application {
         Traveller traveller = new Traveller();
         ancientWoods.at(20,3).addActor(traveller);
 
-        ForestWatcher forestWatcher = new ForestWatcher(forestEnemySpawnableGroundList);
+        WeatherManager weatherManager = new WeatherManager(Weather.SUNNY,forestEnemySpawnableGroundList);
+        ForestWatcher forestWatcher = new ForestWatcher(weatherManager);
         abxervyer.at((abxervyer.getXRange().max())/2,(abxervyer.getYRange().max())/2).addActor(forestWatcher);
         world.run();
     }
