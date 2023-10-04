@@ -12,7 +12,7 @@ import game.capabilities.Ability;
 import game.grounds.Gate;
 import game.grounds.environments.forestenemyspawnableground.ForestEnemySpawnableGround;
 import game.items.Runes;
-import game.spawners.forestenemyspawner.ForestEnemySpawner;
+
 import game.weathers.Weather;
 
 import java.util.ArrayList;
@@ -21,19 +21,17 @@ import java.util.ArrayList;
 public class ForestWatcher extends ForestEnemy {
 
     private int turnCount;
-    private ArrayList<ForestEnemySpawner> forestEnemySpawnerList;
-    private ArrayList<ForestEnemySpawnableGround> forestEnemySpawnableGroundList;
+    private ArrayList<ForestEnemySpawnableGround<ForestEnemy>> forestEnemySpawnableGroundList;
     private Weather currentWeather;
     /**
      * Constructor.
      */
-    public ForestWatcher(ArrayList<ForestEnemySpawner> forestEnemySpawnerList, ArrayList<ForestEnemySpawnableGround> forestEnemySpawnableGroundList) {
+    public ForestWatcher(ArrayList<ForestEnemySpawnableGround<ForestEnemy>> forestEnemySpawnableGroundList) {
         super("Forest Watcher", 'Y', 2000);
         this.addCapability(Ability.ENTER_VOID);
         this.turnCount = 0;
-        this.forestEnemySpawnerList = forestEnemySpawnerList;
         this.forestEnemySpawnableGroundList = forestEnemySpawnableGroundList;
-        this.currentWeather = Weather.SUNNY;
+        this.currentWeather = Weather.RAINY;
     }
 
     /**
@@ -73,14 +71,17 @@ public class ForestWatcher extends ForestEnemy {
      */
     @Override
     public Action playTurn(ActionList actions, Action lastAction, GameMap map, Display display) {
-        turnCount++;
         if (turnCount % 3 == 0 && currentWeather == Weather.SUNNY) {
             currentWeather = Weather.RAINY;
+            display.println("The weather is now rainy...");
             rainyMode();
-        }else{
+        }
+        else if (turnCount % 3 == 0 && currentWeather == Weather.RAINY){
             currentWeather = Weather.SUNNY;
+            display.println("The weather is now sunny...");
             sunnyMode();
         }
+        turnCount++;
         for (Behaviour behaviour : behaviours.values()) {
             Action action = behaviour.getAction(this, map);
             if(action != null)
@@ -91,15 +92,15 @@ public class ForestWatcher extends ForestEnemy {
 
     @Override
     public void sunnyMode(){
-        for (ForestEnemySpawner forestEnemySpawner : forestEnemySpawnerList){
-            forestEnemySpawner.sunnyMode();
+        for (ForestEnemySpawnableGround<ForestEnemy> forestEnemySpawnableGround: forestEnemySpawnableGroundList){
+            forestEnemySpawnableGround.sunnyMode();
         }
     }
 
     @Override
     public void rainyMode(){
-        for (ForestEnemySpawner forestEnemySpawner : forestEnemySpawnerList){
-            forestEnemySpawner.rainyMode();
+        for (ForestEnemySpawnableGround<ForestEnemy> forestEnemySpawnableGround: forestEnemySpawnableGroundList){
+            forestEnemySpawnableGround.rainyMode();
         }
     }
 }
