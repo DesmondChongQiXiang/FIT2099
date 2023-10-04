@@ -1,17 +1,20 @@
 package game.actors.enemies.forestenemy;
 
-import edu.monash.fit2099.engine.actions.ActionList;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.weapons.IntrinsicWeapon;
-import game.actions.AttackAction;
-import game.actors.enemies.Enemy;
-import game.behaviours.FollowBehaviour;
-import game.capabilities.Status;
 import game.items.HealingVial;
 import game.items.Runes;
+import game.spawners.Spawner;
+import game.weathers.WeatherControllable;
 
-public class ForestKeeper extends ForestEnemy {
+public class ForestKeeper extends ForestEnemy implements WeatherControllable {
+  public static Spawner<ForestKeeper> SPAWNER = new Spawner<>() {
+    @Override
+    public ForestKeeper spawn() {
+      return new ForestKeeper();
+    }
+  };
   /**
    * Constructor.
    */

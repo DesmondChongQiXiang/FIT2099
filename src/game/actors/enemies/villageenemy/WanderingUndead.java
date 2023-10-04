@@ -8,9 +8,15 @@ import game.capabilities.Status;
 import game.items.HealingVial;
 import game.items.Key;
 import game.items.Runes;
+import game.spawners.Spawner;
 
 public class WanderingUndead extends VillageEnemy {
-
+  public static Spawner<WanderingUndead> SPAWNER = new Spawner<>() {
+    @Override
+    public WanderingUndead spawn() {
+      return new WanderingUndead();
+    }
+  };
   /**
    * Constructor.
    */

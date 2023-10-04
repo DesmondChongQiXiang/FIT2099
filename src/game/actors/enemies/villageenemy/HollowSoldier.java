@@ -4,22 +4,28 @@ import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.weapons.IntrinsicWeapon;
 import game.actors.enemies.Enemy;
+import game.actors.enemies.forestenemy.ForestKeeper;
 import game.items.HealingVial;
 import game.items.RefreshingFlask;
 import game.items.Runes;
 import game.capabilities.Status;
+import game.spawners.Spawner;
 
 
 /**
  * Class representing the HollowSoldier.
  */
 public class HollowSoldier extends VillageEnemy {
-
+  public static Spawner<HollowSoldier> SPAWNER = new Spawner<>() {
+    @Override
+    public HollowSoldier spawn() {
+      return new HollowSoldier();
+    }
+  };
   /**
    * Constructor.
    */
   public HollowSoldier(){
-
     super("Hollow Soldier", '&', 200);
   }
 
