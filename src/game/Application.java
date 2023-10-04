@@ -193,6 +193,9 @@ public class Application {
         ancientWoodsGate2.addTravelAction(new TravelAction(abxervyer.at(39, 13), "Abxervyer, The Forest Watcher"));
         ancientWoods.at(0, 6).setGround(ancientWoodsGate2);
 
+        Gate abxvyerGate1 = new Gate();
+        abxvyerGate1.addTravelAction(new TravelAction(ancientWoods.at(21, 4),"The Ancient Woods"));
+
 
         GiantHammer giantHammer = new GiantHammer();
         abxervyer.at(39, 12).addItem(giantHammer);
@@ -206,14 +209,14 @@ public class Application {
             }
         }
 
-        Player player = new Player("The Abstracted One", '@', 150, 200, 0);
+        Player player = new Player("The Abstracted One", '@', 150, 200);
         world.addPlayer(player,abxervyer.at(39, 13));
 
         Traveller traveller = new Traveller();
         ancientWoods.at(20,3).addActor(traveller);
 
         WeatherManager weatherManager = new WeatherManager(Weather.SUNNY,forestEnemySpawnableGroundList);
-        ForestWatcher forestWatcher = new ForestWatcher(weatherManager);
+        ForestWatcher forestWatcher = new ForestWatcher(weatherManager, abxvyerGate1);
         abxervyer.at((abxervyer.getXRange().max())/2,(abxervyer.getYRange().max())/2).addActor(forestWatcher);
         world.run();
     }
