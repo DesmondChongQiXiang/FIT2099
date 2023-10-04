@@ -4,7 +4,6 @@ import edu.monash.fit2099.engine.positions.Location;
 import game.actors.enemies.forestenemy.ForestEnemy;
 import game.grounds.environments.EnemySpawnableGround;
 import game.spawners.Spawner;
-import game.weathers.WeatherControl;
 import game.weathers.WeatherControllable;
 
 import java.util.ArrayList;

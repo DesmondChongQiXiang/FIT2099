@@ -1,14 +1,16 @@
 package game.actors.enemies.forestenemy;
 
 import edu.monash.fit2099.engine.actors.Actor;
+import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.weapons.IntrinsicWeapon;
 import game.items.HealingVial;
 import game.items.Runes;
 import game.spawners.Spawner;
+import game.weathers.Weather;
 import game.weathers.WeatherControllable;
 
-public class ForestKeeper extends ForestEnemy {
+public class ForestKeeper extends ForestEnemy{
   public static Spawner<ForestKeeper> SPAWNER = new Spawner<>() {
     @Override
     public ForestKeeper spawn() {
@@ -51,14 +53,11 @@ public class ForestKeeper extends ForestEnemy {
     map.locationOf(this).addItem(new Runes(50));
     return super.unconscious(actor, map);
   }
-
   @Override
-  public void sunnyMode(){
-
-  }
-
-  @Override
-  public void rainyMode(){
-    this.heal(10);
+  public void updateWeatherMode(Weather weather, Display display) {
+    if (weather == Weather.RAINY){
+      this.heal(10);
+      display.println(this + " feels rejuvenated.");
+    }
   }
 }

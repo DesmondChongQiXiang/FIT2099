@@ -1,14 +1,16 @@
 package game.actors.enemies.forestenemy;
 
 import edu.monash.fit2099.engine.actors.Actor;
+import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.weapons.IntrinsicWeapon;
 import game.items.HealingVial;
 import game.items.Runes;
 import game.spawners.Spawner;
+import game.weathers.Weather;
 import game.weathers.WeatherControllable;
 
-public class RedWolf extends ForestEnemy {
+public class RedWolf extends ForestEnemy{
   public static Spawner<RedWolf> SPAWNER = new Spawner<>() {
     @Override
     public RedWolf spawn() {
@@ -51,14 +53,15 @@ public class RedWolf extends ForestEnemy {
     map.locationOf(this).addItem(new Runes(25));
     return super.unconscious(actor, map);
   }
-
   @Override
-  public void sunnyMode(){
-    this.updateDamageMultiplier(3);
-  }
-
-  @Override
-  public void rainyMode(){
-    this.updateDamageMultiplier(1);
+  public void updateWeatherMode(Weather weather, Display display) {
+    if (weather == Weather.SUNNY){
+      this.updateDamageMultiplier(3);
+      display.println(this + " are becoming more aggressive.");
+    }
+    else if (weather == Weather.RAINY){
+      this.updateDamageMultiplier(1);
+      display.println(this + " are becoming less aggressive.");
+    }
   }
 }

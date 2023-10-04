@@ -1,9 +1,9 @@
 package game.grounds.environments.forestenemyspawnableground;
 
-import game.actors.enemies.forestenemy.ForestEnemy;
+import edu.monash.fit2099.engine.displays.Display;
 import game.actors.enemies.forestenemy.RedWolf;
 import game.spawners.Spawner;
-import game.weathers.WeatherControl;
+import game.weathers.Weather;
 import game.weathers.WeatherControllable;
 
 public class Bushes<R extends RedWolf> extends ForestEnemySpawnableGround<R> {
@@ -16,18 +16,17 @@ public class Bushes<R extends RedWolf> extends ForestEnemySpawnableGround<R> {
   }
 
   @Override
-  public void sunnyMode() {
-    super.setSpawnRate(30);
-    for(WeatherControllable forestEnemy:forestEnemyList){
-      forestEnemy.sunnyMode();
+  public void updateWeatherMode(Weather weather, Display display) {
+    if (weather == Weather.SUNNY){
+      super.setSpawnRate(30);
+      display.println("The red wolves are becoming less active.");
     }
-  }
-
-  @Override
-  public void rainyMode() {
-    super.setSpawnRate(45);
-    for(WeatherControllable forestEnemy:forestEnemyList){
-      forestEnemy.rainyMode();
+    else if (weather == Weather.RAINY){
+      super.setSpawnRate(45);
+      display.println("The red wolves are becoming more active.");
+    }
+    for(WeatherControllable forestEnemy: forestEnemyList){
+      forestEnemy.updateWeatherMode(weather,display);
     }
   }
 }

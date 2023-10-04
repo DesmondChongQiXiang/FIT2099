@@ -1,12 +1,9 @@
 package game.grounds.environments.forestenemyspawnableground;
 
-import game.actors.enemies.Enemy;
-import game.actors.enemies.forestenemy.ForestEnemy;
+import edu.monash.fit2099.engine.displays.Display;
 import game.actors.enemies.forestenemy.ForestKeeper;
-import game.actors.enemies.forestenemy.RedWolf;
-import game.actors.enemies.villageenemy.HollowSoldier;
 import game.spawners.Spawner;
-import game.weathers.WeatherControl;
+import game.weathers.Weather;
 import game.weathers.WeatherControllable;
 
 public class Hut<F extends ForestKeeper> extends ForestEnemySpawnableGround<F> {
@@ -19,18 +16,17 @@ public class Hut<F extends ForestKeeper> extends ForestEnemySpawnableGround<F> {
   }
 
   @Override
-  public void sunnyMode() {
-    super.setSpawnRate(30);
-    for(WeatherControllable forestEnemy: forestEnemyList){
-      forestEnemy.sunnyMode();
+  public void updateWeatherMode(Weather weather, Display display) {
+    if(weather == Weather.SUNNY){
+      super.setSpawnRate(30);
+      display.println("The forest keepers are becoming more active.");
     }
-  }
-
-  @Override
-  public void rainyMode() {
-    super.setSpawnRate(15);
+    else if(weather == Weather.RAINY){
+      super.setSpawnRate(15);
+      display.println("The forest keepers are becoming less active.");
+    }
     for(WeatherControllable forestEnemy: forestEnemyList){
-      forestEnemy.rainyMode();
+      forestEnemy.updateWeatherMode(weather,display);
     }
   }
 }

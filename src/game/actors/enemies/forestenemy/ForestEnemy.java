@@ -9,7 +9,7 @@ import game.behaviours.FollowBehaviour;
 import game.capabilities.Status;
 import game.weathers.WeatherControllable;
 
-public abstract class ForestEnemy extends Enemy implements WeatherControllable {
+public abstract class ForestEnemy extends Enemy implements WeatherControllable{
     /**
      * Constructor.
      */
@@ -34,8 +34,4 @@ public abstract class ForestEnemy extends Enemy implements WeatherControllable {
 
         return actions;
     }
-
-    public abstract void sunnyMode();
-
-    public abstract void rainyMode();
 }
