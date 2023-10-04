@@ -14,6 +14,7 @@ import game.grounds.environments.forestenemyspawnableground.ForestEnemySpawnable
 import game.items.Runes;
 
 import game.weathers.Weather;
+import game.weathers.WeatherControllable;
 
 import java.util.ArrayList;
 
@@ -21,12 +22,12 @@ import java.util.ArrayList;
 public class ForestWatcher extends ForestEnemy {
 
     private int turnCount;
-    private ArrayList<ForestEnemySpawnableGround<ForestEnemy>> forestEnemySpawnableGroundList;
+    private ArrayList<WeatherControllable> forestEnemySpawnableGroundList;
     private Weather currentWeather;
     /**
      * Constructor.
      */
-    public ForestWatcher(ArrayList<ForestEnemySpawnableGround<ForestEnemy>> forestEnemySpawnableGroundList) {
+    public ForestWatcher(ArrayList<WeatherControllable> forestEnemySpawnableGroundList) {
         super("Forest Watcher", 'Y', 2000);
         this.addCapability(Ability.ENTER_VOID);
         this.turnCount = 0;
@@ -92,14 +93,14 @@ public class ForestWatcher extends ForestEnemy {
 
     @Override
     public void sunnyMode(){
-        for (ForestEnemySpawnableGround<ForestEnemy> forestEnemySpawnableGround: forestEnemySpawnableGroundList){
+        for (WeatherControllable forestEnemySpawnableGround: forestEnemySpawnableGroundList){
             forestEnemySpawnableGround.sunnyMode();
         }
     }
 
     @Override
     public void rainyMode(){
-        for (ForestEnemySpawnableGround<ForestEnemy> forestEnemySpawnableGround: forestEnemySpawnableGroundList){
+        for (WeatherControllable forestEnemySpawnableGround: forestEnemySpawnableGroundList){
             forestEnemySpawnableGround.rainyMode();
         }
     }

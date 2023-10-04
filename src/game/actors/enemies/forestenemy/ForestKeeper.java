@@ -8,7 +8,7 @@ import game.items.Runes;
 import game.spawners.Spawner;
 import game.weathers.WeatherControllable;
 
-public class ForestKeeper extends ForestEnemy implements WeatherControllable {
+public class ForestKeeper extends ForestEnemy {
   public static Spawner<ForestKeeper> SPAWNER = new Spawner<>() {
     @Override
     public ForestKeeper spawn() {

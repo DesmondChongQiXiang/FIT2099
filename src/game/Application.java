@@ -12,7 +12,6 @@ import edu.monash.fit2099.engine.positions.World;
 import game.actions.TravelAction;
 import game.actors.Player;
 import game.actors.Traveller;
-import game.actors.enemies.Enemy;
 import game.actors.enemies.forestenemy.ForestEnemy;
 import game.actors.enemies.forestenemy.ForestKeeper;
 import game.actors.enemies.forestenemy.ForestWatcher;
@@ -30,6 +29,7 @@ import game.grounds.environments.villageenemyspawnableground.BurialGroundGraveya
 import game.items.BloodBerry;
 import game.weapons.Broadsword;
 import game.weapons.GiantHammer;
+import game.weathers.WeatherControllable;
 
 /**
  * The main class to start the game.
@@ -179,7 +179,7 @@ public class Application {
         abxervyer.at(11, 13).setGround(abxervyerBush1);
         abxervyer.at(36, 18).setGround(abxervyerBush2);
 
-        ArrayList<ForestEnemySpawnableGround<ForestEnemy>> forestEnemySpawnableGroundList = new ArrayList<>();
+        ArrayList<WeatherControllable> forestEnemySpawnableGroundList = new ArrayList<>();
         forestEnemySpawnableGroundList.add(ancientWoodHuts);
         forestEnemySpawnableGroundList.add(ancientWoodBush);
         forestEnemySpawnableGroundList.add(abxervyerHut1);
@@ -205,7 +205,7 @@ public class Application {
         }
 
         Player player = new Player("The Abstracted One", '@', 150, 200, 0);
-        world.addPlayer(player, theAbandonedVillage.at(29, 5));
+        world.addPlayer(player,abxervyer.at(39, 13));
 
         Traveller traveller = new Traveller();
         ancientWoods.at(20,3).addActor(traveller);

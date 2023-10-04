@@ -3,6 +3,8 @@ package game.grounds.environments.forestenemyspawnableground;
 import game.actors.enemies.forestenemy.ForestEnemy;
 import game.actors.enemies.forestenemy.RedWolf;
 import game.spawners.Spawner;
+import game.weathers.WeatherControl;
+import game.weathers.WeatherControllable;
 
 public class Bushes<R extends RedWolf> extends ForestEnemySpawnableGround<R> {
 
@@ -16,7 +18,7 @@ public class Bushes<R extends RedWolf> extends ForestEnemySpawnableGround<R> {
   @Override
   public void sunnyMode() {
     super.setSpawnRate(30);
-    for(ForestEnemy forestEnemy:forestEnemyList){
+    for(WeatherControllable forestEnemy:forestEnemyList){
       forestEnemy.sunnyMode();
     }
   }
@@ -24,7 +26,7 @@ public class Bushes<R extends RedWolf> extends ForestEnemySpawnableGround<R> {
   @Override
   public void rainyMode() {
     super.setSpawnRate(45);
-    for(ForestEnemy forestEnemy:forestEnemyList){
+    for(WeatherControllable forestEnemy:forestEnemyList){
       forestEnemy.rainyMode();
     }
   }

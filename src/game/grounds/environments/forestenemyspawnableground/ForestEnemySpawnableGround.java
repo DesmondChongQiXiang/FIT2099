@@ -4,12 +4,13 @@ import edu.monash.fit2099.engine.positions.Location;
 import game.actors.enemies.forestenemy.ForestEnemy;
 import game.grounds.environments.EnemySpawnableGround;
 import game.spawners.Spawner;
+import game.weathers.WeatherControl;
 import game.weathers.WeatherControllable;
 
 import java.util.ArrayList;
 
 public abstract class ForestEnemySpawnableGround<F extends ForestEnemy> extends EnemySpawnableGround<F> implements WeatherControllable {
-    protected ArrayList<ForestEnemy> forestEnemyList;
+    protected ArrayList<WeatherControllable> forestEnemyList;
     public ForestEnemySpawnableGround(char displayChar, int spawnRate, Spawner<F> forestEnemySpawner){
         super(displayChar,spawnRate,forestEnemySpawner);
         forestEnemyList = new ArrayList<>();

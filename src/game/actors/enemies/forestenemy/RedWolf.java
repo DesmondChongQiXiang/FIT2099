@@ -8,7 +8,7 @@ import game.items.Runes;
 import game.spawners.Spawner;
 import game.weathers.WeatherControllable;
 
-public class RedWolf extends ForestEnemy implements WeatherControllable {
+public class RedWolf extends ForestEnemy {
   public static Spawner<RedWolf> SPAWNER = new Spawner<>() {
     @Override
     public RedWolf spawn() {
