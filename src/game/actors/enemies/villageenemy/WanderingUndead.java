@@ -21,7 +21,7 @@ public class WanderingUndead extends VillageEnemy {
    * Constructor.
    */
   public WanderingUndead() {
-    super("Wandering Undead", 't', 100);
+    super("Wandering Undead", 't', 100,50);
   }
 
   /**
@@ -52,8 +52,6 @@ public class WanderingUndead extends VillageEnemy {
     if (Math.random() <= 0.20) {
       map.locationOf(this).addItem(new HealingVial());
     }
-
-    map.locationOf(this).addItem(new Runes(50));
     return super.unconscious(map);
   }
 

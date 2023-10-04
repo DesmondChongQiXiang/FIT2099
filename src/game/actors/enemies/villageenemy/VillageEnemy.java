@@ -11,8 +11,8 @@ public abstract class VillageEnemy extends Enemy {
     /**
      * Constructor.
      */
-    public VillageEnemy(String name, char displayChar, int hitPoints){
-        super(name,displayChar,hitPoints);
+    public VillageEnemy(String name, char displayChar, int hitPoints,int runesNumDropped){
+        super(name,displayChar,hitPoints,runesNumDropped);
     }
 
     /**

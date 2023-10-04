@@ -32,7 +32,7 @@ public class ForestWatcher extends Enemy {
      * Constructor.
      */
     public ForestWatcher(WeatherManager weatherManager, Gate abxyverGate) {
-        super("Forest Watcher", 'Y', 2000);
+        super("Forest Watcher", 'Y', 2000,5000);
         this.addCapability(Ability.ENTER_VOID);
         this.turnCount = 0;
         this.weatherManager = weatherManager;
@@ -61,7 +61,6 @@ public class ForestWatcher extends Enemy {
      */
     public String unconscious(Actor actor, GameMap map) {
         map.locationOf(this).setGround(abxyverGate);
-        map.locationOf(this).addItem(new Runes(5000));
         return super.unconscious(actor, map);
     }
 
