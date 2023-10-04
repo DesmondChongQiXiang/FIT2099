@@ -2,39 +2,42 @@ package game.grounds.environments;
 
 import edu.monash.fit2099.engine.positions.Ground;
 import edu.monash.fit2099.engine.positions.Location;
+import game.actors.enemies.Enemy;
 import game.spawners.Spawner;
 
-/**
- * The `EnemySpawnableGround` class represents a type of ground environment where enemies can spawn over time.
- * It extends the `Ground` class and provides a mechanism for spawning enemies using a specified `Spawner`.
- */
-public abstract class EnemySpawnableGround extends Ground {
+public abstract class EnemySpawnableGround<E extends Enemy> extends Ground {
 
   /**
-   * The spawner responsible for spawning enemies on this ground.
+   * the chance of spawn an enemy
    */
-  private Spawner spawner;
+  protected int spawnRate;
 
   /**
-   * Constructs a new instance of the `EnemySpawnableGround` class.
-   *
-   * @param displayChar The character used to display this ground on the map.
-   * @param spawner     The spawner responsible for spawning enemies on this ground.
+   * the spawner of enemy
    */
-  public EnemySpawnableGround(char displayChar, Spawner spawner){
+  protected Spawner<E> spawner;
+
+  /**
+   * Constructor.
+   */
+  public EnemySpawnableGround(char displayChar, int spawnRate, Spawner spawner){
     super(displayChar);
+    this.spawnRate = spawnRate;
     this.spawner = spawner;
   }
 
   /**
-   * Called on each game tick to potentially spawn an enemy on this ground.
-   *
-   * @param location The location of this ground on the map.
+   * Graveyard can spawn an enemy over time.
+   * @param location The location of the Ground
    */
   @Override
   public void tick(Location location) {
-    spawner.spawn(location);
+    if (Math.random() <= ((double) spawnRate / 100) && !location.containsAnActor()) {
+      location.addActor(spawner.spawn());
+    }
   }
 
-
+  public void setSpawnRate(int spawnRate) {
+    this.spawnRate = spawnRate;
+  }
 }

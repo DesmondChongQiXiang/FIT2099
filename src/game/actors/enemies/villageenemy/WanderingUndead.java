@@ -1,31 +1,36 @@
-package game.actors.enemies;
+package game.actors.enemies.villageenemy;
 
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.weapons.IntrinsicWeapon;
+import game.actors.enemies.Enemy;
 import game.capabilities.Status;
 import game.items.HealingVial;
 import game.items.Key;
 import game.items.Runes;
+import game.spawners.Spawner;
 
-/**
- * Class representing the Wandering Undead, a type of Enemy actor in the game.
- */
-public class WanderingUndead extends Enemy {
-
+public class WanderingUndead extends VillageEnemy {
+  public static Spawner<WanderingUndead> SPAWNER = new Spawner<>() {
+    @Override
+    public WanderingUndead spawn() {
+      return new WanderingUndead();
+    }
+  };
   /**
-   * Constructor to create a Wandering Undead enemy.
+   * Constructor.
    */
   public WanderingUndead() {
     super("Wandering Undead", 't', 100);
   }
 
   /**
-   * Creates an individual intrinsic weapon for the Wandering Undead.
-   * Overrides Actor.getIntrinsicWeapon().
+   * create a individual intrinsic weapon for Wandering Undead
+   *
+   * Overrides Actor.getIntrinsicWeapon()
    *
    * @see Actor#getIntrinsicWeapon()
-   * @return A new Intrinsic Weapon for the Wandering Undead.
+   * @return a new Intrinsic Weapon
    */
   @Override
   public IntrinsicWeapon getIntrinsicWeapon() {
@@ -33,11 +38,10 @@ public class WanderingUndead extends Enemy {
   }
 
   /**
-   * Method that can be executed when the Wandering Undead is unconscious due to the action of another actor.
-   *
-   * @param actor The perpetrator who caused the Wandering Undead to become unconscious.
-   * @param map   The GameMap where the Wandering Undead fell unconscious.
-   * @return A string describing what happened when the Wandering Undead is unconscious.
+   * Method that can be executed when the actor is unconscious due to the action of another actor
+   * @param actor the perpetrator
+   * @param map where the actor fell unconscious
+   * @return a string describing what happened when the actor is unconscious
    */
   @Override
   public String unconscious(Actor actor,GameMap map) {
