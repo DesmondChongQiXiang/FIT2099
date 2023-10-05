@@ -37,7 +37,7 @@ import game.weathers.WeatherManager;
  * The main class to start the game.
  * Created by:
  * @author Adrian Kristanto
- * Modified by:
+ * Modified by: MA_AppliedSession1_Group7
  *
  */
 public class Application {
