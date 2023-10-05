@@ -1,4 +1,4 @@
-package game.grounds.environments.villageenemyground;
+package game.grounds.environments.village;
 
 import game.actors.enemies.villageenemy.VillageEnemy;
 import game.grounds.environments.EnemySpawnableGround;

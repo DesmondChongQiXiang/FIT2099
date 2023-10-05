@@ -1,4 +1,4 @@
-package game.grounds.environments.forestenemyground;
+package game.grounds.environments.forest;
 
 import edu.monash.fit2099.engine.displays.Display;
 import game.actors.enemies.forestenemy.ForestKeeper;
