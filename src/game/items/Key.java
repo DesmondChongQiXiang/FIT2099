@@ -5,8 +5,8 @@ import game.capabilities.Ability;
 
 /**
  * A class that represents a Key that can unlock gates.
- * Created by:
- * Modified by:
+ *
+ * @author MA_AppliedSession1_Group7
  */
 public class Key extends Item {
 

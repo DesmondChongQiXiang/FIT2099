@@ -14,8 +14,8 @@ import game.capabilities.Ability;
  * The `BloodBerry` class represents an item in the game called BloodBerry. BloodBerries can be consumed by actors
  * to increase their maximum health points. They are also sellable items. When consumed, a BloodBerry increases
  * the maximum health of the consuming actor by 5 points.
- * Created by:
- * Modified by:
+ *
+ * @author : MA_AppliedSession1_Group7
  */
 public class BloodBerry extends Item implements Consumable,Sellable{
 
