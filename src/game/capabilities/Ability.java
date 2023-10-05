@@ -10,7 +10,8 @@ package game.capabilities;
  * - To allow an actor to buy items, attach Ability.BUYING to the actor class.
  * - To indicate that an actor can enter a void area, use Ability.ENTER_VOID.
  *
- * @see Actor
+ * @author : MA_AppliedSession1_Group7
+ *
  * @see game.actors.Player
  */
 public enum Ability {

@@ -9,6 +9,8 @@ package game.capabilities;
  * - To determine if an actor can attack another actor, use Status.HOSTILE_TO_ENEMY capability.
  * - To identify an enemy actor, use Status.ENEMY.
  *
+ * @author : MA_AppliedSession1_Group7
+ *
  * @see game.actors.Player
  */
 public enum Status {
