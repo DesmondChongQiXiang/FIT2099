@@ -6,8 +6,8 @@ import edu.monash.fit2099.engine.actors.Actor;
  * An interface which will be implemented by the item which is consumable by an actor.
  *
  * The implementing classes should provide a "consumedBy" method to define the consumption effect.
- * Created by:
- * Modified by:
+ *
+ * @author : MA_AppliedSession1_Group7
  */
 public interface Consumable {
 

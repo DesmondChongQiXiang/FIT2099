@@ -10,27 +10,42 @@ import game.items.Key;
 import game.items.Runes;
 import game.spawners.Spawner;
 
+/**
+ * A specialized village-themed enemy class, representing a Wandering Undead in the game.
+ * Extends the VillageEnemy class and is part of the village-themed enemy group.
+ *
+ * The Wandering Undead is a menacing village enemy with unique characteristics and behaviors.
+ *
+ * @author : MA_AppliedSession1_Group7
+ *
+ * @see VillageEnemy
+ */
 public class WanderingUndead extends VillageEnemy {
+  /**
+   * Spawner for generating instances of the Wandering Undead.
+   */
   public static Spawner<WanderingUndead> SPAWNER = new Spawner<>() {
     @Override
     public WanderingUndead spawn() {
       return new WanderingUndead();
     }
   };
+
   /**
-   * Constructor.
+   * Constructor for creating a Wandering Undead.
+   * Initializes the Wandering Undead with its name, display character, hit points, and runes dropped when defeated.
    */
   public WanderingUndead() {
-    super("Wandering Undead", 't', 100,50);
+    super("Wandering Undead", 't', 100, 50);
   }
 
   /**
-   * create a individual intrinsic weapon for Wandering Undead
+   * Get the intrinsic weapon of the Wandering Undead.
    *
    * Overrides Actor.getIntrinsicWeapon()
    *
    * @see Actor#getIntrinsicWeapon()
-   * @return a new Intrinsic Weapon
+   * @return A new IntrinsicWeapon instance representing the Wandering Undead's whacks.
    */
   @Override
   public IntrinsicWeapon getIntrinsicWeapon() {
@@ -38,13 +53,14 @@ public class WanderingUndead extends VillageEnemy {
   }
 
   /**
-   * Method that can be executed when the actor is unconscious due to the action of another actor
-   * @param actor the perpetrator
-   * @param map where the actor fell unconscious
-   * @return a string describing what happened when the actor is unconscious
+   * Method that can be executed when the Wandering Undead is unconscious due to the action of another actor.
+   *
+   * @param actor The perpetrator that caused the Wandering Undead to fall unconscious.
+   * @param map   The GameMap where the Wandering Undead fell unconscious.
+   * @return A string describing what happened when the Wandering Undead is unconscious.
    */
   @Override
-  public String unconscious(Actor actor,GameMap map) {
+  public String unconscious(Actor actor, GameMap map) {
     if (Math.random() <= 0.25) {
       map.locationOf(this).addItem(new Key());
     }
@@ -52,8 +68,7 @@ public class WanderingUndead extends VillageEnemy {
     if (Math.random() <= 0.20) {
       map.locationOf(this).addItem(new HealingVial());
     }
-    return super.unconscious(map);
+    return super.unconscious(actor, map);
   }
-
-
 }
+

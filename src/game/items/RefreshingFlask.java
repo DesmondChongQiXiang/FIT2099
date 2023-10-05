@@ -15,6 +15,8 @@ import game.capabilities.Ability;
  *
  * The Refreshing Flask is a consumable item that can be used by actors to increase their stamina.
  * It can also be bought and sold in the game.
+ *
+ * @author MA_AppliedSession1_Group7
  */
 public class RefreshingFlask extends Item implements Consumable, Sellable, Purchasable{
 

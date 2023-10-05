@@ -20,10 +20,10 @@ import edu.monash.fit2099.engine.positions.Exit;
  * The GiantHammer class represents a specialized weapon item with unique actions and abilities.
  * It extends the WeaponItem class and implements the Sellable and ActiveSkill interfaces.
  *
- * Author:
- * Modified By:
+ * @author MA_AppliedSession1_Group7
  */
 public class GiantHammer extends WeaponItem implements Sellable, ActiveSkill {
+
     /**
      * Constructor to initialize the GiantHammer.
      */

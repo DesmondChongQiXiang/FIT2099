@@ -6,10 +6,11 @@ import edu.monash.fit2099.engine.positions.Ground;
 /**
  * The `Wall` class represents an impassable wall on the game map. It is a type of ground environment
  * represented by the character '#' on the game map. Actors are not allowed to enter or move through walls.
- * Created by:
- * Modified by:
+ *
+ * @author : MA_AppliedSession1_Group7
  */
 public class Wall extends Ground {
+
     /**
      * Constructor to create a `Wall` instance. It is represented by the character '#'.
      */

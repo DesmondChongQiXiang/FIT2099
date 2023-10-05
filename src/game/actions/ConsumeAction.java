@@ -8,6 +8,8 @@ import game.items.Consumable;
 /**
  * A class that represents the consume action for a Player, which can be done on all consumable items.
  * This action allows an actor to consume a consumable item, triggering its 'consumedBy' action.
+ *
+ * @author : MA_AppliedSession1_Group7
  */
 public class ConsumeAction extends Action {
     private final Consumable consumeItem;

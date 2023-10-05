@@ -7,8 +7,8 @@ import game.capabilities.Ability;
 /**
  * The `Floor` class represents the floor inside a building. It is a type of ground environment
  * and is represented by the character '_' on the game map.
- * Created by:
- * Modified by:
+ *
+ * @author : MA_AppliedSession1_Group7
  */
 public class Floor extends Ground {
 

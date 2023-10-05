@@ -8,8 +8,11 @@ import game.items.Purchasable;
 /**
  * The PurchaseAction class represents the action of purchasing an item in the game.
  * It extends the Action class and works with items that implement the Purchasable interface.
+ *
+ * @author : MA_AppliedSession1_Group7
  */
 public class PurchaseAction extends Action {
+
     /**
      * The item to be purchased.
      */

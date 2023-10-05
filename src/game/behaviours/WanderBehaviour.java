@@ -12,6 +12,8 @@ import edu.monash.fit2099.engine.actors.Behaviour;
 
 /**
  * A class that represents a wandering behavior for actors.
+ *
+ * @author : MA_AppliedSession1_Group7
  */
 public class WanderBehaviour implements Behaviour {
 
@@ -42,6 +44,4 @@ public class WanderBehaviour implements Behaviour {
             return null;
         }
     }
-
-
 }

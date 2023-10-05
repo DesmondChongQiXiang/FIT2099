@@ -9,8 +9,8 @@ import game.capabilities.Ability;
  * The `Void` class represents a dangerous void space on the game map. It is a type of ground environment
  * represented by the character '+' on the game map. Stepping on the void space without the 'Ability.ENTER_VOID'
  * capability will cause an actor to become unconscious.
- * Created by:
- * Modified by:
+ *
+ * @author : MA_AppliedSession1_Group7
  */
 public class Void extends Ground{
     /**

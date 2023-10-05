@@ -11,6 +11,8 @@ import game.actions.ConsumeAction;
  *
  * Runes can be consumed by an actor to increase their balance (currency) by a specified amount.
  * They are consumable items and can only be consumed once.
+ *
+ * @author MA_AppliedSession1_Group7
  */
 public class Runes extends Item implements Consumable {
 

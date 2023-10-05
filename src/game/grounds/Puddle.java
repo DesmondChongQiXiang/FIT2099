@@ -12,8 +12,8 @@ import game.items.Consumable;
 /**
  * The `Puddle` class represents a puddle of water on the ground in the game. It is a type of ground environment
  * represented by the character '~' on the game map and is also a `Consumable` item.
- * Created by:
- * Modified by:
+ *
+ * @author : MA_AppliedSession1_Group7
  */
 public class Puddle extends Ground implements Consumable {
     /**

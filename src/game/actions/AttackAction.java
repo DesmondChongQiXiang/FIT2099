@@ -7,6 +7,8 @@ import edu.monash.fit2099.engine.weapons.Weapon;
 
 /**
  * An Action that allows an actor to attack another actor.
+ *
+ * @author : MA_AppliedSession1_Group7
  */
 public class AttackAction extends Action {
 
