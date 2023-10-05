@@ -11,8 +11,8 @@ import game.capabilities.Ability;
 /**
  * The `Gate` class represents a gate or door that can be locked or unlocked in the game. It is a type of ground
  * environment represented by the character '=' on the game map.
- * Created by:
- * Modified by:
+ *
+ * @author : MA_AppliedSession1_Group7
  */
 public class Gate extends Ground {
 
