@@ -16,11 +16,14 @@ import game.capabilities.Status;
 import game.displays.FancyMessage;
 
 /**
- * Class representing the Player.
- * Created by:
- * @author Adrian Kristanto
- * Modified by:
+ * Class representing the player character in the game.
  *
+ * The player character (Player) is controlled by the user and interacts with the game world.
+ * It has various capabilities and attributes, such as health, stamina, and the ability to buy items.
+ *
+ * @author : MA_AppliedSession1_Group7
+ *
+ * @see Actor
  */
 public class Player extends Actor {
 
@@ -29,19 +32,23 @@ public class Player extends Actor {
      *
      * @param name       Name to call the player in the UI.
      * @param displayChar Character to represent the player in the UI.
-     * @param hitPoints  Player's starting number of hitpoints.
+     * @param hitPoints  Player's starting number of hit points.
      * @param stamina    Player's starting stamina.
      */
     public Player(String name, char displayChar, int hitPoints, int stamina) {
         super(name, displayChar, hitPoints);
+
+        // Add capabilities to the player
         this.addCapability(Status.HOSTILE_TO_ENEMY);
         this.addCapability(Ability.ENTER_FLOOR);
         this.addCapability(Ability.BUYING);
+
+        // Initialize player attributes
         this.addAttribute(BaseActorAttributes.STAMINA, new BaseActorAttribute(stamina));
     }
 
     /**
-     * Handle the unconscious state of the Player when defeated by other actor.
+     * Handle the unconscious state of the Player when defeated by another actor.
      *
      * @param actor The perpetrator who caused the Player to become unconscious.
      * @param map   The GameMap where the Player fell unconscious.
@@ -49,26 +56,36 @@ public class Player extends Actor {
      */
     @Override
     public String unconscious(Actor actor, GameMap map) {
-        this.modifyAttribute(BaseActorAttributes.HEALTH,ActorAttributeOperations.UPDATE,0);
+        // Modify the player's health attribute
+        this.modifyAttribute(BaseActorAttributes.HEALTH, ActorAttributeOperations.UPDATE, 0);
         String ret = "";
-        ret += super.unconscious(actor,map);
+
+        // Perform the unconscious action and remove the player from the map
+        ret += super.unconscious(actor, map);
         map.removeActor(this);
+
+        // Display a message indicating that the player has died
         ret += "\n" + FancyMessage.YOU_DIED;
         return ret;
     }
 
     /**
-     * Handle the unconscious state of the Player when defeated by natural disaster.
+     * Handle the unconscious state of the Player when defeated by a natural disaster.
      *
      * @param map The GameMap where the Player fell unconscious.
      * @return A string describing what happened when the Player is unconscious.
      */
     @Override
     public String unconscious(GameMap map) {
-        this.modifyAttribute(BaseActorAttributes.HEALTH,ActorAttributeOperations.UPDATE,0);
+        // Modify the player's health attribute
+        this.modifyAttribute(BaseActorAttributes.HEALTH, ActorAttributeOperations.UPDATE, 0);
         String ret = "";
-        ret += new DoNothingAction().execute(this,map);
+
+        // Perform the unconscious action and remove the player from the map
+        ret += new DoNothingAction().execute(this, map);
         map.removeActor(this);
+
+        // Display a message indicating that the player has died
         ret += "\n" + FancyMessage.YOU_DIED;
         return ret;
     }
@@ -82,8 +99,7 @@ public class Player extends Actor {
      */
     @Override
     public IntrinsicWeapon getIntrinsicWeapon() {
-
-        return new IntrinsicWeapon(15,"bonks",80);
+        return new IntrinsicWeapon(15, "bonks", 80);
     }
 
     /**
@@ -98,7 +114,8 @@ public class Player extends Actor {
     @Override
     public Action playTurn(ActionList actions, Action lastAction, GameMap map, Display display) {
         // Handle multi-turn Actions
-        this.modifyAttribute(BaseActorAttributes.STAMINA, ActorAttributeOperations.INCREASE, (int)(this.getAttributeMaximum(BaseActorAttributes.STAMINA)*.01f));
+        this.modifyAttribute(BaseActorAttributes.STAMINA, ActorAttributeOperations.INCREASE, (int) (this.getAttributeMaximum(BaseActorAttributes.STAMINA) * 0.01f));
+
         if (lastAction.getNextAction() != null) {
             return lastAction.getNextAction();
         }
@@ -106,11 +123,12 @@ public class Player extends Actor {
         display.println(this.name);
         display.println("HP: " + this.getAttribute(BaseActorAttributes.HEALTH) + "/" + this.getAttributeMaximum(BaseActorAttributes.HEALTH));
         display.println("Stamina: " + this.getAttribute(BaseActorAttributes.STAMINA) + "/" + this.getAttributeMaximum(BaseActorAttributes.STAMINA));
-        display.println("Runes: "+this.getBalance());
+        display.println("Runes: " + this.getBalance());
 
-        // return/print the console menu
+        // Return/print the console menu
         Menu menu = new Menu(actions);
         return menu.showMenu(this, display);
     }
 }
+
 
