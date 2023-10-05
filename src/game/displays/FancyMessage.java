@@ -6,7 +6,7 @@ package game.displays;
  * Font: Georgia11
  * Created by:
  * @author Adrian Kristanto
- * Modified by:
+ * Modified by: MA_AppliedSession1_Group7
  */
 public class FancyMessage {
 
