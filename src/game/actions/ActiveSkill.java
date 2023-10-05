@@ -5,6 +5,8 @@ import edu.monash.fit2099.engine.positions.GameMap;
 
 /**
  * Represent a weapon that have a special skill
+ *
+ * @author : MA_AppliedSession1_Group7
  */
 public interface ActiveSkill {
 

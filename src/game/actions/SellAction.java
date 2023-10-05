@@ -9,6 +9,8 @@ import game.items.Sellable;
 /**
  * The SellAction class represents the action of selling an item in the game.
  * It extends the Action class and works with items that implement the Sellable interface.
+ *
+ * @author : MA_AppliedSession1_Group7
  */
 public class SellAction extends Action {
 

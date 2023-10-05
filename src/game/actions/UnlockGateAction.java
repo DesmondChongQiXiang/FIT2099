@@ -8,6 +8,8 @@ import game.grounds.Gate;
 
 /**
  * An Action that allows an actor to unlock a gate.
+ *
+ * @author : MA_AppliedSession1_Group7
  */
 public class UnlockGateAction extends Action {
 
