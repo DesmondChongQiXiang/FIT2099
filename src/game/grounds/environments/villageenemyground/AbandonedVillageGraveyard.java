@@ -1,4 +1,4 @@
-package game.grounds.environments.villageenemyspawnableground;
+package game.grounds.environments.villageenemyground;
 
 import game.actors.enemies.villageenemy.WanderingUndead;
 import game.spawners.Spawner;
