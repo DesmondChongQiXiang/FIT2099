@@ -74,14 +74,14 @@ public class BloodBerry extends Item implements Consumable,Sellable{
      * Overrides the soldBy method from the Sellable interface. Selling a BloodBerry to an actor increases their balance
      * by 10 units, and the BloodBerry is removed from their inventory.
      *
-     * @param actor The actor buying the BloodBerry.
+     * @param seller The actor buying the BloodBerry.
      * @return The selling price of the BloodBerry (10 units).
      */
     @Override
-    public int soldBy(Actor actor){
+    public int soldBy(Actor seller){
         int sellingPrice = 10;
-        actor.addBalance(sellingPrice);
-        actor.removeItemFromInventory(this);
+        seller.addBalance(sellingPrice);
+        seller.removeItemFromInventory(this);
         return sellingPrice;
     }
 }

@@ -54,14 +54,14 @@ public class GiantHammer extends WeaponItem implements Sellable, ActiveSkill {
     /**
      * Defines the selling process of the GiantHammer.
      *
-     * @param actor The actor selling the item.
+     * @param seller The actor selling the item.
      * @return The selling price of the item.
      */
     @Override
-    public int soldBy(Actor actor) {
+    public int soldBy(Actor seller) {
         int sellingPrice = 250;
-        actor.addBalance(sellingPrice);
-        actor.removeItemFromInventory(this);
+        seller.addBalance(sellingPrice);
+        seller.removeItemFromInventory(this);
         return sellingPrice;
     }
 

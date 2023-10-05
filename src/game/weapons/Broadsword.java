@@ -199,14 +199,14 @@ public class Broadsword extends WeaponItem implements ActiveSkill, Sellable, Pur
     /**
      * Handles the selling of the item.
      *
-     * @param actor The actor selling the item.
+     * @param seller The actor selling the item.
      * @return The selling price of the item.
      */
     @Override
-    public int soldBy(Actor actor) {
+    public int soldBy(Actor seller) {
         int sellingPrice = 100;
-        actor.addBalance(sellingPrice);
-        actor.removeItemFromInventory(this);
+        seller.addBalance(sellingPrice);
+        seller.removeItemFromInventory(this);
         return sellingPrice;
     }
 }
