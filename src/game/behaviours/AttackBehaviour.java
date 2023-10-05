@@ -11,6 +11,8 @@ import game.actions.AttackAction;
 
 /**
  * A class that figures out an AttackAction that will make the actor attack a target Actor.
+ *
+ * @author : MA_AppliedSession1_Group7
  */
 public class AttackBehaviour implements Behaviour {
 
