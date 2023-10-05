@@ -23,8 +23,7 @@ import game.actions.ActiveSkill;
  * It extends the WeaponItem class and implements the Sellable, Purchasable, and ActiveSkill interfaces.
  * This weapon has unique capabilities and actions, including a special skill.
  *
- * @author Maliha Tariq
- * Modified by: Desmond Chong
+ * @author MA_AppliedSession1_Group7
  */
 public class GreatKnife extends WeaponItem implements Sellable, Purchasable, ActiveSkill {
     /**

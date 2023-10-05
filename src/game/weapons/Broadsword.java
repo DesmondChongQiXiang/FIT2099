@@ -26,6 +26,8 @@ import game.items.Sellable;
  *
  * Additionally, the Broadsword can be bought and sold, and its purchase price and selling price may vary.
  * The skill's effects are reverted after a certain number of turns.
+ *
+ * @author MA_AppliedSession1_Group7
  */
 public class Broadsword extends WeaponItem implements ActiveSkill, Sellable, Purchasable {
 
