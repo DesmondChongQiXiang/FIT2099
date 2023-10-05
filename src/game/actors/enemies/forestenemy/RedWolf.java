@@ -22,7 +22,7 @@ public class RedWolf extends ForestEnemy{
    */
   public RedWolf(){
 
-    super("Red Wolf", 'r', 25);
+    super("Red Wolf", 'r', 25,25);
   }
 
   /**
@@ -49,8 +49,6 @@ public class RedWolf extends ForestEnemy{
     if (Math.random() <= 0.10){
       map.locationOf(this).addItem(new HealingVial());
     }
-
-    map.locationOf(this).addItem(new Runes(25));
     return super.unconscious(actor, map);
   }
   @Override

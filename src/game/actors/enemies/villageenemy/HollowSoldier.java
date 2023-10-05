@@ -26,7 +26,7 @@ public class HollowSoldier extends VillageEnemy {
    * Constructor.
    */
   public HollowSoldier(){
-    super("Hollow Soldier", '&', 200);
+    super("Hollow Soldier", '&', 200,100);
   }
 
   /**
@@ -57,8 +57,6 @@ public class HollowSoldier extends VillageEnemy {
     if (Math.random() <= 0.20){
       map.locationOf(this).addItem(new HealingVial());
     }
-
-    map.locationOf(this).addItem(new Runes(100));
     return super.unconscious(map);
   }
 

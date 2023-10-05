@@ -13,8 +13,8 @@ public abstract class ForestEnemy extends Enemy implements WeatherControllable{
     /**
      * Constructor.
      */
-    public ForestEnemy(String name, char displayChar, int hitPoints){
-        super(name,displayChar,hitPoints);
+    public ForestEnemy(String name, char displayChar, int hitPoints, int runesNumDropped){
+        super(name,displayChar,hitPoints,runesNumDropped);
     }
 
     /**

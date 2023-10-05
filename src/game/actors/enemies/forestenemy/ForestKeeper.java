@@ -21,7 +21,7 @@ public class ForestKeeper extends ForestEnemy{
    * Constructor.
    */
   public ForestKeeper(){
-    super("Forest Keeper", '8', 125);
+    super("Forest Keeper", '8', 125,50);
   }
 
 
@@ -49,8 +49,6 @@ public class ForestKeeper extends ForestEnemy{
     if (Math.random() <= 0.20){
       map.locationOf(this).addItem(new HealingVial());
     }
-
-    map.locationOf(this).addItem(new Runes(50));
     return super.unconscious(actor, map);
   }
   @Override

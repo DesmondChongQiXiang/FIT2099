@@ -11,6 +11,8 @@ import game.capabilities.Status;
 import game.actions.AttackAction;
 import game.behaviours.AttackBehaviour;
 import game.behaviours.WanderBehaviour;
+import game.items.HealingVial;
+import game.items.Runes;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -19,6 +21,7 @@ import java.util.Map;
  */
 public abstract class Enemy extends Actor {
     protected Map<Integer, Behaviour> behaviours = new HashMap<>();
+    private int runeNumDropped;
     /**
      * Constructor.
      *
@@ -26,12 +29,13 @@ public abstract class Enemy extends Actor {
      * @param displayChar Character to represent the enemy in the UI
      * @param hitPoints   Enemy's starting number of hitpoints
      */
-    public Enemy(String name, char displayChar, int hitPoints){
+    public Enemy(String name, char displayChar, int hitPoints,int runesNumDropped){
         super(name,displayChar,hitPoints);
         // Priority of behaviour:  1. AttackBehaviour  2. FollowBehaviour  3. WanderBehaviour
         this.behaviours.put(999, new WanderBehaviour());
         this.behaviours.put(997, new AttackBehaviour());
         addCapability(Status.ENEMY);
+        this.runeNumDropped = runesNumDropped;
     }
 
     /**
@@ -53,5 +57,15 @@ public abstract class Enemy extends Actor {
         return new DoNothingAction();
     }
 
-
+    /**
+     * Method that can be executed when the Forest Keeper is unconscious due to the action of another actor.
+     *
+     * @param actor the perpetrator
+     * @param map where the Forest Keeper fell unconscious
+     * @return a string describing what happened when the Forest Keeper is unconscious
+     */
+    public String unconscious(Actor actor, GameMap map) {
+        map.locationOf(this).addItem(new Runes(runeNumDropped));
+        return super.unconscious(actor, map);
+    }
 }
