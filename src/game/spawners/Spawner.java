@@ -1,16 +1,20 @@
 package game.spawners;
 
-import edu.monash.fit2099.engine.positions.Location;
+
+import game.actors.enemies.Enemy;
 
 /**
- * Represent a spawner of an enemy
+ * An interface representing a spawner for enemy actors in the game world.
+ * Classes implementing this interface are responsible for spawning enemy actors at specified locations.
+ *
+ * @author MA_AppliedSession1_Group7
  */
-public interface Spawner {
+public interface Spawner<E extends Enemy> {
 
   /**
-   * @param location the location to spawn the enemy
+   * Spawns an enemy actor at the specified location.
    */
-  void spawn(Location location);
+  E spawn();
 
 
 }

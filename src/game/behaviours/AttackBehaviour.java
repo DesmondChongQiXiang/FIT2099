@@ -10,16 +10,18 @@ import game.capabilities.Status;
 import game.actions.AttackAction;
 
 /**
- * A class that figures out a AttackAction that will make the actor attack to a target Actor.
+ * A class that figures out an AttackAction that will make the actor attack a target Actor.
+ *
+ * @author : MA_AppliedSession1_Group7
  */
 public class AttackBehaviour implements Behaviour {
 
     /**
-     * Returns a AttackAction to nearby actor, if possible.
+     * Returns an AttackAction to nearby actor, if possible.
      * If no actor is nearby, returns null.
      *
      * @param actor the Actor enacting the behaviour
-     * @param map the map that actor is currently on
+     * @param map   the map that actor is currently on
      * @return an Action, or null if no AttackAction is possible
      */
     @Override

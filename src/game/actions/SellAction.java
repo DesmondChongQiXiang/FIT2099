@@ -9,21 +9,23 @@ import game.items.Sellable;
 /**
  * The SellAction class represents the action of selling an item in the game.
  * It extends the Action class and works with items that implement the Sellable interface.
+ *
+ * @author : MA_AppliedSession1_Group7
  */
 public class SellAction extends Action {
 
     /**
      * The item to be sold.
      */
-    private Sellable item;
+    private Sellable soldItem;
 
     /**
      * Initializes a new SellAction.
      *
-     * @param item The item to be sold.
+     * @param soldItem The item to be sold.
      */
-    public SellAction(Sellable item) {
-        this.item = item;
+    public SellAction(Sellable soldItem) {
+        this.soldItem = soldItem;
     }
 
     /**
@@ -36,8 +38,8 @@ public class SellAction extends Action {
     @Override
     public String execute(Actor actor, GameMap map) {
         try{
-            int sellingPrice = item.soldBy(actor);
-            return String.format("%s sells %s for %d runes",actor,item,sellingPrice);
+            int finalSellingPrice = soldItem.soldBy(actor);
+            return String.format("%s sells %s for %d runes",actor, soldItem,finalSellingPrice);
         }
         catch (Exception e){
             return e.getMessage();
@@ -52,6 +54,6 @@ public class SellAction extends Action {
      */
     @Override
     public String menuDescription(Actor actor) {
-        return String.format("%s sells %s", actor,item);
+        return String.format("%s sells %s", actor, soldItem);
     }
 }

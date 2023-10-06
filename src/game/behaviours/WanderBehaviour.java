@@ -11,22 +11,20 @@ import edu.monash.fit2099.engine.positions.Location;
 import edu.monash.fit2099.engine.actors.Behaviour;
 
 /**
- * Created by:
- * @author Riordan D. Alfredo
- * Modified by:
+ * A class that represents a wandering behavior for actors.
  *
+ * @author : MA_AppliedSession1_Group7
  */
 public class WanderBehaviour implements Behaviour {
 
     private final Random random = new Random();
 
     /**
-     * Returns a MoveAction to wander to a random location, if possible.
-     * If no movement is possible, returns null.
+     * Returns a MoveAction to wander to a random location if possible.
      *
      * @param actor the Actor enacting the behaviour
-     * @param map the map that actor is currently on
-     * @return an Action, or null if no MoveAction is possible
+     * @param map   the map that actor is currently on
+     * @return a MoveAction, or null if no suitable action is possible
      */
     @Override
     public Action getAction(Actor actor, GameMap map) {
@@ -46,6 +44,4 @@ public class WanderBehaviour implements Behaviour {
             return null;
         }
     }
-
-
 }
