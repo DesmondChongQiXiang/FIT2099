@@ -11,24 +11,29 @@ import game.actions.SellAction;
 import game.capabilities.Ability;
 
 /**
- * A class that represents Refreshing Flask that can increase the stamina of an actor.
+ * A class that represents a Refreshing Flask item in the game.
+ *
+ * The Refreshing Flask is a consumable item that can be used by actors to increase their stamina.
+ * It can also be bought and sold in the game.
+ *
+ * @author MA_AppliedSession1_Group7
  */
 public class RefreshingFlask extends Item implements Consumable, Sellable, Purchasable{
+
     /**
-     * Constructor.
+     * Constructor for the RefreshingFlask class.
+     * Initializes the Refreshing Flask with its name, display character, and the fact that it is transferable (can be carried by actors).
      */
     public RefreshingFlask(){
         super("Refreshing Flask", 'u', true);
     }
 
     /**
-     * Each time the player uses it, their stamina will increase by 20% of their maximum stamina.
-     * It can only be consumed once by the player and cannot be consumed directly from the ground.
-     * They must be picked up by the player before being consumed.
+     * Increases the actor's stamina by 20% of their maximum stamina when consumed.
+     * The item is removed from the actor's inventory after consumption.
      *
-     * @param actor the actor who owns the RefreshingFlask item
-     *
-     * @return a description of what happened (the result of the action being performed) that can be displayed to the user.
+     * @param actor The actor who consumes the Refreshing Flask.
+     * @return A description of the consumption action and its effects.
      */
     @Override
     public String consumedBy(Actor actor) {
@@ -40,12 +45,10 @@ public class RefreshingFlask extends Item implements Consumable, Sellable, Purch
     }
 
     /**
-     * List of allowable actions that the Refreshing Flask can perform to the current actor.
-     * The Player can perform ConsumeAction on RefreshingFlask.
+     * Returns a list of allowable actions that can be performed on this Refreshing Flask by the owner actor.
      *
-     * @param owner the actor that owns the item
-     *
-     * @return a list of Actions for actor acts on the RefreshingFlask item
+     * @param owner The actor that owns the item.
+     * @return A list of allowable actions for the owner actor.
      */
     @Override
     public ActionList allowableActions(Actor owner) {
@@ -55,11 +58,11 @@ public class RefreshingFlask extends Item implements Consumable, Sellable, Purch
     }
 
     /**
-     * Returns the allowable actions that can be performed with this weapon.
+     * Returns a list of allowable actions that can be performed with this Refreshing Flask by other actors at a specific location.
      *
      * @param otherActor The actor performing the action.
      * @param location The location where the action takes place.
-     * @return A list of allowable actions.
+     * @return A list of allowable actions for other actors at the specified location.
      */
     @Override
     public ActionList allowableActions(Actor otherActor, Location location) {
@@ -70,17 +73,31 @@ public class RefreshingFlask extends Item implements Consumable, Sellable, Purch
         return actions;
     }
 
+    /**
+     * Sells the Refreshing Flask to an actor and calculates the selling price.
+     *
+     * @param seller The actor to whom the item is sold.
+     * @return The selling price of the Refreshing Flask.
+     */
     @Override
-    public int soldBy(Actor actor){
+    public int soldBy(Actor seller){
         int sellingPrice = 0;
         if (Math.random() <= 0.5){
             sellingPrice = 25;
-            actor.addBalance(sellingPrice);
+            seller.addBalance(sellingPrice);
         }
-        actor.removeItemFromInventory(this);
+        seller.removeItemFromInventory(this);
         return sellingPrice;
     }
 
+    /**
+     * Purchases the Refreshing Flask by an actor and deducts the purchase price from their balance.
+     *
+     * @param buyer The actor buying the item.
+     * @param purchasePrice The price at which the item is purchased.
+     * @return The actual purchase price after possible discounts.
+     * @throws IllegalStateException If the buyer's balance is insufficient for the purchase.
+     */
     @Override
     public int purchasedBy(Actor buyer, int purchasePrice) {
         if (Math.random() <= 0.1){

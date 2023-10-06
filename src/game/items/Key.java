@@ -4,9 +4,12 @@ import edu.monash.fit2099.engine.items.Item;
 import game.capabilities.Ability;
 
 /**
- * A class that represents Key that can unlock
+ * A class that represents a Key that can unlock gates.
+ *
+ * @author MA_AppliedSession1_Group7
  */
 public class Key extends Item {
+
     /**
      * Constructor.
      */

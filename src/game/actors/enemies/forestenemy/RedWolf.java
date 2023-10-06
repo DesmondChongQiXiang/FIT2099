@@ -1,33 +1,53 @@
 package game.actors.enemies.forestenemy;
 
-import edu.monash.fit2099.engine.actions.ActionList;
 import edu.monash.fit2099.engine.actors.Actor;
+import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.weapons.IntrinsicWeapon;
-import game.actions.AttackAction;
-import game.actors.enemies.Enemy;
-import game.behaviours.FollowBehaviour;
-import game.capabilities.Status;
 import game.items.HealingVial;
 import game.items.Runes;
+import game.spawners.Spawner;
+import game.weathers.Weather;
+import game.weathers.WeatherControllable;
 
+/**
+ * A specialized forest-themed enemy class, representing a Red Wolf in the game.
+ * Extends the ForestEnemy class and implements the WeatherControllable interface.
+ *
+ * The RedWolf is a dangerous forest enemy with unique characteristics and behaviors.
+ *
+ * @author : MA_AppliedSession1_Group7
+ *
+ * @see ForestEnemy
+ * @see WeatherControllable
+ */
 public class RedWolf extends ForestEnemy {
 
   /**
-   * Constructor.
+   * Spawner for generating instances of the Red Wolf.
    */
-  public RedWolf(){
+  public static Spawner<RedWolf> SPAWNER = new Spawner<>() {
+    @Override
+    public RedWolf spawn() {
+      return new RedWolf();
+    }
+  };
 
-    super("Red Wolf", 'r', 25);
+  /**
+   * Constructor for creating a Red Wolf.
+   * Initializes the Red Wolf with its name, display character, hit points, and runes dropped when defeated.
+   */
+  public RedWolf() {
+    super("Red Wolf", 'r', 25, 25);
   }
 
   /**
-   * create a individual intrinsic weapon for Red Wolf
+   * Get the intrinsic weapon of the Red Wolf.
    *
    * Overrides Actor.getIntrinsicWeapon()
    *
    * @see Actor#getIntrinsicWeapon()
-   * @return a new Intrinsic Weapon
+   * @return A new IntrinsicWeapon instance representing the Red Wolf's bites.
    */
   @Override
   public IntrinsicWeapon getIntrinsicWeapon() {
@@ -35,18 +55,35 @@ public class RedWolf extends ForestEnemy {
   }
 
   /**
-   * Method that can be executed when the Forest Keeper is unconscious due to the action of another actor.
+   * Method that can be executed when the Red Wolf is unconscious due to the action of another actor.
    *
-   * @param actor the perpetrator
-   * @param map where the Forest Keeper fell unconscious
-   * @return a string describing what happened when the Forest Keeper is unconscious
+   * @param actor The perpetrator that caused the Red Wolf to fall unconscious.
+   * @param map   The GameMap where the Red Wolf fell unconscious.
+   * @return A string describing what happened when the Red Wolf is unconscious.
    */
   public String unconscious(Actor actor, GameMap map) {
-    if (Math.random() <= 0.10){
+    if (Math.random() <= 0.10) {
       map.locationOf(this).addItem(new HealingVial());
     }
-
-    map.locationOf(this).addItem(new Runes(25));
     return super.unconscious(actor, map);
   }
+
+  /**
+   * Update the behavior of the Red Wolf based on the current weather conditions.
+   * This method is called when the game's weather changes.
+   *
+   * @param weather The current weather condition.
+   * @param display The Display object used to output messages.
+   */
+  @Override
+  public void updateWeatherMode(Weather weather, Display display) {
+    if (weather == Weather.SUNNY) {
+      this.updateDamageMultiplier(3);
+      display.println(this + " is becoming more aggressive.");
+    } else if (weather == Weather.RAINY) {
+      this.updateDamageMultiplier(1);
+      display.println(this + " is becoming less aggressive.");
+    }
+  }
 }
+

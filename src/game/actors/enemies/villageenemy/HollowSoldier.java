@@ -4,32 +4,49 @@ import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.weapons.IntrinsicWeapon;
 import game.actors.enemies.Enemy;
+import game.actors.enemies.forestenemy.ForestKeeper;
 import game.items.HealingVial;
 import game.items.RefreshingFlask;
 import game.items.Runes;
 import game.capabilities.Status;
-
+import game.spawners.Spawner;
 
 /**
- * Class representing the HollowSoldier.
+ * A specialized village-themed enemy class, representing a Hollow Soldier in the game.
+ * Extends the VillageEnemy class and is part of the village-themed enemy group.
+ *
+ * The Hollow Soldier is a formidable village enemy with unique characteristics and behaviors.
+ *
+ * @author : MA_AppliedSession1_Group7
+ *
+ * @see VillageEnemy
  */
 public class HollowSoldier extends VillageEnemy {
+  /**
+   * Spawner for generating instances of the Hollow Soldier.
+   */
+  public static Spawner<HollowSoldier> SPAWNER = new Spawner<>() {
+    @Override
+    public HollowSoldier spawn() {
+      return new HollowSoldier();
+    }
+  };
 
   /**
-   * Constructor.
+   * Constructor for creating a Hollow Soldier.
+   * Initializes the Hollow Soldier with its name, display character, hit points, and runes dropped when defeated.
    */
-  public HollowSoldier(){
-
-    super("Hollow Soldier", '&', 200);
+  public HollowSoldier() {
+    super("Hollow Soldier", '&', 200, 100);
   }
 
   /**
-   * create a individual intrinsic weapon for Hollow Soldier
+   * Get the intrinsic weapon of the Hollow Soldier.
    *
    * Overrides Actor.getIntrinsicWeapon()
    *
    * @see Actor#getIntrinsicWeapon()
-   * @return a new Intrinsic Weapon
+   * @return A new IntrinsicWeapon instance representing the Hollow Soldier's whacks.
    */
   @Override
   public IntrinsicWeapon getIntrinsicWeapon() {
@@ -37,24 +54,21 @@ public class HollowSoldier extends VillageEnemy {
   }
 
   /**
-   * Method that can be executed when the actor is unconscious due to the action of another actor
-   * @param actor the perpetrator
-   * @param map where the actor fell unconscious
-   * @return a string describing what happened when the actor is unconscious
+   * Method that can be executed when the Hollow Soldier is unconscious due to the action of another actor.
+   *
+   * @param actor The perpetrator that caused the Hollow Soldier to fall unconscious.
+   * @param map   The GameMap where the Hollow Soldier fell unconscious.
+   * @return A string describing what happened when the Hollow Soldier is unconscious.
    */
   @Override
-  public String unconscious(Actor actor,GameMap map) {
-    if(Math.random() <=  0.30){
+  public String unconscious(Actor actor, GameMap map) {
+    if (Math.random() <= 0.30) {
       map.locationOf(this).addItem(new RefreshingFlask());
     }
 
-    if (Math.random() <= 0.20){
+    if (Math.random() <= 0.20) {
       map.locationOf(this).addItem(new HealingVial());
     }
-
-    map.locationOf(this).addItem(new Runes(100));
-    return super.unconscious(map);
+    return super.unconscious(actor, map);
   }
-
-
 }

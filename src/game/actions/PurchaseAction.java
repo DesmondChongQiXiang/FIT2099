@@ -8,26 +8,29 @@ import game.items.Purchasable;
 /**
  * The PurchaseAction class represents the action of purchasing an item in the game.
  * It extends the Action class and works with items that implement the Purchasable interface.
+ *
+ * @author : MA_AppliedSession1_Group7
  */
 public class PurchaseAction extends Action {
+
     /**
      * The item to be purchased.
      */
-    private final Purchasable item;
+    private final Purchasable purchasedItem;
 
     /**
-     * The item's purchase price
+     * The item's original purchase price.
      */
     private final int originalPrice;
 
     /**
      * Initializes a new PurchaseAction.
      *
-     * @param item The item to be purchased.
+     * @param purchasedItem The item to be purchased.
      * @param originalPrice the price of the item
      */
-    public PurchaseAction(Purchasable item, int originalPrice){
-        this.item = item;
+    public PurchaseAction(Purchasable purchasedItem, int originalPrice){
+        this.purchasedItem = purchasedItem;
         this.originalPrice = originalPrice;
     }
 
@@ -41,8 +44,8 @@ public class PurchaseAction extends Action {
     @Override
     public String execute(Actor actor, GameMap map) {
         try{
-            int finalPrice = item.purchasedBy(actor,this.originalPrice);
-            return String.format("%s successfully purchased %s for %d runes.",actor, item, finalPrice);
+            int finalPurchasedPrice = purchasedItem.purchasedBy(actor,this.originalPrice);
+            return String.format("%s successfully purchased %s for %d runes.",actor, purchasedItem, finalPurchasedPrice);
         }
         catch (Exception e){
             return e.getMessage();
@@ -57,7 +60,7 @@ public class PurchaseAction extends Action {
      */
     @Override
     public String menuDescription(Actor actor) {
-        return String.format("%s buys %s", actor,item);
+        return String.format("%s buys %s", actor, purchasedItem);
     }
 }
 

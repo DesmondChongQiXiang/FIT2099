@@ -23,8 +23,7 @@ import game.actions.ActiveSkill;
  * It extends the WeaponItem class and implements the Sellable, Purchasable, and ActiveSkill interfaces.
  * This weapon has unique capabilities and actions, including a special skill.
  *
- * @author Maliha Tariq
- * Modified by: Desmond Chong
+ * @author MA_AppliedSession1_Group7
  */
 public class GreatKnife extends WeaponItem implements Sellable, Purchasable, ActiveSkill {
     /**
@@ -84,25 +83,25 @@ public class GreatKnife extends WeaponItem implements Sellable, Purchasable, Act
      * There is a 10% chance that the traveller will take the runes instead of paying.
      * The item is then removed from the actor's inventory.
      *
-     * @param actor The actor who is selling the item.
+     * @param seller The actor who is selling the item.
      * @return The selling price of the item.
      */
     @Override
-    public int soldBy(Actor actor) {
+    public int soldBy(Actor seller) {
         int soldPrice = 175;
         if (Math.random() <= 0.1){// 10% chance that the traveller takes the runes instead
-            if (actor.getBalance() < soldPrice){
-                actor.deductBalance(actor.getBalance());
+            if (seller.getBalance() < soldPrice){
+                seller.deductBalance(seller.getBalance());
             }
             else{
-                actor.deductBalance(soldPrice);
-                throw new IllegalStateException("Seller rob " + actor +" of his runes");
+                seller.deductBalance(soldPrice);
+                throw new IllegalStateException("Seller rob " + seller +" of his runes");
             }
         }
         else{
-            actor.addBalance(soldPrice);
+            seller.addBalance(soldPrice);
         }
-        actor.removeItemFromInventory(this);
+        seller.removeItemFromInventory(this);
         return soldPrice;
     }
 

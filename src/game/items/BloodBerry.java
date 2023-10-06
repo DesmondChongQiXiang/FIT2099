@@ -6,22 +6,33 @@ import edu.monash.fit2099.engine.actors.attributes.ActorAttributeOperations;
 import edu.monash.fit2099.engine.actors.attributes.BaseActorAttributes;
 import edu.monash.fit2099.engine.items.Item;
 import edu.monash.fit2099.engine.positions.Location;
-import game.actions.ActivateSkillAction;
-import game.actions.AttackAction;
 import game.actions.ConsumeAction;
 import game.actions.SellAction;
 import game.capabilities.Ability;
-import game.capabilities.Status;
 
+/**
+ * The `BloodBerry` class represents an item in the game called BloodBerry. BloodBerries can be consumed by actors
+ * to increase their maximum health points. They are also sellable items. When consumed, a BloodBerry increases
+ * the maximum health of the consuming actor by 5 points.
+ *
+ * @author : MA_AppliedSession1_Group7
+ */
 public class BloodBerry extends Item implements Consumable,Sellable{
 
-    /***
-     * Constructor.
+    /**
+     * Constructor to create a BloodBerry item.
      */
     public BloodBerry() {
         super("BloodBerry", '*', true);
     }
 
+    /**
+     * Overrides the consumedBy method from the Consumable interface. Consuming a BloodBerry increases the maximum
+     * health of the actor by 5 points and removes the BloodBerry from the actor's inventory.
+     *
+     * @param actor The actor consuming the BloodBerry.
+     * @return A string describing the consumption action.
+     */
     @Override
     public String consumedBy(Actor actor) {
         actor.modifyAttributeMaximum(BaseActorAttributes.HEALTH, ActorAttributeOperations.INCREASE, 5);
@@ -30,12 +41,10 @@ public class BloodBerry extends Item implements Consumable,Sellable{
     }
 
     /**
-     * List of allowable actions that the Blood Berry can perform to the current actor.
-     * The Player can perform ConsumeAction on Blood Berry.
+     * Overrides the allowableActions method for an owned item. BloodBerries can be consumed by the owner.
      *
-     * @param owner the actor that owns the item
-     *
-     * @return a list of Actions for actor acts on the Blood Berry item
+     * @param owner The actor that owns the item.
+     * @return A list of allowable actions for the owner actor.
      */
     @Override
     public ActionList allowableActions(Actor owner) {
@@ -45,11 +54,12 @@ public class BloodBerry extends Item implements Consumable,Sellable{
     }
 
     /**
-     * Returns the allowable actions that can be performed with this weapon.
+     * Overrides the allowableActions method for an item that can be sold. BloodBerries can be sold by actors with
+     * the buying capability.
      *
      * @param otherActor The actor performing the action.
      * @param location The location where the action takes place.
-     * @return A list of allowable actions.
+     * @return A list of allowable actions for other actors.
      */
     @Override
     public ActionList allowableActions(Actor otherActor, Location location) {
@@ -59,11 +69,19 @@ public class BloodBerry extends Item implements Consumable,Sellable{
         }
         return actions;
     }
+
+    /**
+     * Overrides the soldBy method from the Sellable interface. Selling a BloodBerry to an actor increases their balance
+     * by 10 units, and the BloodBerry is removed from their inventory.
+     *
+     * @param seller The actor buying the BloodBerry.
+     * @return The selling price of the BloodBerry (10 units).
+     */
     @Override
-    public int soldBy(Actor actor){
+    public int soldBy(Actor seller){
         int sellingPrice = 10;
-        actor.addBalance(sellingPrice);
-        actor.removeItemFromInventory(this);
+        seller.addBalance(sellingPrice);
+        seller.removeItemFromInventory(this);
         return sellingPrice;
     }
 }

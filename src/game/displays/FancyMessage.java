@@ -6,9 +6,13 @@ package game.displays;
  * Font: Georgia11
  * Created by:
  * @author Adrian Kristanto
- * Modified by:
+ * Modified by: MA_AppliedSession1_Group7
  */
 public class FancyMessage {
+
+    /**
+     * Stylized game title using a specific font.
+     */
     public static String TITLE =
             "`7MM\"\"\"Yb. `7MM\"\"\"YMM   .M\"\"\"bgd `7MMF' .g8\"\"\"bgd `7MN.   `7MF'`7MM\"\"\"Yp,   .g8\"\"8q. `7MM\"\"\"Mq.  `7MN.   `7MF'`7MM\"\"\"YMM  \n" +
             "  MM    `Yb. MM    `7  ,MI    \"Y   MM .dP'     `M   MMN.    M    MM    Yb .dP'    `YM. MM   `MM.   MMN.    M    MM    `7  \n" +
@@ -19,6 +23,9 @@ public class FancyMessage {
             ".JMMmmmdP' .JMMmmmmMMM P\"Ybmmd\"  .JMML. `\"bmmmdPY .JML.    YM  .JMMmmmd9    `\"bmmd\"' .JMML. .JMM..JML.    YM  .JMMmmmmMMM \n" +
             "\n";
 
+    /**
+     * Message displayed when the player dies.
+     */
     public static String YOU_DIED =
             "`YMM'   `MM' .g8\"\"8q. `7MMF'   `7MF'    `7MM\"\"\"Yb. `7MMF'`7MM\"\"\"YMM  `7MM\"\"\"Yb.   \n" +
                     "  VMA   ,V .dP'    `YM. MM       M        MM    `Yb. MM    MM    `7    MM    `Yb. \n" +
