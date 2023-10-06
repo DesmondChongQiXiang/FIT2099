@@ -210,7 +210,7 @@ public class Application {
         }
 
         Player player = new Player("The Abstracted One", '@', 150, 200);
-        world.addPlayer(player,abxervyer.at(39, 13));
+        world.addPlayer(player,theAbandonedVillage.at(29, 5));
 
         Traveller traveller = new Traveller();
         ancientWoods.at(20,3).addActor(traveller);
