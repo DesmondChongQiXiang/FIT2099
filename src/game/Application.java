@@ -137,7 +137,7 @@ public class Application {
         burialGround.at(30, 14).setGround(burialGroundGate2);
 
         Gate ancientWoodsGate = new Gate();
-        ancientWoodsGate.addTravelAction(new TravelAction(burialGround.at(15, 14),"The Burial Ground"));
+        ancientWoodsGate.addTravelAction(new TravelAction(burialGround.at(10, 14),"The Burial Ground"));
         ancientWoods.at(10,11).setGround(ancientWoodsGate);
 
         ancientWoods.at(10,7).addItem(new BloodBerry());
