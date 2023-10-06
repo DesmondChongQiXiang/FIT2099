@@ -76,17 +76,17 @@ public class RefreshingFlask extends Item implements Consumable, Sellable, Purch
     /**
      * Sells the Refreshing Flask to an actor and calculates the selling price.
      *
-     * @param actor The actor to whom the item is sold.
+     * @param seller The actor to whom the item is sold.
      * @return The selling price of the Refreshing Flask.
      */
     @Override
-    public int soldBy(Actor actor){
+    public int soldBy(Actor seller){
         int sellingPrice = 0;
         if (Math.random() <= 0.5){
             sellingPrice = 25;
-            actor.addBalance(sellingPrice);
+            seller.addBalance(sellingPrice);
         }
-        actor.removeItemFromInventory(this);
+        seller.removeItemFromInventory(this);
         return sellingPrice;
     }
 

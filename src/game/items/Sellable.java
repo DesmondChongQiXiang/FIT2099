@@ -13,8 +13,8 @@ public interface Sellable {
     /**
      * Determines the logic for selling the item and calculates its selling price.
      *
-     * @param actor The actor who is selling the item.
+     * @param seller The seller who is selling the item.
      * @return The selling price of the item, typically in the game's currency.
      */
-    int soldBy(Actor actor);
+    int soldBy(Actor seller);
 }
