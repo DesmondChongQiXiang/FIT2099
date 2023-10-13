@@ -43,7 +43,7 @@ public class Player extends Actor {
         this.addCapability(Status.HOSTILE_TO_ENEMY);
         this.addCapability(Ability.ENTER_FLOOR);
         this.addCapability(Ability.BUYING);
-        this.addItemToInventory(new Key());
+
         // Initialize player attributes
         this.addAttribute(BaseActorAttributes.STAMINA, new BaseActorAttribute(stamina));
     }
@@ -100,7 +100,7 @@ public class Player extends Actor {
      */
     @Override
     public IntrinsicWeapon getIntrinsicWeapon() {
-        return new IntrinsicWeapon(15000, "bonks", 80);
+        return new IntrinsicWeapon(15, "bonks", 80);
     }
 
     /**

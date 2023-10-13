@@ -8,6 +8,8 @@ import game.actions.TravelAction;
 import game.actions.UnlockGateAction;
 import game.capabilities.Ability;
 
+import java.util.ArrayList;
+
 /**
  * The `Gate` class represents a gate or door that can be locked or unlocked in the game. It is a type of ground
  * environment represented by the character '=' on the game map.
@@ -19,7 +21,7 @@ public class Gate extends Ground {
     /**
      * Travel Action that is used to transfer an actor through the gate.
      */
-    private TravelAction travelAction;
+    private ArrayList<TravelAction> travelActionList;
 
     /**
      * The status of the gate (locked or unlocked).
@@ -33,6 +35,7 @@ public class Gate extends Ground {
         super('=');
         isUnlocked = false;
         addCapability(Ability.LOCKED_GATE);
+        this.travelActionList = new ArrayList<>();
     }
 
     /**
@@ -63,18 +66,11 @@ public class Gate extends Ground {
             actions.add(new UnlockGateAction(this));
         }
         else{
-            actions.add(travelAction);
+            for(TravelAction travelAction : travelActionList){
+                actions.add(travelAction);
+            }
         }
         return actions;
-    }
-
-    /**
-     * Sets the travelAction attribute, which allows an actor to pass through the gate.
-     *
-     * @param travelAction a TravelAction that can transfer an actor
-     */
-    public void addTravelAction(TravelAction travelAction){
-        this.travelAction = travelAction;
     }
 
     /**
@@ -85,5 +81,8 @@ public class Gate extends Ground {
         removeCapability(Ability.LOCKED_GATE);
     }
 
+    public void addTravelAction(TravelAction travelAction){
+        travelActionList.add(travelAction);
+    }
 
 }
