@@ -6,6 +6,7 @@ import edu.monash.fit2099.engine.positions.GameMap;
 import game.actions.AttackAction;
 import game.actors.enemies.Enemy;
 import game.behaviours.FollowBehaviour;
+import game.behaviours.WanderBehaviour;
 import game.capabilities.Status;
 import game.weathers.WeatherControllable;
 
@@ -31,6 +32,7 @@ public abstract class ForestEnemy extends Enemy implements WeatherControllable {
      */
     public ForestEnemy(String name, char displayChar, int hitPoints, int runesNumDropped) {
         super(name, displayChar, hitPoints, runesNumDropped);
+        this.behaviours.put(999, new WanderBehaviour());
     }
 
     /**

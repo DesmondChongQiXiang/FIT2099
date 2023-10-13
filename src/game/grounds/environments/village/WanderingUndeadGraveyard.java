@@ -14,14 +14,14 @@ import game.spawners.Spawner;
  * @param <W> The type of Wandering Undead enemy that can spawn in this type of ground.
  * @see VillageEnemySpawnableGround
  */
-public class AbandonedVillageGraveyard<W extends WanderingUndead> extends VillageEnemySpawnableGround<W> {
+public class WanderingUndeadGraveyard<W extends WanderingUndead> extends VillageEnemySpawnableGround<W> {
 
     /**
      * Constructor to create an AbandonedVillageGraveyard instance.
      *
      * @param wanderingUndeadSpawner The spawner for Wandering Undead enemies associated with this type of ground.
      */
-    public AbandonedVillageGraveyard(Spawner<W> wanderingUndeadSpawner){
+    public WanderingUndeadGraveyard(Spawner<W> wanderingUndeadSpawner){
         super('n', 25, wanderingUndeadSpawner);
     }
 }

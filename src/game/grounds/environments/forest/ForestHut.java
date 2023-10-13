@@ -19,14 +19,14 @@ import game.weathers.WeatherControllable;
  * @see ForestEnemySpawnableGround
  * @see WeatherControllable
  */
-public class Hut<F extends ForestKeeper> extends ForestEnemySpawnableGround<F> {
+public class ForestHut<F extends ForestKeeper> extends ForestEnemySpawnableGround<F> {
 
   /**
    * Constructor to create a Hut instance.
    *
    * @param forestKeeperSpawner The spawner for Forest Keepers associated with this type of ground.
    */
-  public Hut(Spawner<F> forestKeeperSpawner){
+  public ForestHut(Spawner<F> forestKeeperSpawner){
     super('h', 15, forestKeeperSpawner);
   }
 

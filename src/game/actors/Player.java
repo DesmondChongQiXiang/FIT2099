@@ -14,6 +14,7 @@ import edu.monash.fit2099.engine.weapons.IntrinsicWeapon;
 import game.capabilities.Ability;
 import game.capabilities.Status;
 import game.displays.FancyMessage;
+import game.items.Key;
 
 /**
  * Class representing the player character in the game.

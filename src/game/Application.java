@@ -73,8 +73,7 @@ public class Application {
         theAbandonedVillage.at(27, 6).addItem(broadsword);
 
 
-        FancyGroundFactory burialGroundFactory = new FancyGroundFactory(new Dirt(),
-                new Wall(), new Floor(), new Puddle(),new Void());
+        FancyGroundFactory burialGroundFactory = new FancyGroundFactory(new Dirt(), new Wall(), new Floor(), new Puddle(),new Void());
         List<String> burialGroundMap = Arrays.asList
                 ("...........+++++++........~~~~~~++....~~",
                         "...........++++++.........~~~~~~+.....~~",
@@ -106,22 +105,21 @@ public class Application {
         burialGround.at(23,7).setGround(burialGroundGate);
 
 
-        FancyGroundFactory ancientWoodsFactory = new FancyGroundFactory(new Dirt(),
-                new Wall(), new Floor(), new Puddle(),new Void());
+        FancyGroundFactory ancientWoodsFactory = new FancyGroundFactory(new Dirt(), new Wall(), new Floor(), new Puddle(), new Void());
 
-        List<String> ancientWoodsMap = Arrays.asList
-                ("....+++..............................+++++++++....~~~....~~~",
-                        "+...+++..............................++++++++.....~~~.....~~",
-                        "++...............#######..............++++.........~~.......",
-                        "++...............#_____#...........................~~~......",
-                        "+................#_____#............................~~......",
-                        ".................###_###............~...............~~.....~",
-                        "...............................~.+++~~..............~~....~~",
-                        ".....................~........~~+++++...............~~~...~~",
-                        "....................~~~.........++++............~~~~~~~...~~",
-                        "....................~~~~.~~~~..........~........~~~~~~.....~",
-                        "++++...............~~~~~~~~~~~........~~~.......~~~~~~......",
-                        "+++++..............~~~~~~~~~~~........~~~........~~~~~......");
+        List<String> ancientWoodsMap = Arrays.asList(
+                "....+++..............................+++++++++....~~~....~~~",
+                "+...+++..............................++++++++.....~~~.....~~",
+                "++...............#######..............++++.........~~.......",
+                "++...............#_____#...........................~~~......",
+                "+................#_____#............................~~......",
+                ".................###_###............~...............~~.....~",
+                "...............................~.+++~~..............~~....~~",
+                ".....................~........~~+++++...............~~~...~~",
+                "....................~~~.........++++............~~~~~~~...~~",
+                "....................~~~~.~~~~..........~........~~~~~~.....~",
+                "++++...............~~~~~~~~~~~........~~~.......~~~~~~......",
+                "+++++..............~~~~~~~~~~~........~~~........~~~~~......");
 
 
         GameMap ancientWoods = new GameMap(ancientWoodsFactory,ancientWoodsMap);
@@ -146,7 +144,7 @@ public class Application {
         ancientWoods.at(3,9).addItem(new BloodBerry());
 
 
-        FancyGroundFactory abxervyerFactory = new FancyGroundFactory(new Dirt(), new Wall(), new Floor(), new Puddle(), new Void());
+        FancyGroundFactory abxervyerFactory = new FancyGroundFactory(new Dirt(), new Puddle(), new Void());
         List<String> abxervyerMap = Arrays.asList(
                 "~~~~.......+++......~+++++..............",
                 "~~~~.......+++.......+++++..............",
@@ -209,15 +207,43 @@ public class Application {
             }
         }
 
-        Player player = new Player("The Abstracted One", '@', 150, 200);
-        world.addPlayer(player,theAbandonedVillage.at(29, 5));
-
         Traveller traveller = new Traveller();
         ancientWoods.at(20,3).addActor(traveller);
 
         WeatherManager weatherManager = new WeatherManager(Weather.SUNNY,forestEnemySpawnableGroundList);
         ForestWatcher forestWatcher = new ForestWatcher(weatherManager, abxvyerGate1);
         abxervyer.at((abxervyer.getXRange().max())/2,(abxervyer.getYRange().max())/2).addActor(forestWatcher);
+
+        FancyGroundFactory overgrownSanctuaryFactory = new FancyGroundFactory(new Dirt(), new Puddle(), new Void());
+
+        List<String> overgrownSanctuaryMap = Arrays.asList(
+                "++++.....++++........++++~~~~~.......~~~..........",
+                "++++......++.........++++~~~~.........~...........",
+                "+++..................+++++~~.......+++............",
+                "....................++++++......++++++............",
+                "...................++++........++++++~~...........",
+                "...................+++.........+++..~~~...........",
+                "..................+++..........++...~~~...........",
+                "~~~...........................~~~..~~~~...........",
+                "~~~~............+++..........~~~~~~~~~~...........",
+                "~~~~............+++.........~~~~~~~~~~~~..........",
+                "++~..............+++.......+~~........~~..........",
+                "+++..............+++......+++..........~~.........",
+                "+++..............+++......+++..........~~.........",
+                "~~~..............+++......+++..........~~~........",
+                "~~~~.............+++......+++..........~~~........");
+
+        GameMap overgrownSanctuary = new GameMap(overgrownSanctuaryFactory, overgrownSanctuaryMap);
+        world.addGameMap(overgrownSanctuary);
+
+        abxvyerGate1.addTravelAction(new TravelAction(overgrownSanctuary.at(8, 4),"The Overgrown Sanctuary"));
+
+        Gate overgrownSanctuaryGate1 = new Gate();
+        overgrownSanctuaryGate1.addTravelAction(new TravelAction(abxervyer.at(39, 13), "Abxervyer, The Forest Watcher"));
+        overgrownSanctuary.at(7, 4).setGround(overgrownSanctuaryGate1);
+
+        Player player = new Player("The Abstracted One", '@', 150, 200);
+        world.addPlayer(player,abxervyer.at(22, 10));
         world.run();
     }
 }

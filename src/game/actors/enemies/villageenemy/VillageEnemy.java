@@ -5,6 +5,7 @@ import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.positions.GameMap;
 import game.actions.AttackAction;
 import game.actors.enemies.Enemy;
+import game.behaviours.WanderBehaviour;
 import game.capabilities.Status;
 
 /**
@@ -29,6 +30,7 @@ public abstract class VillageEnemy extends Enemy {
      */
     public VillageEnemy(String name, char displayChar, int hitPoints, int runesNumDropped) {
         super(name, displayChar, hitPoints, runesNumDropped);
+        this.behaviours.put(999, new WanderBehaviour());
     }
 
     /**
