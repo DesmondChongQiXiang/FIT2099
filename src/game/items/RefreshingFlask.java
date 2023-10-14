@@ -74,7 +74,7 @@ public class RefreshingFlask extends Item implements Consumable, Sellable, Purch
         if (otherActor.hasCapability(Ability.BUYING)) {
             actions.add(new SellAction(this));
         }
-        if (!isUpgraded && otherActor.hasCapability(Ability.UPGRADE_EQUIREMENT)){
+        if (!isUpgraded && otherActor.hasCapability(Ability.UPGRADE_EQUIPMENT)){
             actions.add(new UpgradeAction(this,175));
         }
         return actions;

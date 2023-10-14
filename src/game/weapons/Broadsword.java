@@ -81,7 +81,7 @@ public class Broadsword extends WeaponItem implements ActiveSkill, Sellable, Pur
         if (otherActor.hasCapability(Ability.BUYING)) {
             actions.add(new SellAction(this));
         }
-        if (otherActor.hasCapability(Ability.UPGRADE_EQUIREMENT)){
+        if (otherActor.hasCapability(Ability.UPGRADE_EQUIPMENT)){
             actions.add(new UpgradeAction(this,1000));
         }
         return actions;
