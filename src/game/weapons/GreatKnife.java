@@ -30,7 +30,7 @@ public class GreatKnife extends WeaponItem implements Sellable, Purchasable, Upg
      */
     public GreatKnife() {
         super("Great Knife", '>', 75, "stabs", 70);
-
+        this.addCapability(Ability.USE_GREATKNIFE);
     }
 
     /**
@@ -51,7 +51,7 @@ public class GreatKnife extends WeaponItem implements Sellable, Purchasable, Upg
         if (otherActor.hasCapability(Ability.BUYING)) {
             actions.add(new SellAction(this));
         }
-        if (otherActor.hasCapability(Ability.UPGRADE_EQUIREMENT)){
+        if (otherActor.hasCapability(Ability.UPGRADE_EQUIPMENT)){
             actions.add(new UpgradeAction(this,1000));
         }
         return actions;
