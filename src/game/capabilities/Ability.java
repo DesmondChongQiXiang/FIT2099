@@ -49,7 +49,7 @@ public enum Ability {
     USE_GREATKNIFE,
 
     /**
-     * Ability indicating that the actor can use a great hammer as a weapon.
+     * Ability indicating that the actor can use a giant hammer as a weapon.
      */
-    USE_GREATHAMMER
+    USE_GIANTHAMMER,
 }
