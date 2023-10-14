@@ -32,7 +32,7 @@ public class Blacksmith extends Actor {
         ActionList actions = new ActionList();
         if (otherActor.hasCapability(Ability.LISTEN_STORY)) {
             this.addMonologueOptions(otherActor);
-            actions.add(new ListenMonologueAction(monologueOptions));
+            actions.add(new ListenMonologueAction(monologueOptions,this));
         }
         return actions;
     }

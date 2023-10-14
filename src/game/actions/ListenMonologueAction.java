@@ -11,9 +11,10 @@ import java.util.Random;
 public class ListenMonologueAction extends Action {
     private Random rand = new Random();
     private MonologueOptions monologueOptions;
-
-    public ListenMonologueAction(MonologueOptions monologueOptions){
+    private Actor speaker;
+    public ListenMonologueAction(MonologueOptions monologueOptions, Actor speaker){
         this.monologueOptions = monologueOptions;
+        this.speaker = speaker;
     }
     @Override
     public String execute(Actor actor, GameMap map) {
@@ -22,6 +23,6 @@ public class ListenMonologueAction extends Action {
 
     @Override
     public String menuDescription(Actor actor) {
-        return "listen to " + actor;
+        return actor + " listen to " + speaker;
     }
 }
