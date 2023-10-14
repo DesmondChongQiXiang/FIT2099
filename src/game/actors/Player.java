@@ -14,8 +14,8 @@ import edu.monash.fit2099.engine.positions.Location;
 import edu.monash.fit2099.engine.weapons.IntrinsicWeapon;
 import game.capabilities.Ability;
 import game.capabilities.Status;
-import game.displays.FancyMessage;
-import game.Application;
+import edu.monash.fit2099.engine.actors.Wallet;
+import game.items.Runes;
 import game.grounds.AbandonedVillageMap;
 
 
@@ -30,6 +30,7 @@ import game.grounds.AbandonedVillageMap;
  * @see Actor
  */
 public class Player extends Actor {
+    private Wallet wallet;
     private AbandonedVillageMap abandonedVillageMap;
 
 
@@ -43,14 +44,12 @@ public class Player extends Actor {
      */
     public Player(String name, char displayChar, int hitPoints, int stamina, AbandonedVillageMap abandonedVillageMap) {
         super(name, displayChar, hitPoints);
+        this.wallet = new Wallet();
         this.abandonedVillageMap = abandonedVillageMap;
-
-        // Add capabilities to the player
         this.addCapability(Status.HOSTILE_TO_ENEMY);
         this.addCapability(Ability.ENTER_FLOOR);
         this.addCapability(Ability.BUYING);
         this.addCapability(Ability.LISTEN_STORY);
-        // Initialize player attributes
         this.addAttribute(BaseActorAttributes.STAMINA, new BaseActorAttribute(stamina));
     }
 
@@ -65,22 +64,18 @@ public class Player extends Actor {
     @Override
     public String unconscious(Actor actor, GameMap map) {
         // Modify the player's health attribute
-        int currentHealth = actor.getAttribute(BaseActorAttributes.HEALTH);
         int maxHealth = actor.getAttributeMaximum(BaseActorAttributes.HEALTH);
-        int currentStamina = actor.getAttribute(BaseActorAttributes.STAMINA);
         int maxStamina = actor.getAttributeMaximum(BaseActorAttributes.STAMINA);
 
-        // Reset health and stamina to their maximum values
         actor.modifyAttribute(BaseActorAttributes.HEALTH, ActorAttributeOperations.UPDATE, maxHealth);
         actor.modifyAttribute(BaseActorAttributes.STAMINA, ActorAttributeOperations.UPDATE, maxStamina);
 
         String ret = "";
-
-
-        // Perform the unconscious action and remove the player from the map
         ret += super.unconscious(actor, map);
+        resetWalletAndDropRunes(map);
 
-        GameMap theAbandonedVillage = abandonedVillageMap.getTheAbandonedVillage();  // Assuming you have a getter for this
+
+        GameMap theAbandonedVillage = abandonedVillageMap.getTheAbandonedVillage();
         map.moveActor(this, theAbandonedVillage.at(29, 5));
 
         ret += "\n";
@@ -103,12 +98,21 @@ public class Player extends Actor {
         this.modifyAttribute(BaseActorAttributes.HEALTH, ActorAttributeOperations.UPDATE, maxHealth);
         this.modifyAttribute(BaseActorAttributes.STAMINA, ActorAttributeOperations.UPDATE, maxStamina);
         String ret = "";
+        resetWalletAndDropRunes(map);
 
         GameMap theAbandonedVillage = abandonedVillageMap.getTheAbandonedVillage();
         map.moveActor(this, theAbandonedVillage.at(29, 5));
 
         ret += "\n" ;
         return ret;
+    }
+    private void resetWalletAndDropRunes(GameMap map) {
+        int lastBalance = wallet.getBalance();  // Get current wallet balance
+        wallet.deductBalance(lastBalance);  // Reset wallet to 0
+
+        Runes droppedRunes = new Runes(lastBalance);  // Create Runes with last balance
+        Location lastLocation = map.locationOf(this);
+        lastLocation.addItem(droppedRunes);  // Add Runes to last known location
     }
 
     /**
@@ -144,8 +148,7 @@ public class Player extends Actor {
         display.println(this.name);
         display.println("HP: " + this.getAttribute(BaseActorAttributes.HEALTH) + "/" + this.getAttributeMaximum(BaseActorAttributes.HEALTH));
         display.println("Stamina: " + this.getAttribute(BaseActorAttributes.STAMINA) + "/" + this.getAttributeMaximum(BaseActorAttributes.STAMINA));
-        display.println("Runes: " + this.getBalance());
-
+        display.println("Runes: " + wallet.getBalance());
         // Return/print the console menu
         Menu menu = new Menu(actions);
         return menu.showMenu(this, display);
