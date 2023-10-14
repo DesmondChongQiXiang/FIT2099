@@ -6,12 +6,15 @@ import edu.monash.fit2099.engine.actions.DoNothingAction;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.GameMap;
+import game.actions.ListenMonologueAction;
 import game.actions.PurchaseAction;
 import game.capabilities.Ability;
 import game.items.HealingVial;
 import game.items.RefreshingFlask;
 import game.weapons.Broadsword;
 import game.weapons.GreatKnife;
+import game.capabilities.Status;
+
 
 /**
  * The Traveller class represents a specialized actor in the game world.
@@ -27,6 +30,8 @@ import game.weapons.GreatKnife;
  * @see Actor
  */
 public class Traveller extends Actor {
+    private MonologueOptions monologueOptions;
+
 
     /**
      * Constructor to initialize the Traveller actor.
@@ -34,6 +39,7 @@ public class Traveller extends Actor {
     public Traveller() {
         super("Traveller", 'ඞ', 0);
         this.addCapability(Ability.BUYING);
+        this.monologueOptions = new MonologueOptions();
     }
 
     /**
@@ -74,7 +80,18 @@ public class Traveller extends Actor {
             int greatKnifePrice = 300;
             actions.add(new PurchaseAction(new GreatKnife(), greatKnifePrice));
         }
+
+        if (otherActor.hasCapability(Ability.LISTEN_STORY)) {
+            this.addMonologueOptions(otherActor);
+            actions.add(new ListenMonologueAction(monologueOptions,this));
+        }
+
         return actions;
     }
+    public void addMonologueOptions(Actor listener) {
+        this.monologueOptions.clearOption();
+        monologueOptions.addOption("Of course, I will never give you up, valuable customer!");
+    }
+
 }
 
