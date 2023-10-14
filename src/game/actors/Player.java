@@ -14,7 +14,7 @@ import edu.monash.fit2099.engine.weapons.IntrinsicWeapon;
 import game.capabilities.Ability;
 import game.capabilities.Status;
 import game.displays.FancyMessage;
-import game.items.Key;
+
 
 /**
  * Class representing the player character in the game.
@@ -43,7 +43,6 @@ public class Player extends Actor {
         this.addCapability(Status.HOSTILE_TO_ENEMY);
         this.addCapability(Ability.ENTER_FLOOR);
         this.addCapability(Ability.BUYING);
-
         // Initialize player attributes
         this.addAttribute(BaseActorAttributes.STAMINA, new BaseActorAttribute(stamina));
     }
