@@ -78,7 +78,7 @@ public class HealingVial extends Item implements Consumable, Purchasable, Sellab
         if (otherActor.hasCapability(Ability.BUYING)) {
             actions.add(new SellAction(this));
         }
-        if (!isUpgraded && otherActor.hasCapability(Ability.UPGRADE_EQUIREMENT)){
+        if (!isUpgraded && otherActor.hasCapability(Ability.UPGRADE_EQUIPMENT)){
             actions.add(new UpgradeAction(this,250));
         }
         return actions;
