@@ -20,9 +20,6 @@ public class Blacksmith extends Actor {
         super("Blacksmith", 'B', 0);
         this.addCapability(Ability.UPGRADE_EQUIPMENT);
         this.monologueOptions = new MonologueOptions();
-        monologueOptions.addOption("I used to be an adventurer like you, but then …. Nevermind, let’s get back to smithing.");
-        monologueOptions.addOption("It’s dangerous to go alone. Take my creation with you on your adventure!");
-        monologueOptions.addOption("Ah, it’s you. Let’s get back to make your weapons stronger.");
     }
 
     @Override
