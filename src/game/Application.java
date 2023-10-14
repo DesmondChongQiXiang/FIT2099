@@ -10,22 +10,29 @@ import edu.monash.fit2099.engine.positions.FancyGroundFactory;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.World;
 import game.actions.TravelAction;
+import game.actors.Blacksmith;
 import game.actors.Player;
 import game.actors.Traveller;
 import game.actors.enemies.forestenemy.ForestEnemy;
 import game.actors.enemies.forestenemy.ForestKeeper;
 import game.actors.enemies.ForestWatcher;
 import game.actors.enemies.forestenemy.RedWolf;
+import game.actors.enemies.sanctuaryenemy.EldentreeGuardian;
+import game.actors.enemies.sanctuaryenemy.LivingBranch;
+import game.actors.enemies.sanctuaryenemy.SanctuaryEnemy;
 import game.actors.enemies.villageenemy.HollowSoldier;
 import game.actors.enemies.villageenemy.WanderingUndead;
 import game.displays.FancyMessage;
 import game.grounds.*;
 import game.grounds.Void;
-import game.grounds.environments.forest.Bushes;
+import game.grounds.environments.forest.ForestBush;
 import game.grounds.environments.forest.ForestEnemySpawnableGround;
-import game.grounds.environments.forest.Hut;
-import game.grounds.environments.village.AbandonedVillageGraveyard;
-import game.grounds.environments.village.BurialGroundGraveyard;
+import game.grounds.environments.forest.ForestHut;
+import game.grounds.environments.sanctuary.SanctuaryBush;
+import game.grounds.environments.sanctuary.SanctuaryEnemySpawnableGround;
+import game.grounds.environments.sanctuary.SanctuaryHut;
+import game.grounds.environments.village.WanderingUndeadGraveyard;
+import game.grounds.environments.village.HollowSoldierGraveyard;
 import game.items.BloodBerry;
 import game.weapons.Broadsword;
 import game.weapons.GiantHammer;
@@ -67,7 +74,7 @@ public class Application {
         GameMap theAbandonedVillage = new GameMap(abandonedVillageFactory, abandonedVillage);
         world.addGameMap(theAbandonedVillage);
 
-        theAbandonedVillage.at(10,8).setGround(new AbandonedVillageGraveyard<WanderingUndead>(WanderingUndead.SPAWNER));
+        theAbandonedVillage.at(10,8).setGround(new WanderingUndeadGraveyard<WanderingUndead>(WanderingUndead.SPAWNER));
 
         Item broadsword = new Broadsword();
         theAbandonedVillage.at(27, 6).addItem(broadsword);
@@ -94,11 +101,11 @@ public class Application {
         GameMap burialGround = new GameMap(burialGroundFactory,burialGroundMap);
         world.addGameMap(burialGround);
 
-        burialGround.at(21,11).setGround(new BurialGroundGraveyard<HollowSoldier>(HollowSoldier.SPAWNER));
+        burialGround.at(21,11).setGround(new HollowSoldierGraveyard<HollowSoldier>(HollowSoldier.SPAWNER));
 
         Gate abandonedVillageGate = new Gate();
         abandonedVillageGate.addTravelAction(new TravelAction(burialGround.at(22, 7),"The Burial Ground"));
-        theAbandonedVillage.at(30, 5).setGround(abandonedVillageGate);
+        theAbandonedVillage.at(31, 5).setGround(abandonedVillageGate);
 
         Gate burialGroundGate = new Gate();
         burialGroundGate.addTravelAction(new TravelAction(theAbandonedVillage.at(31, 5),"The Abandoned Village"));
@@ -125,8 +132,8 @@ public class Application {
         GameMap ancientWoods = new GameMap(ancientWoodsFactory,ancientWoodsMap);
         world.addGameMap(ancientWoods);
 
-        ForestEnemySpawnableGround<ForestEnemy> ancientWoodHuts = new Hut(ForestKeeper.SPAWNER);
-        ForestEnemySpawnableGround<ForestEnemy> ancientWoodBush = new Bushes(RedWolf.SPAWNER);
+        ForestEnemySpawnableGround<ForestEnemy> ancientWoodHuts = new ForestHut(ForestKeeper.SPAWNER);
+        ForestEnemySpawnableGround<ForestEnemy> ancientWoodBush = new ForestBush(RedWolf.SPAWNER);
         ancientWoods.at(29,0).setGround(ancientWoodHuts);
         ancientWoods.at(15,11).setGround(ancientWoodBush);
 
@@ -170,10 +177,10 @@ public class Application {
         GameMap abxervyer = new GameMap(abxervyerFactory, abxervyerMap);
         world.addGameMap(abxervyer);
 
-        ForestEnemySpawnableGround<ForestEnemy> abxervyerHut1 = new Hut(ForestKeeper.SPAWNER);
-        ForestEnemySpawnableGround<ForestEnemy> abxervyerHut2 = new Hut(ForestKeeper.SPAWNER);
-        ForestEnemySpawnableGround<ForestEnemy> abxervyerBush1 = new Bushes(RedWolf.SPAWNER);
-        ForestEnemySpawnableGround<ForestEnemy> abxervyerBush2 = new Hut(ForestKeeper.SPAWNER);
+        ForestEnemySpawnableGround<ForestEnemy> abxervyerHut1 = new ForestHut(ForestKeeper.SPAWNER);
+        ForestEnemySpawnableGround<ForestEnemy> abxervyerHut2 = new ForestHut(ForestKeeper.SPAWNER);
+        ForestEnemySpawnableGround<ForestEnemy> abxervyerBush1 = new ForestBush(RedWolf.SPAWNER);
+        ForestEnemySpawnableGround<ForestEnemy> abxervyerBush2 = new ForestHut(ForestKeeper.SPAWNER);
         abxervyer.at(10, 19).setGround(abxervyerHut1);
         abxervyer.at(32, 0).setGround(abxervyerHut2);
         abxervyer.at(11, 13).setGround(abxervyerBush1);
@@ -242,8 +249,16 @@ public class Application {
         overgrownSanctuaryGate1.addTravelAction(new TravelAction(abxervyer.at(39, 13), "Abxervyer, The Forest Watcher"));
         overgrownSanctuary.at(7, 4).setGround(overgrownSanctuaryGate1);
 
+        overgrownSanctuary.at(5,11).setGround(new HollowSoldierGraveyard<HollowSoldier>(HollowSoldier.SPAWNER));
+        SanctuaryEnemySpawnableGround<SanctuaryEnemy> overgrownSanctuaryHut = new SanctuaryHut(EldentreeGuardian.SPAWNER);
+        SanctuaryEnemySpawnableGround<SanctuaryEnemy> overgrownSanctuaryBush = new SanctuaryBush(LivingBranch.SPAWNER);
+        overgrownSanctuary.at(9, 7).setGround(overgrownSanctuaryHut);
+        overgrownSanctuary.at(22, 7).setGround(overgrownSanctuaryBush);
+
+        Blacksmith blacksmith = new Blacksmith();
+        theAbandonedVillage.at(27,5).addActor(blacksmith);
         Player player = new Player("The Abstracted One", '@', 150, 200);
-        world.addPlayer(player,abxervyer.at(22, 10));
+        world.addPlayer(player,theAbandonedVillage.at(29, 5));
         world.run();
     }
 }
