@@ -89,6 +89,13 @@ public class Traveller extends Actor {
         return actions;
     }
 
+    /**
+     * Adds monologue options for the Traveller actor based on the capabilities of the listening actor.
+     * This method clears the existing monologue options and adds new ones according to the capabilities of
+     * the actor who is interacting with the Traveller.
+     *
+     * @param listener The actor who will hear the monologue. The monologue options depend on the capabilities of this Actor
+     */
     public void addMonologueOptions(Actor listener) {
         this.monologueOptions.clearOption();
         monologueOptions.addOption("Of course, I will never give you up, valuable customer!");
@@ -108,7 +115,6 @@ public class Traveller extends Actor {
         } else {
             monologueOptions.addOption("You know the rules of this world, and so do I. Each area is ruled by a lord. Defeat the lord of this area, Abxervyer, and you may proceed to the next area.");
         }
-
 
     }
 

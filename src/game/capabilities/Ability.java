@@ -42,6 +42,14 @@ public enum Ability {
     ENTER_VOID,
     UPGRADE_EQUIPMENT,
     LISTEN_STORY,
+
+    /**
+     * Ability indicating that the actor can use a great knife as a weapon.
+     */
     USE_GREATKNIFE,
+
+    /**
+     * Ability indicating that the actor can use a great hammer as a weapon.
+     */
     USE_GREATHAMMER
 }
