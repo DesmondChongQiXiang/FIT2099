@@ -7,14 +7,12 @@ import edu.monash.fit2099.engine.actors.attributes.BaseActorAttributes;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.Location;
 import edu.monash.fit2099.engine.weapons.WeaponItem;
-import game.actions.ActivateSkillAction;
-import game.actions.ActiveSkill;
-import game.actions.AttackAction;
-import game.actions.SellAction;
+import game.actions.*;
 import game.capabilities.Ability;
 import game.capabilities.Status;
 import game.items.Purchasable;
 import game.items.Sellable;
+import game.items.Upgradable;
 
 /**
  * The Broadsword class represents a specialized weapon in the game.
@@ -29,7 +27,7 @@ import game.items.Sellable;
  *
  * @author MA_AppliedSession1_Group7
  */
-public class Broadsword extends WeaponItem implements ActiveSkill, Sellable, Purchasable {
+public class Broadsword extends WeaponItem implements ActiveSkill, Sellable, Purchasable, Upgradable {
 
     /**
      * A counter to count the number of turn after activate the weapon skill
@@ -40,14 +38,16 @@ public class Broadsword extends WeaponItem implements ActiveSkill, Sellable, Pur
      * A boolean that represent the status of skill activation
      */
     private boolean isActivated;
+    private int damageUpgradePoint;
 
     /**
      * Constructor.
      */
     public Broadsword(){
         super("broadsword", '1', 110, "slashes",80 );
-        counter = 0;
-        isActivated = false;
+        this.counter = 0;
+        this.isActivated = false;
+        this.damageUpgradePoint = 0;
     }
 
     /**
@@ -80,6 +80,9 @@ public class Broadsword extends WeaponItem implements ActiveSkill, Sellable, Pur
         }
         if (otherActor.hasCapability(Ability.BUYING)) {
             actions.add(new SellAction(this));
+        }
+        if (otherActor.hasCapability(Ability.UPGRADE_EQUIREMENT)){
+            actions.add(new UpgradeAction(this,1000));
         }
         return actions;
     }
@@ -208,5 +211,21 @@ public class Broadsword extends WeaponItem implements ActiveSkill, Sellable, Pur
         seller.addBalance(sellingPrice);
         seller.removeItemFromInventory(this);
         return sellingPrice;
+    }
+
+    @Override
+    public int upgrade(Actor upgrader, int upgradePrice) {
+        if (upgrader.getBalance() < upgradePrice) {
+            throw new IllegalStateException(String.format("%s's balance is insufficient.", upgrader));
+        } else {
+            damageUpgradePoint += 10;
+            upgrader.deductBalance(upgradePrice);
+        }
+        return upgradePrice;
+    }
+
+    @Override
+    public int damage() {
+        return super.damage() + damageUpgradePoint;
     }
 }
