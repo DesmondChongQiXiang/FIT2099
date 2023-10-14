@@ -91,6 +91,12 @@ public class Traveller extends Actor {
     public void addMonologueOptions(Actor listener) {
         this.monologueOptions.clearOption();
         monologueOptions.addOption("Of course, I will never give you up, valuable customer!");
+        monologueOptions.addOption("I promise I will never let you down with the quality of the items that I sell.");
+        monologueOptions.addOption("You can always find me here. I'm never gonna run around and desert you, dear customer!");
+        monologueOptions.addOption("I'm never gonna make you cry with unfair prices.");
+        monologueOptions.addOption("Trust is essential in this business. I promise I’m never gonna say goodbye to a valuable customer like you.");
+        monologueOptions.addOption("Don't worry, I’m never gonna tell a lie and hurt you.");
+
     }
 
 }
