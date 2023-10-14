@@ -7,6 +7,7 @@ import edu.monash.fit2099.engine.items.Item;
 import edu.monash.fit2099.engine.positions.Location;
 import game.actions.ConsumeAction;
 import game.actions.SellAction;
+import game.actions.UpgradeAction;
 import game.capabilities.Ability;
 
 
@@ -24,13 +25,17 @@ import game.capabilities.Ability;
  * @see Purchasable
  * @see Sellable
  */
-public class HealingVial extends Item implements Consumable, Purchasable, Sellable {
+public class HealingVial extends Item implements Consumable, Purchasable, Sellable, Upgradable {
 
+    private boolean isUpgraded;
+    private double hitPointUpgradeRate;
     /**
      * Constructor to create a HealingVial item.
      */
     public HealingVial() {
         super("Healing Vial", 'a', true);
+        this.isUpgraded = false;
+        this.hitPointUpgradeRate = 0.1;
     }
 
     /**
@@ -41,8 +46,7 @@ public class HealingVial extends Item implements Consumable, Purchasable, Sellab
      */
     @Override
     public String consumedBy(Actor actor) {
-        int maxHealth = actor.getAttributeMaximum(BaseActorAttributes.HEALTH);
-        int healingPoints = maxHealth / 10;
+        int healingPoints =  (int)(actor.getAttributeMaximum(BaseActorAttributes.HEALTH) * hitPointUpgradeRate);
         actor.heal(healingPoints);
         actor.removeItemFromInventory(this);
         return String.format("%s consumes %s and restores %s health by %d points", actor, this, actor, healingPoints);
@@ -73,6 +77,9 @@ public class HealingVial extends Item implements Consumable, Purchasable, Sellab
         ActionList actions = new ActionList();
         if (otherActor.hasCapability(Ability.BUYING)) {
             actions.add(new SellAction(this));
+        }
+        if (!isUpgraded && otherActor.hasCapability(Ability.UPGRADE_EQUIPMENT)){
+            actions.add(new UpgradeAction(this,250));
         }
         return actions;
     }
@@ -116,6 +123,18 @@ public class HealingVial extends Item implements Consumable, Purchasable, Sellab
         actor.addBalance(sellingPrice);
         actor.removeItemFromInventory(this);
         return sellingPrice;
+    }
+
+    @Override
+    public int upgrade(Actor upgrader, int upgradePrice) {
+        if (upgrader.getBalance() < upgradePrice) {
+            throw new IllegalStateException(String.format("%s's balance is insufficient.", upgrader));
+        } else {
+            isUpgraded = true;
+            hitPointUpgradeRate = 0.8;
+            upgrader.deductBalance(upgradePrice);
+        }
+        return upgradePrice;
     }
 }
 

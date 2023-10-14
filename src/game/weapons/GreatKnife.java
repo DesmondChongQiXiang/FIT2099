@@ -9,14 +9,12 @@ import edu.monash.fit2099.engine.positions.Exit;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.Location;
 import edu.monash.fit2099.engine.weapons.WeaponItem;
-import game.actions.ActivateSkillAction;
-import game.actions.AttackAction;
-import game.actions.SellAction;
+import game.actions.*;
 import game.capabilities.Ability;
 import game.capabilities.Status;
 import game.items.Purchasable;
 import game.items.Sellable;
-import game.actions.ActiveSkill;
+import game.items.Upgradable;
 
 /**
  * The GreatKnife class represents a specialized weapon in the game world.
@@ -25,13 +23,14 @@ import game.actions.ActiveSkill;
  *
  * @author MA_AppliedSession1_Group7
  */
-public class GreatKnife extends WeaponItem implements Sellable, Purchasable, ActiveSkill {
+public class GreatKnife extends WeaponItem implements Sellable, Purchasable, Upgradable, ActiveSkill {
+
     /**
      * Constructor to initialize the GreatKnife weapon.
      */
     public GreatKnife() {
         super("Great Knife", '>', 75, "stabs", 70);
-
+        this.addCapability(Ability.USE_GREATKNIFE);
     }
 
     /**
@@ -51,6 +50,9 @@ public class GreatKnife extends WeaponItem implements Sellable, Purchasable, Act
         }
         if (otherActor.hasCapability(Ability.BUYING)) {
             actions.add(new SellAction(this));
+        }
+        if (otherActor.hasCapability(Ability.UPGRADE_EQUIPMENT)){
+            actions.add(new UpgradeAction(this,1000));
         }
         return actions;
     }
@@ -182,5 +184,13 @@ public class GreatKnife extends WeaponItem implements Sellable, Purchasable, Act
         }
         return ret;
     }
+
+    @Override
+    public int upgrade(Actor actor, int upgradePrice) {
+        this.increaseHitRate(1);
+        return upgradePrice;
+    }
+
+
 }
 

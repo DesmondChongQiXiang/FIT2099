@@ -8,6 +8,7 @@ import edu.monash.fit2099.engine.items.Item;
 import edu.monash.fit2099.engine.positions.Location;
 import game.actions.ConsumeAction;
 import game.actions.SellAction;
+import game.actions.UpgradeAction;
 import game.capabilities.Ability;
 
 /**
@@ -18,14 +19,18 @@ import game.capabilities.Ability;
  *
  * @author MA_AppliedSession1_Group7
  */
-public class RefreshingFlask extends Item implements Consumable, Sellable, Purchasable{
+public class RefreshingFlask extends Item implements Consumable, Sellable, Purchasable, Upgradable{
 
+    private boolean isUpgraded;
+    private double staminaUpgradeRate;
     /**
      * Constructor for the RefreshingFlask class.
      * Initializes the Refreshing Flask with its name, display character, and the fact that it is transferable (can be carried by actors).
      */
     public RefreshingFlask(){
         super("Refreshing Flask", 'u', true);
+        this.isUpgraded = false;
+        this.staminaUpgradeRate = 0.2;
     }
 
     /**
@@ -36,9 +41,8 @@ public class RefreshingFlask extends Item implements Consumable, Sellable, Purch
      * @return A description of the consumption action and its effects.
      */
     @Override
-    public String consumedBy(Actor actor) {
-        int maxStamina = actor.getAttributeMaximum(BaseActorAttributes.STAMINA);
-        int rewardStamina = maxStamina / 5;
+    public String consumedBy(Actor actor) {;
+        int rewardStamina = (int)(actor.getAttributeMaximum(BaseActorAttributes.STAMINA) * staminaUpgradeRate);
         actor.modifyAttribute(BaseActorAttributes.STAMINA, ActorAttributeOperations.INCREASE, rewardStamina);
         actor.removeItemFromInventory(this);
         return String.format("%s consumes %s and %s restores the stamina of %s by %d points",actor,this,this,actor, rewardStamina);
@@ -69,6 +73,9 @@ public class RefreshingFlask extends Item implements Consumable, Sellable, Purch
         ActionList actions = new ActionList();
         if (otherActor.hasCapability(Ability.BUYING)) {
             actions.add(new SellAction(this));
+        }
+        if (!isUpgraded && otherActor.hasCapability(Ability.UPGRADE_EQUIPMENT)){
+            actions.add(new UpgradeAction(this,175));
         }
         return actions;
     }
@@ -111,5 +118,17 @@ public class RefreshingFlask extends Item implements Consumable, Sellable, Purch
             buyer.addItemToInventory(this);
         }
         return purchasePrice;
+    }
+
+    @Override
+    public int upgrade(Actor upgrader, int upgradePrice) {
+        if (upgrader.getBalance() < upgradePrice) {
+            throw new IllegalStateException(String.format("%s's balance is insufficient.", upgrader));
+        } else {
+            isUpgraded = true;
+            staminaUpgradeRate = 1;
+            upgrader.deductBalance(upgradePrice);
+        }
+        return upgradePrice;
     }
 }

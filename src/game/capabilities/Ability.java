@@ -40,4 +40,7 @@ public enum Ability {
      * Ability indicating that the actor can enter a void area.
      */
     ENTER_VOID,
+    UPGRADE_EQUIPMENT,
+    LISTEN_STORY,
+    USE_GREATKNIFE
 }

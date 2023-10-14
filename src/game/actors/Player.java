@@ -15,6 +15,7 @@ import game.capabilities.Ability;
 import game.capabilities.Status;
 import game.displays.FancyMessage;
 
+
 /**
  * Class representing the player character in the game.
  *
@@ -42,7 +43,7 @@ public class Player extends Actor {
         this.addCapability(Status.HOSTILE_TO_ENEMY);
         this.addCapability(Ability.ENTER_FLOOR);
         this.addCapability(Ability.BUYING);
-
+        this.addCapability(Ability.LISTEN_STORY);
         // Initialize player attributes
         this.addAttribute(BaseActorAttributes.STAMINA, new BaseActorAttribute(stamina));
     }
@@ -129,6 +130,8 @@ public class Player extends Actor {
         Menu menu = new Menu(actions);
         return menu.showMenu(this, display);
     }
+
+
 }
 
 
