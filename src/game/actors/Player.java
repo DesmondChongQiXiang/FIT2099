@@ -65,7 +65,15 @@ public class Player extends Actor {
     @Override
     public String unconscious(Actor actor, GameMap map) {
         // Modify the player's health attribute
-        this.modifyAttribute(BaseActorAttributes.HEALTH, ActorAttributeOperations.UPDATE, 0);
+        int currentHealth = actor.getAttribute(BaseActorAttributes.HEALTH);
+        int maxHealth = actor.getAttributeMaximum(BaseActorAttributes.HEALTH);
+        int currentStamina = actor.getAttribute(BaseActorAttributes.STAMINA);
+        int maxStamina = actor.getAttributeMaximum(BaseActorAttributes.STAMINA);
+
+        // Reset health and stamina to their maximum values
+        actor.modifyAttribute(BaseActorAttributes.HEALTH, ActorAttributeOperations.UPDATE, maxHealth);
+        actor.modifyAttribute(BaseActorAttributes.STAMINA, ActorAttributeOperations.UPDATE, maxStamina);
+
         String ret = "";
 
 
@@ -88,10 +96,15 @@ public class Player extends Actor {
     @Override
     public String unconscious(GameMap map) {
         // Modify the player's health attribute
-        this.modifyAttribute(BaseActorAttributes.HEALTH, ActorAttributeOperations.UPDATE, 0);
+        int maxHealth = this.getAttributeMaximum(BaseActorAttributes.HEALTH);
+        int maxStamina = this.getAttributeMaximum(BaseActorAttributes.STAMINA);
+
+        // Reset health and stamina to their maximum values
+        this.modifyAttribute(BaseActorAttributes.HEALTH, ActorAttributeOperations.UPDATE, maxHealth);
+        this.modifyAttribute(BaseActorAttributes.STAMINA, ActorAttributeOperations.UPDATE, maxStamina);
         String ret = "";
 
-        GameMap theAbandonedVillage = abandonedVillageMap.getTheAbandonedVillage();  // Assuming you have a getter for this
+        GameMap theAbandonedVillage = abandonedVillageMap.getTheAbandonedVillage();
         map.moveActor(this, theAbandonedVillage.at(29, 5));
 
         ret += "\n" ;
