@@ -39,9 +39,8 @@ public class AbandonedVillageMap {
                 "~~~~~~.................++.................#..___#....+++...",
                 "~~~~~~~~~.................................#######.......++.");
 
-        GameMap theAbandonedVillage = new GameMap(abandonedVillageFactory, abandonedVillage);
-        theAbandonedVillage = new GameMap(abandonedVillageFactory, abandonedVillage);
-        world.addGameMap(theAbandonedVillage);
+        this.theAbandonedVillage = new GameMap(abandonedVillageFactory, abandonedVillage);
+        world.addGameMap(this.theAbandonedVillage);
 
         initializeElements();
     }

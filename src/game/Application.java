@@ -238,7 +238,7 @@ public class Application {
         Blacksmith blacksmith = new Blacksmith();
         theAbandonedVillage.at(27,5).addActor(blacksmith);
         Player player = new Player("The Abstracted One", '@', 150, 200, abandonedVillageMap);
-        world.addPlayer(player,theAbandonedVillage.at(29, 5));
+        world.addPlayer(player,ancientWoods.at(29, 5));
         world.run();
     }
 }

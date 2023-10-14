@@ -78,7 +78,7 @@ public class Player extends Actor {
         GameMap theAbandonedVillage = abandonedVillageMap.getTheAbandonedVillage();
         map.moveActor(this, theAbandonedVillage.at(29, 5));
 
-        ret += "\n";
+        ret += "Respawning back to The Abandoned Village";
         return ret;
     }
 
@@ -103,7 +103,7 @@ public class Player extends Actor {
         GameMap theAbandonedVillage = abandonedVillageMap.getTheAbandonedVillage();
         map.moveActor(this, theAbandonedVillage.at(29, 5));
 
-        ret += "\n" ;
+        ret += "Respawning back to The Abandoned Village";
         return ret;
     }
     private void resetWalletAndDropRunes(GameMap map) {
