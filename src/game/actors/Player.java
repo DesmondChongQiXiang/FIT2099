@@ -10,6 +10,7 @@ import edu.monash.fit2099.engine.actors.attributes.BaseActorAttributes;
 import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.displays.Menu;
+import edu.monash.fit2099.engine.positions.Location;
 import edu.monash.fit2099.engine.weapons.IntrinsicWeapon;
 import game.capabilities.Ability;
 import game.capabilities.Status;
@@ -47,6 +48,7 @@ public class Player extends Actor {
         // Initialize player attributes
         this.addAttribute(BaseActorAttributes.STAMINA, new BaseActorAttribute(stamina));
     }
+    private Location startingLocation;
 
     /**
      * Handle the unconscious state of the Player when defeated by another actor.
@@ -61,14 +63,16 @@ public class Player extends Actor {
         this.modifyAttribute(BaseActorAttributes.HEALTH, ActorAttributeOperations.UPDATE, 0);
         String ret = "";
 
+
         // Perform the unconscious action and remove the player from the map
         ret += super.unconscious(actor, map);
-        map.removeActor(this);
+        map.moveActor(this, startingLocation);
 
         // Display a message indicating that the player has died
-        ret += "\n" + FancyMessage.YOU_DIED;
+        ret += "\nYou wake up back at the start, your inventory intact but your wallet empty.";
         return ret;
     }
+
 
     /**
      * Handle the unconscious state of the Player when defeated by a natural disaster.
@@ -84,10 +88,10 @@ public class Player extends Actor {
 
         // Perform the unconscious action and remove the player from the map
         ret += new DoNothingAction().execute(this, map);
-        map.removeActor(this);
+        map.moveActor(this, startingLocation);
 
         // Display a message indicating that the player has died
-        ret += "\n" + FancyMessage.YOU_DIED;
+        ret += "\nYou wake up back at the start, your inventory intact but your wallet empty.";
         return ret;
     }
 
