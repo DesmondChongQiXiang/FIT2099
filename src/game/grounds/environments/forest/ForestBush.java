@@ -21,14 +21,14 @@ import game.weathers.WeatherControllable;
  * @see Weather
  * @see WeatherControllable
  */
-public class Bushes<R extends RedWolf> extends ForestEnemySpawnableGround<R> {
+public class ForestBush<R extends RedWolf> extends ForestEnemySpawnableGround<R> {
 
   /**
    * Constructor to create a Bushes instance.
    *
    * @param redWolfSpawner The spawner for Red Wolves associated with this Bushes instance.
    */
-  public Bushes(Spawner<R> redWolfSpawner){
+  public ForestBush(Spawner<R> redWolfSpawner){
     super('m', 30, redWolfSpawner);
   }
 

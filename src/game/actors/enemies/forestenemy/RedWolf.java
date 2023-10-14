@@ -61,6 +61,7 @@ public class RedWolf extends ForestEnemy {
    * @param map   The GameMap where the Red Wolf fell unconscious.
    * @return A string describing what happened when the Red Wolf is unconscious.
    */
+  @Override
   public String unconscious(Actor actor, GameMap map) {
     if (Math.random() <= 0.10) {
       map.locationOf(this).addItem(new HealingVial());

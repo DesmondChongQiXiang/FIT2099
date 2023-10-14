@@ -43,7 +43,6 @@ public abstract class Enemy extends Actor {
         super(name, displayChar, hitPoints);
 
         // Priority of behavior:  1. AttackBehavior  2. FollowBehavior  3. WanderBehavior
-        this.behaviours.put(999, new WanderBehaviour());
         this.behaviours.put(997, new AttackBehaviour());
 
         // Add the ENEMY capability to mark this actor as an enemy.
@@ -78,6 +77,7 @@ public abstract class Enemy extends Actor {
      * @param map   The GameMap where the enemy fell unconscious.
      * @return A string describing what happened when the enemy is unconscious.
      */
+    @Override
     public String unconscious(Actor actor, GameMap map) {
         map.locationOf(this).addItem(new Runes(runeNumDropped));
         return super.unconscious(actor, map);

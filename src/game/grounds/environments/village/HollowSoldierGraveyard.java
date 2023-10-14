@@ -14,14 +14,14 @@ import game.spawners.Spawner;
  * @param <H> The type of Hollow Soldier enemy that can spawn in this type of ground.
  * @see VillageEnemySpawnableGround
  */
-public class BurialGroundGraveyard<H extends HollowSoldier> extends VillageEnemySpawnableGround<H> {
+public class HollowSoldierGraveyard<H extends HollowSoldier> extends VillageEnemySpawnableGround<H> {
 
     /**
      * Constructor to create a BurialGroundGraveyard instance.
      *
      * @param hollowSoldierSpawner The spawner for Hollow Soldier enemies associated with this type of ground.
      */
-    public BurialGroundGraveyard(Spawner<H> hollowSoldierSpawner){
+    public HollowSoldierGraveyard(Spawner<H> hollowSoldierSpawner){
         super('n', 10, hollowSoldierSpawner);
     }
 }
