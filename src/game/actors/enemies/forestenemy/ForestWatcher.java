@@ -11,6 +11,7 @@ import edu.monash.fit2099.engine.weapons.IntrinsicWeapon;
 import game.actions.AttackAction;
 import game.actors.enemies.forestenemy.ForestEnemy;
 import game.behaviours.FollowBehaviour;
+import game.behaviours.WanderBehaviour;
 import game.capabilities.Ability;
 import game.capabilities.Status;
 import game.grounds.Gate;
@@ -52,6 +53,7 @@ public class ForestWatcher extends Enemy {
         this.turnCount = 0;
         this.weatherManager = weatherManager;
         this.abxyverGate = abxyverGate;
+        this.behaviours.put(999, new WanderBehaviour());
     }
 
     /**
@@ -74,6 +76,7 @@ public class ForestWatcher extends Enemy {
      * @param map   The GameMap where the Forest Watcher fell unconscious.
      * @return A string describing what happened when the Forest Watcher is unconscious.
      */
+    @Override
     public String unconscious(Actor actor, GameMap map) {
         map.locationOf(this).setGround(abxyverGate);
         return super.unconscious(actor, map);

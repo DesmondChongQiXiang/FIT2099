@@ -77,6 +77,7 @@ public abstract class Enemy extends Actor {
      * @param map   The GameMap where the enemy fell unconscious.
      * @return A string describing what happened when the enemy is unconscious.
      */
+    @Override
     public String unconscious(Actor actor, GameMap map) {
         map.locationOf(this).addItem(new Runes(runeNumDropped));
         return super.unconscious(actor, map);

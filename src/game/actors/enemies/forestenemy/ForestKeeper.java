@@ -61,6 +61,7 @@ public class ForestKeeper extends ForestEnemy {
    * @param map   The GameMap where the Forest Keeper fell unconscious.
    * @return A string describing what happened when the Forest Keeper is unconscious.
    */
+  @Override
   public String unconscious(Actor actor, GameMap map) {
     if (Math.random() <= 0.20) {
       map.locationOf(this).addItem(new HealingVial());
