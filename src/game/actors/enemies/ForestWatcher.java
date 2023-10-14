@@ -78,6 +78,7 @@ public class ForestWatcher extends Enemy {
      */
     @Override
     public String unconscious(Actor actor, GameMap map) {
+        actor.addCapability(Status.BOSS_DEFEATED);
         map.locationOf(this).setGround(abxyverGate);
         return super.unconscious(actor, map);
     }
