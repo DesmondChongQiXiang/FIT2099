@@ -88,6 +88,7 @@ public class Traveller extends Actor {
 
         return actions;
     }
+
     public void addMonologueOptions(Actor listener) {
         this.monologueOptions.clearOption();
         monologueOptions.addOption("Of course, I will never give you up, valuable customer!");
@@ -100,15 +101,14 @@ public class Traveller extends Actor {
         if (listener.hasCapability(Ability.USE_GREATHAMMER)) {
             monologueOptions.addOption("Ooh, that’s a fascinating weapon you got there. I will pay a good price for it. You wouldn't get this price from any other guy.");
         }
-        if (listener.hasCapability(Status.BOSS_DEFEATED)) {
-            if (listener.hasCapability(Ability.USE_GREATHAMMER)) {
-                monologueOptions.addOption("Congratulations on defeating the lord of this area. I noticed you still hold on to that hammer. Why don’t you sell it to me? We've known each other for so long. I can tell you probably don’t need that weapon any longer.");
-            } else {
-                monologueOptions.addOption("Congratulations on defeating the lord of this area.");
-            }
+        if (listener.hasCapability(Status.BOSS_DEFEATED) && listener.hasCapability(Ability.USE_GREATHAMMER)) {
+            monologueOptions.addOption("Congratulations on defeating the lord of this area. I noticed you still hold on to that hammer. Why don’t you sell it to me? We've known each other for so long. I can tell you probably don’t need that weapon any longer.");
+        } else if (listener.hasCapability(Status.BOSS_DEFEATED)) {
+            monologueOptions.addOption("Congratulations on defeating the lord of this area.");
         } else {
             monologueOptions.addOption("You know the rules of this world, and so do I. Each area is ruled by a lord. Defeat the lord of this area, Abxervyer, and you may proceed to the next area.");
         }
+
 
     }
 
