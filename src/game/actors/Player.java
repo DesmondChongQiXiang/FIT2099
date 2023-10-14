@@ -15,6 +15,8 @@ import edu.monash.fit2099.engine.weapons.IntrinsicWeapon;
 import game.capabilities.Ability;
 import game.capabilities.Status;
 import game.displays.FancyMessage;
+import game.Application;
+import game.grounds.AbandonedVillageMap;
 
 
 /**
@@ -28,6 +30,8 @@ import game.displays.FancyMessage;
  * @see Actor
  */
 public class Player extends Actor {
+    private AbandonedVillageMap abandonedVillageMap;
+
 
     /**
      * Constructor to create a Player character.
@@ -37,8 +41,9 @@ public class Player extends Actor {
      * @param hitPoints  Player's starting number of hit points.
      * @param stamina    Player's starting stamina.
      */
-    public Player(String name, char displayChar, int hitPoints, int stamina) {
+    public Player(String name, char displayChar, int hitPoints, int stamina, AbandonedVillageMap abandonedVillageMap) {
         super(name, displayChar, hitPoints);
+        this.abandonedVillageMap = abandonedVillageMap;
 
         // Add capabilities to the player
         this.addCapability(Status.HOSTILE_TO_ENEMY);
@@ -48,7 +53,7 @@ public class Player extends Actor {
         // Initialize player attributes
         this.addAttribute(BaseActorAttributes.STAMINA, new BaseActorAttribute(stamina));
     }
-    private Location startingLocation;
+
 
     /**
      * Handle the unconscious state of the Player when defeated by another actor.
@@ -66,13 +71,13 @@ public class Player extends Actor {
 
         // Perform the unconscious action and remove the player from the map
         ret += super.unconscious(actor, map);
-        map.moveActor(this, startingLocation);
 
-        // Display a message indicating that the player has died
-        ret += "\nYou wake up back at the start, your inventory intact but your wallet empty.";
+        GameMap theAbandonedVillage = abandonedVillageMap.getTheAbandonedVillage();  // Assuming you have a getter for this
+        map.moveActor(this, theAbandonedVillage.at(29, 5));
+
+        ret += "\n";
         return ret;
     }
-
 
     /**
      * Handle the unconscious state of the Player when defeated by a natural disaster.
@@ -86,12 +91,10 @@ public class Player extends Actor {
         this.modifyAttribute(BaseActorAttributes.HEALTH, ActorAttributeOperations.UPDATE, 0);
         String ret = "";
 
-        // Perform the unconscious action and remove the player from the map
-        ret += new DoNothingAction().execute(this, map);
-        map.moveActor(this, startingLocation);
+        GameMap theAbandonedVillage = abandonedVillageMap.getTheAbandonedVillage();  // Assuming you have a getter for this
+        map.moveActor(this, theAbandonedVillage.at(29, 5));
 
-        // Display a message indicating that the player has died
-        ret += "\nYou wake up back at the start, your inventory intact but your wallet empty.";
+        ret += "\n" ;
         return ret;
     }
 

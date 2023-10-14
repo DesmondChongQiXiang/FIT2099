@@ -53,31 +53,11 @@ public class Application {
 
         World world = new World(new Display());
 
-        FancyGroundFactory abandonedVillageFactory = new FancyGroundFactory(new Dirt(),
-                new Wall(), new Floor(), new Puddle(),new Void());
+        // Create an instance of AbandonedVillageMap and pass the world object
+        AbandonedVillageMap abandonedVillageMap = new AbandonedVillageMap(world);
 
-        List<String> abandonedVillage = Arrays.asList(
-                "...........................................................",
-                "...#######.................................................",
-                "...#__.......................................++++..........",
-                "...#..___#...................................+++++++.......",
-                "...###.###................#######..............+++.........",
-                "..........................#_____#................+++.......",
-                "........~~................#_____#.................+........",
-                ".........~~~..............###_###................++........",
-                "...~~~~~~~~....+++.........................................",
-                "....~~~~~........+++++++..................###..##...++++...",
-                "~~~~~~~..............+++..................#___..#...++.....",
-                "~~~~~~.................++.................#..___#....+++...",
-                "~~~~~~~~~.................................#######.......++.");
-
-        GameMap theAbandonedVillage = new GameMap(abandonedVillageFactory, abandonedVillage);
-        world.addGameMap(theAbandonedVillage);
-
-        theAbandonedVillage.at(10,8).setGround(new WanderingUndeadGraveyard<WanderingUndead>(WanderingUndead.SPAWNER));
-
-        Item broadsword = new Broadsword();
-        theAbandonedVillage.at(27, 6).addItem(broadsword);
+        // Access theAbandonedVillage from the AbandonedVillageMap instance
+        GameMap theAbandonedVillage = abandonedVillageMap.getTheAbandonedVillage();
 
 
         FancyGroundFactory burialGroundFactory = new FancyGroundFactory(new Dirt(), new Wall(), new Floor(), new Puddle(),new Void());
@@ -257,7 +237,7 @@ public class Application {
 
         Blacksmith blacksmith = new Blacksmith();
         theAbandonedVillage.at(27,5).addActor(blacksmith);
-        Player player = new Player("The Abstracted One", '@', 150, 200);
+        Player player = new Player("The Abstracted One", '@', 150, 200, abandonedVillageMap);
         world.addPlayer(player,theAbandonedVillage.at(29, 5));
         world.run();
     }
