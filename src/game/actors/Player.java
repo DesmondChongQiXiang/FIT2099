@@ -14,6 +14,7 @@ import edu.monash.fit2099.engine.weapons.IntrinsicWeapon;
 import game.capabilities.Ability;
 import game.capabilities.Status;
 import game.displays.FancyMessage;
+import game.items.Runes;
 
 
 /**
@@ -63,10 +64,10 @@ public class Player extends Actor {
 
         // Perform the unconscious action and remove the player from the map
         ret += super.unconscious(actor, map);
-        map.removeActor(this);
 
         // Display a message indicating that the player has died
         ret += "\n" + FancyMessage.YOU_DIED;
+        map.removeActor(this);
         return ret;
     }
 
@@ -84,10 +85,13 @@ public class Player extends Actor {
 
         // Perform the unconscious action and remove the player from the map
         ret += new DoNothingAction().execute(this, map);
-        map.removeActor(this);
 
         // Display a message indicating that the player has died
         ret += "\n" + FancyMessage.YOU_DIED;
+
+        map.locationOf(this).addItem(new Runes(this.getBalance()));
+        map.removeActor(this);
+
         return ret;
     }
 
