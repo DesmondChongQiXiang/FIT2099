@@ -41,4 +41,5 @@ public enum Ability {
      */
     ENTER_VOID,
     UPGRADE_EQUIREMENT,
+    LISTEN_STORY,
 }
