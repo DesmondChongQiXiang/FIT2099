@@ -74,7 +74,7 @@ public class Application {
 //        GameMap theAbandonedVillage = new GameMap(abandonedVillageFactory, abandonedVillage);
 //        world.addGameMap(theAbandonedVillage);
 
-        theAbandonedVillage.at(10,8).setGround(new WanderingUndeadGraveyard<WanderingUndead>(WanderingUndead.SPAWNER));
+//        theAbandonedVillage.at(10,8).setGround(new WanderingUndeadGraveyard<WanderingUndead>(WanderingUndead.SPAWNER));
 
         Item broadsword = new Broadsword();
         theAbandonedVillage.at(27, 6).addItem(broadsword);
@@ -101,15 +101,15 @@ public class Application {
 //        GameMap burialGround = new GameMap(burialGroundFactory,burialGroundMap);
 //        world.addGameMap(burialGround);
 
-        burialGround.at(21,11).setGround(new HollowSoldierGraveyard<HollowSoldier>(HollowSoldier.SPAWNER));
+//        burialGround.at(21,11).setGround(new HollowSoldierGraveyard<HollowSoldier>(HollowSoldier.SPAWNER));
 
-        Gate abandonedVillageGate = new Gate();
+//        Gate abandonedVillageGate = new Gate();
         abandonedVillageGate.addTravelAction(new TravelAction(burialGround.at(22, 7),"The Burial Ground"));
-        theAbandonedVillage.at(31, 5).setGround(abandonedVillageGate);
+//        theAbandonedVillage.at(31, 5).setGround(abandonedVillageGate);
 
-        Gate burialGroundGate = new Gate();
+//        Gate burialGroundGate = new Gate();
         burialGroundGate.addTravelAction(new TravelAction(theAbandonedVillage.at(31, 5),"The Abandoned Village"));
-        burialGround.at(23,7).setGround(burialGroundGate);
+//        burialGround.at(23,7).setGround(burialGroundGate);
 
 
 //        FancyGroundFactory ancientWoodsFactory = new FancyGroundFactory(new Dirt(), new Wall(), new Floor(), new Puddle(), new Void());

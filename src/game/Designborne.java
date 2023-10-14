@@ -4,11 +4,19 @@ import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.FancyGroundFactory;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.World;
-import game.grounds.Dirt;
-import game.grounds.Floor;
-import game.grounds.Puddle;
+import game.actions.TravelAction;
+import game.actors.enemies.forestenemy.ForestEnemy;
+import game.actors.enemies.forestenemy.ForestKeeper;
+import game.actors.enemies.forestenemy.RedWolf;
+import game.actors.enemies.villageenemy.HollowSoldier;
+import game.actors.enemies.villageenemy.WanderingUndead;
+import game.grounds.*;
 import game.grounds.Void;
-import game.grounds.Wall;
+import game.grounds.environments.forest.ForestBush;
+import game.grounds.environments.forest.ForestEnemySpawnableGround;
+import game.grounds.environments.forest.ForestHut;
+import game.grounds.environments.village.HollowSoldierGraveyard;
+import game.grounds.environments.village.WanderingUndeadGraveyard;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -139,6 +147,27 @@ public class Designborne {
         world.addGameMap(overgrownSanctuary);
     }
 
+    public void createGround() {
+        gameMapHashMap.get("The Abandoned Village").at(10,8).setGround(new WanderingUndeadGraveyard<WanderingUndead>(WanderingUndead.SPAWNER));
+
+        gameMapHashMap.get("The Burial Ground").at(21,11).setGround(new HollowSoldierGraveyard<HollowSoldier>(HollowSoldier.SPAWNER));
+        Gate abandonedVillageGate = new Gate();
+        gameMapHashMap.get("The Abandoned Village").at(31, 5).setGround(abandonedVillageGate);
+        Gate burialGroundGate = new Gate();
+        gameMapHashMap.get("The Burial Ground").at(23,7).setGround(burialGroundGate);
+
+        ForestEnemySpawnableGround<ForestEnemy> ancientWoodHuts = new ForestHut(ForestKeeper.SPAWNER);
+        ForestEnemySpawnableGround<ForestEnemy> ancientWoodBush = new ForestBush(RedWolf.SPAWNER);
+        gameMapHashMap.get("The Ancient Woods").at(29,0).setGround(ancientWoodHuts);
+        gameMapHashMap.get("The Ancient Woods").at(15,11).setGround(ancientWoodBush);
+        Gate burialGroundGate2 = new Gate();
+        burialGroundGate2.addTravelAction(new TravelAction(gameMapHashMap.get("The Ancient Woods").at(21, 4),"The Ancient Woods"));
+        gameMapHashMap.get("The Burial Ground").at(30, 14).setGround(burialGroundGate2);
+
+        Gate ancientWoodsGate = new Gate();
+        ancientWoodsGate.addTravelAction(new TravelAction(gameMapHashMap.get("The Burial Ground").at(10, 14),"The Burial Ground"));
+        gameMapHashMap.get("The Ancient Woods").at(10,11).setGround(ancientWoodsGate);
+    }
 
 
 
