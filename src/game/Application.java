@@ -53,11 +53,18 @@ public class Application {
 
         Designborne designborne = new Designborne(new World(new Display()));
         designborne.createGameMap();
+        designborne.createItem();
         designborne.createGround();
         designborne.createActor();
-        designborne.createItem();
         designborne.showMessage();
-        designborne.getWorld().run();
+        while(true){
+            designborne.getWorld().run();
+            designborne.respawnPlayer();
+            designborne.playerDead();
+        }
+
+
+
 
 //        FancyGroundFactory abandonedVillageFactory = new FancyGroundFactory(new Dirt(),
 //                new Wall(), new Floor(), new Puddle(),new Void());
