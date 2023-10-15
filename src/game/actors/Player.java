@@ -14,7 +14,11 @@ import edu.monash.fit2099.engine.weapons.IntrinsicWeapon;
 import game.capabilities.Ability;
 import game.capabilities.Status;
 import game.displays.FancyMessage;
+import game.items.BloodBerry;
 import game.items.Runes;
+import game.weapons.Broadsword;
+
+import java.util.ArrayList;
 
 
 /**
@@ -28,6 +32,7 @@ import game.items.Runes;
  * @see Actor
  */
 public class Player extends Actor {
+    private ArrayList<Runes> runesDropped;
 
     /**
      * Constructor to create a Player character.
@@ -47,6 +52,7 @@ public class Player extends Actor {
         this.addCapability(Ability.LISTEN_STORY);
         // Initialize player attributes
         this.addAttribute(BaseActorAttributes.STAMINA, new BaseActorAttribute(stamina));
+        this.runesDropped = new ArrayList<>();
     }
 
     /**
@@ -61,13 +67,19 @@ public class Player extends Actor {
         // Modify the player's health attribute
         this.modifyAttribute(BaseActorAttributes.HEALTH, ActorAttributeOperations.UPDATE, 0);
         String ret = "";
+        for(Runes runes:runesDropped){
+            runes.playerDead();
+        }
+        Runes currentRunesDropped = new Runes(this.getBalance());
+        runesDropped.add(currentRunesDropped);
+        map.locationOf(this).addItem(currentRunesDropped);
+        this.deductBalance(this.getBalance());
 
         // Perform the unconscious action and remove the player from the map
         ret += super.unconscious(actor, map);
-
         // Display a message indicating that the player has died
         ret += "\n" + FancyMessage.YOU_DIED;
-        map.removeActor(this);
+
         return ret;
     }
 
@@ -85,11 +97,14 @@ public class Player extends Actor {
 
         // Perform the unconscious action and remove the player from the map
         ret += new DoNothingAction().execute(this, map);
-
         // Display a message indicating that the player has died
         ret += "\n" + FancyMessage.YOU_DIED;
-
-        map.locationOf(this).addItem(new Runes(this.getBalance()));
+        for(Runes runes:runesDropped){
+            runes.playerDead();
+        }
+        Runes currentRunesDropped = new Runes(this.getBalance());
+        map.locationOf(this).addItem(currentRunesDropped);
+        this.deductBalance(this.getBalance());
         map.removeActor(this);
 
         return ret;
