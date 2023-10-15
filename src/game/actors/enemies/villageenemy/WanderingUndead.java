@@ -36,7 +36,7 @@ public class WanderingUndead extends VillageEnemy {
    * Initializes the Wandering Undead with its name, display character, hit points, and runes dropped when defeated.
    */
   public WanderingUndead() {
-    super("Wandering Undead", 't', 100, 50);
+    super("Wandering Undead", 't', 100, new Runes(50));
   }
 
   /**

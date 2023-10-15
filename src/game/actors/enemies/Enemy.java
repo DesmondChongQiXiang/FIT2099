@@ -8,10 +8,7 @@ import edu.monash.fit2099.engine.actors.Behaviour;
 import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.GameMap;
 import game.capabilities.Status;
-import game.actions.AttackAction;
 import game.behaviours.AttackBehaviour;
-import game.behaviours.WanderBehaviour;
-import game.items.HealingVial;
 import game.items.Runes;
 
 import java.util.HashMap;
@@ -29,7 +26,7 @@ import java.util.Map;
  */
 public abstract class Enemy extends Actor {
     protected Map<Integer, Behaviour> behaviours = new HashMap<>();
-    private int runeNumDropped;
+    private Runes runesDropped;
 
     /**
      * Constructor for creating an enemy actor.
@@ -37,9 +34,9 @@ public abstract class Enemy extends Actor {
      * @param name           The name of the enemy.
      * @param displayChar    Character to represent the enemy in the UI.
      * @param hitPoints      Enemy's starting number of hit points.
-     * @param runesNumDropped The number of runes this enemy drops when defeated.
+     * @param runesDropped The number of runes this enemy drops when defeated.
      */
-    public Enemy(String name, char displayChar, int hitPoints, int runesNumDropped) {
+    public Enemy(String name, char displayChar, int hitPoints, Runes runesDropped) {
         super(name, displayChar, hitPoints);
 
         // Priority of behavior:  1. AttackBehavior  2. FollowBehavior  3. WanderBehavior
@@ -48,7 +45,7 @@ public abstract class Enemy extends Actor {
         // Add the ENEMY capability to mark this actor as an enemy.
         addCapability(Status.ENEMY);
 
-        this.runeNumDropped = runesNumDropped;
+        this.runesDropped = runesDropped;
     }
 
     /**
@@ -79,7 +76,7 @@ public abstract class Enemy extends Actor {
      */
     @Override
     public String unconscious(Actor actor, GameMap map) {
-        map.locationOf(this).addItem(new Runes(runeNumDropped));
+        map.locationOf(this).addItem(runesDropped);
         return super.unconscious(actor, map);
     }
 }

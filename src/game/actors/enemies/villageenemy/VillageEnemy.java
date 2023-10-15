@@ -7,6 +7,7 @@ import game.actions.AttackAction;
 import game.actors.enemies.Enemy;
 import game.behaviours.WanderBehaviour;
 import game.capabilities.Status;
+import game.items.Runes;
 
 /**
  * Abstract base class for village-themed enemies in the game.
@@ -26,10 +27,10 @@ public abstract class VillageEnemy extends Enemy {
      * @param name           The name of the enemy.
      * @param displayChar    The character used to display the enemy on the game map.
      * @param hitPoints      The initial hit points of the enemy.
-     * @param runesNumDropped The number of runes this enemy drops when defeated.
+     * @param runesDropped The number of runes this enemy drops when defeated.
      */
-    public VillageEnemy(String name, char displayChar, int hitPoints, int runesNumDropped) {
-        super(name, displayChar, hitPoints, runesNumDropped);
+    public VillageEnemy(String name, char displayChar, int hitPoints, Runes runesDropped) {
+        super(name, displayChar, hitPoints, runesDropped);
         this.behaviours.put(999, new WanderBehaviour());
     }
 

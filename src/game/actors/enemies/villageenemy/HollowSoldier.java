@@ -37,7 +37,7 @@ public class HollowSoldier extends VillageEnemy {
    * Initializes the Hollow Soldier with its name, display character, hit points, and runes dropped when defeated.
    */
   public HollowSoldier() {
-    super("Hollow Soldier", '&', 200, 100);
+    super("Hollow Soldier", '&', 200, new Runes(100));
   }
 
   /**

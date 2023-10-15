@@ -38,7 +38,7 @@ public class ForestKeeper extends ForestEnemy {
    * Initializes the Forest Keeper with its name, display character, hit points, and runes dropped when defeated.
    */
   public ForestKeeper() {
-    super("Forest Keeper", '8', 125, 50);
+    super("Forest Keeper", '8', 125, new Runes(50));
   }
 
   /**

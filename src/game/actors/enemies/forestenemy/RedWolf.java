@@ -38,7 +38,7 @@ public class RedWolf extends ForestEnemy {
    * Initializes the Red Wolf with its name, display character, hit points, and runes dropped when defeated.
    */
   public RedWolf() {
-    super("Red Wolf", 'r', 25, 25);
+    super("Red Wolf", 'r', 25, new Runes(25));
   }
 
   /**
