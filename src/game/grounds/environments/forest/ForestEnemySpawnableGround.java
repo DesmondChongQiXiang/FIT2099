@@ -47,6 +47,11 @@ public abstract class ForestEnemySpawnableGround<F extends ForestEnemy> extends 
             ForestEnemy forestEnemy = spawner.spawn();
             location.addActor(forestEnemy);
             forestEnemyList.add(forestEnemy);
+            enemyList.add(forestEnemy);
+        }
+        if (isPlayerDead){
+            removeEnemy(location.map());
+            setPlayerDead();
         }
     }
 }

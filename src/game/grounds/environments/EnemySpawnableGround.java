@@ -1,9 +1,14 @@
 package game.grounds.environments;
 
+import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.Ground;
 import edu.monash.fit2099.engine.positions.Location;
 import game.actors.enemies.Enemy;
+import game.actors.enemies.forestenemy.ForestEnemy;
 import game.spawners.Spawner;
+import game.weathers.WeatherControllable;
+
+import java.util.ArrayList;
 
 /**
  * The EnemySpawnableGround class represents a type of ground in the game world where enemies can spawn over time.
@@ -27,6 +32,8 @@ public abstract class EnemySpawnableGround<E extends Enemy> extends Ground {
    * The spawner used to create and spawn enemies.
    */
   protected Spawner<E> spawner;
+  protected ArrayList<Enemy> enemyList;
+  protected boolean isPlayerDead;
 
   /**
    * Constructor to create an EnemySpawnableGround instance.
@@ -39,6 +46,8 @@ public abstract class EnemySpawnableGround<E extends Enemy> extends Ground {
     super(displayChar);
     this.spawnRate = spawnRate;
     this.spawner = spawner;
+    this.enemyList = new ArrayList<>();
+    this.isPlayerDead = false;
   }
 
   /**
@@ -49,7 +58,13 @@ public abstract class EnemySpawnableGround<E extends Enemy> extends Ground {
   @Override
   public void tick(Location location) {
     if (Math.random() <= ((double) spawnRate / 100) && !location.containsAnActor()) {
-      location.addActor(spawner.spawn());
+      Enemy enemy = spawner.spawn();
+      location.addActor(enemy);
+      enemyList.add(enemy);
+    }
+    if (isPlayerDead){
+      removeEnemy(location.map());
+      setPlayerDead();
     }
   }
 
@@ -60,6 +75,16 @@ public abstract class EnemySpawnableGround<E extends Enemy> extends Ground {
    */
   public void setSpawnRate(int spawnRate) {
     this.spawnRate = spawnRate;
+  }
+
+  public void removeEnemy(GameMap map){
+    for (Enemy enemy : enemyList){
+      enemy.unconscious(map);
+    }
+  }
+
+  public void setPlayerDead() {
+    isPlayerDead = !isPlayerDead;
   }
 }
 
