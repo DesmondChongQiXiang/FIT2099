@@ -1,6 +1,8 @@
 package game.grounds.environments.forest;
 
+import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.Location;
+import game.actors.enemies.Enemy;
 import game.actors.enemies.forestenemy.ForestEnemy;
 import game.grounds.environments.EnemySpawnableGround;
 import game.spawners.Spawner;
@@ -53,6 +55,15 @@ public abstract class ForestEnemySpawnableGround<F extends ForestEnemy> extends 
             removeEnemy(location.map());
             setPlayerDead();
         }
+    }
+
+
+    public void removeEnemy(GameMap map){
+        for (Enemy enemy : enemyList){
+            enemy.playerDead();
+            enemy.unconscious(map);
+        }
+        forestEnemyList.clear();
     }
 }
 

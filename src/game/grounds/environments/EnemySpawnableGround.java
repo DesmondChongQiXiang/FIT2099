@@ -79,6 +79,7 @@ public abstract class EnemySpawnableGround<E extends Enemy> extends Ground {
 
   public void removeEnemy(GameMap map){
     for (Enemy enemy : enemyList){
+      enemy.playerDead();
       enemy.unconscious(map);
     }
   }
