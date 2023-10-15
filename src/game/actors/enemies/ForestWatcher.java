@@ -48,7 +48,7 @@ public class ForestWatcher extends Enemy {
      * @param abxyverGate    The Gate that the Forest Watcher interacts with.
      */
     public ForestWatcher(WeatherManager weatherManager, Gate abxyverGate) {
-        super("Forest Watcher", 'Y', 2000, 5000);
+        super("Forest Watcher", 'Y', 2000, new Runes(5000));
         this.addCapability(Ability.ENTER_VOID);
         this.turnCount = 0;
         this.weatherManager = weatherManager;

@@ -7,6 +7,7 @@ import edu.monash.fit2099.engine.weapons.IntrinsicWeapon;
 import game.actions.AttackAction;
 import game.capabilities.Status;
 import game.items.BloodBerry;
+import game.items.Runes;
 import game.spawners.Spawner;
 
 public class LivingBranch extends SanctuaryEnemy {
@@ -24,7 +25,7 @@ public class LivingBranch extends SanctuaryEnemy {
      * Constructor for creating an enemy actor.
      */
     public LivingBranch() {
-        super("Living Branch", '?', 75, 500);
+        super("Living Branch", '?', 75, new Runes(500));
     }
 
     @Override

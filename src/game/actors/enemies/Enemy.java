@@ -27,6 +27,7 @@ import java.util.Map;
 public abstract class Enemy extends Actor {
     protected Map<Integer, Behaviour> behaviours = new HashMap<>();
     private Runes runesDropped;
+    private boolean isPlayerDied;
 
     /**
      * Constructor for creating an enemy actor.
@@ -78,6 +79,10 @@ public abstract class Enemy extends Actor {
     public String unconscious(Actor actor, GameMap map) {
         map.locationOf(this).addItem(runesDropped);
         return super.unconscious(actor, map);
+    }
+
+    public void playerDead(){
+        runesDropped.playerDead();
     }
 }
 

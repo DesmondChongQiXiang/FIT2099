@@ -10,6 +10,7 @@ import game.behaviours.WanderBehaviour;
 import game.capabilities.Status;
 import game.items.HealingVial;
 import game.items.RefreshingFlask;
+import game.items.Runes;
 import game.spawners.Spawner;
 
 public class EldentreeGuardian extends SanctuaryEnemy{
@@ -25,7 +26,7 @@ public class EldentreeGuardian extends SanctuaryEnemy{
     };
 
     public EldentreeGuardian() {
-        super("Eldentree Guardian", 'e', 250, 250);
+        super("Eldentree Guardian", 'e', 250, new Runes(250));
         this.behaviours.put(999, new WanderBehaviour());
     }
 
