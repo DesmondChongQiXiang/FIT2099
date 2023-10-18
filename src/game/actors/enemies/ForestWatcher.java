@@ -8,20 +8,12 @@ import edu.monash.fit2099.engine.actors.Behaviour;
 import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.weapons.IntrinsicWeapon;
-import game.actions.AttackAction;
-import game.actors.enemies.forestenemy.ForestEnemy;
-import game.behaviours.FollowBehaviour;
-import game.behaviours.WanderBehaviour;
 import game.capabilities.Ability;
 import game.capabilities.Status;
 import game.grounds.Gate;
 import game.items.Runes;
-
-import game.weathers.Weather;
 import game.weathers.WeatherControllable;
 import game.weathers.WeatherManager;
-
-import java.util.ArrayList;
 
 
 /**
@@ -36,7 +28,7 @@ import java.util.ArrayList;
  * @see Enemy
  * @see WeatherControllable
  */
-public class ForestWatcher extends Enemy {
+public class ForestWatcher extends FollowEnemy {
     private int turnCount;
     private WeatherManager weatherManager;
     private Gate abxyverGate;
@@ -48,12 +40,11 @@ public class ForestWatcher extends Enemy {
      * @param abxyverGate    The Gate that the Forest Watcher interacts with.
      */
     public ForestWatcher(WeatherManager weatherManager, Gate abxyverGate) {
-        super("Forest Watcher", 'Y', 2000, 5000);
+        super("Forest Watcher", 'Y', 2000, new Runes(5000));
         this.addCapability(Ability.ENTER_VOID);
         this.turnCount = 0;
         this.weatherManager = weatherManager;
         this.abxyverGate = abxyverGate;
-        this.behaviours.put(999, new WanderBehaviour());
     }
 
     /**
@@ -81,25 +72,6 @@ public class ForestWatcher extends Enemy {
         actor.addCapability(Status.BOSS_DEFEATED);
         map.locationOf(this).setGround(abxyverGate);
         return super.unconscious(actor, map);
-    }
-
-    /**
-     * Determine the allowable actions that can be performed on this Forest Watcher.
-     * Forest Watcher can follow actors with HOSTILE_TO_ENEMY capability and attack them.
-     *
-     * @param otherActor The Actor that might be performing an attack or action.
-     * @param direction  A string representing the direction of the other Actor.
-     * @param map        The current GameMap.
-     * @return A list of actions that the Forest Watcher is allowed to execute or perform on the current actor.
-     */
-    public ActionList allowableActions(Actor otherActor, String direction, GameMap map) {
-        ActionList actions = new ActionList();
-        if (otherActor.hasCapability(Status.HOSTILE_TO_ENEMY)) {
-            this.behaviours.put(998, new FollowBehaviour(otherActor));
-            actions.add(new AttackAction(this, direction));
-        }
-
-        return actions;
     }
 
     /**

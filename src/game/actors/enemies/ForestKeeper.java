@@ -1,4 +1,4 @@
-package game.actors.enemies.forestenemy;
+package game.actors.enemies;
 
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.displays.Display;
@@ -18,10 +18,10 @@ import game.weathers.WeatherControllable;
  *
  * @author : MA_AppliedSession1_Group7
  *
- * @see ForestEnemy
+ * @see Enemy
  * @see WeatherControllable
  */
-public class ForestKeeper extends ForestEnemy {
+public class ForestKeeper extends FollowEnemy implements WeatherControllable{
 
   /**
    * Spawner for generating instances of the ForestKeeper.
@@ -38,7 +38,7 @@ public class ForestKeeper extends ForestEnemy {
    * Initializes the Forest Keeper with its name, display character, hit points, and runes dropped when defeated.
    */
   public ForestKeeper() {
-    super("Forest Keeper", '8', 125, 50);
+    super("Forest Keeper", '8', 125, new Runes(50));
   }
 
   /**

@@ -6,6 +6,7 @@ import edu.monash.fit2099.engine.positions.Ground;
 import edu.monash.fit2099.engine.positions.Location;
 import game.actions.TravelAction;
 import game.actions.UnlockGateAction;
+import game.actors.enemies.Enemy;
 import game.capabilities.Ability;
 
 import java.util.ArrayList;
@@ -83,6 +84,11 @@ public class Gate extends Ground {
 
     public void addTravelAction(TravelAction travelAction){
         travelActionList.add(travelAction);
+    }
+
+    public void lockGate(){
+        isUnlocked = false;
+        addCapability(Ability.LOCKED_GATE);
     }
 
 }
