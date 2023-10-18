@@ -1,6 +1,6 @@
 package game.grounds.environments;
 
-import game.actors.enemies.villageenemy.WanderingUndead;
+import game.actors.enemies.WanderingUndead;
 import game.spawners.Spawner;
 
 /**

@@ -12,12 +12,12 @@ import game.actors.Blacksmith;
 import game.actors.Player;
 import game.actors.Traveller;
 import game.actors.enemies.ForestWatcher;
-import game.actors.enemies.forestenemy.ForestKeeper;
-import game.actors.enemies.forestenemy.RedWolf;
-import game.actors.enemies.sanctuaryenemy.EldentreeGuardian;
-import game.actors.enemies.sanctuaryenemy.LivingBranch;
-import game.actors.enemies.villageenemy.HollowSoldier;
-import game.actors.enemies.villageenemy.WanderingUndead;
+import game.actors.enemies.ForestKeeper;
+import game.actors.enemies.RedWolf;
+import game.actors.enemies.EldentreeGuardian;
+import game.actors.enemies.LivingBranch;
+import game.actors.enemies.HollowSoldier;
+import game.actors.enemies.WanderingUndead;
 import game.displays.FancyMessage;
 import game.grounds.*;
 import game.grounds.Void;
@@ -305,7 +305,7 @@ public class Designborne {
     public void respawnPlayer(){
         player.heal(player.getAttributeMaximum(BaseActorAttributes.HEALTH));
         player.modifyAttribute(BaseActorAttributes.STAMINA, ActorAttributeOperations.UPDATE, player.getAttributeMaximum(BaseActorAttributes.STAMINA));
-        gameMapHashMap.get("The Abandoned Village").at(29,5).addActor(player);
+        gameMapHashMap.get("The Abandoned Village").moveActor(player, gameMapHashMap.get("The Abandoned Village").at(29,5));
     }
 
     public World getWorld() {

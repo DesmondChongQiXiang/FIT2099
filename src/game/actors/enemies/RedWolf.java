@@ -1,9 +1,10 @@
-package game.actors.enemies.forestenemy;
+package game.actors.enemies;
 
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.weapons.IntrinsicWeapon;
+import game.behaviours.WanderBehaviour;
 import game.items.HealingVial;
 import game.items.Runes;
 import game.spawners.Spawner;
@@ -18,10 +19,10 @@ import game.weathers.WeatherControllable;
  *
  * @author : MA_AppliedSession1_Group7
  *
- * @see ForestEnemy
+ * @see Enemy
  * @see WeatherControllable
  */
-public class RedWolf extends ForestEnemy {
+public class RedWolf extends FollowEnemy implements WeatherControllable {
 
   /**
    * Spawner for generating instances of the Red Wolf.
@@ -39,6 +40,7 @@ public class RedWolf extends ForestEnemy {
    */
   public RedWolf() {
     super("Red Wolf", 'r', 25, new Runes(25));
+    this.behaviours.put(999, new WanderBehaviour());
   }
 
   /**

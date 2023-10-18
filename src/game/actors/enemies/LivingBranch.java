@@ -1,16 +1,17 @@
-package game.actors.enemies.sanctuaryenemy;
+package game.actors.enemies;
 
 import edu.monash.fit2099.engine.actions.ActionList;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.weapons.IntrinsicWeapon;
 import game.actions.AttackAction;
+import game.capabilities.Ability;
 import game.capabilities.Status;
 import game.items.BloodBerry;
 import game.items.Runes;
 import game.spawners.Spawner;
 
-public class LivingBranch extends SanctuaryEnemy {
+public class LivingBranch extends Enemy {
 
     /**
      * Spawner for generating instances of the LivingBranch.
@@ -26,6 +27,7 @@ public class LivingBranch extends SanctuaryEnemy {
      */
     public LivingBranch() {
         super("Living Branch", '?', 75, new Runes(500));
+        this.addCapability(Ability.ENTER_VOID);
     }
 
     @Override

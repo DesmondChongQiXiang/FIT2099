@@ -1,6 +1,6 @@
 package game.grounds.environments;
 
-import game.actors.enemies.villageenemy.HollowSoldier;
+import game.actors.enemies.HollowSoldier;
 import game.spawners.Spawner;
 
 /**

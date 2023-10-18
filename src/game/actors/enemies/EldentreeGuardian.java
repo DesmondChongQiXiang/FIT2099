@@ -1,19 +1,15 @@
-package game.actors.enemies.sanctuaryenemy;
+package game.actors.enemies;
 
-import edu.monash.fit2099.engine.actions.ActionList;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.weapons.IntrinsicWeapon;
-import game.actions.AttackAction;
-import game.behaviours.FollowBehaviour;
-import game.behaviours.WanderBehaviour;
-import game.capabilities.Status;
+import game.capabilities.Ability;
 import game.items.HealingVial;
 import game.items.RefreshingFlask;
 import game.items.Runes;
 import game.spawners.Spawner;
 
-public class EldentreeGuardian extends SanctuaryEnemy{
+public class EldentreeGuardian extends FollowEnemy{
 
     /**
      * Spawner for generating instances of the EldentreeGuardian.
@@ -27,7 +23,7 @@ public class EldentreeGuardian extends SanctuaryEnemy{
 
     public EldentreeGuardian() {
         super("Eldentree Guardian", 'e', 250, new Runes(250));
-        this.behaviours.put(999, new WanderBehaviour());
+        this.addCapability(Ability.ENTER_VOID);
     }
 
     @Override
@@ -45,17 +41,4 @@ public class EldentreeGuardian extends SanctuaryEnemy{
         }
         return super.unconscious(actor, map);
     }
-
-    @Override
-    public ActionList allowableActions(Actor otherActor, String direction, GameMap map) {
-        ActionList actions = new ActionList();
-        if (otherActor.hasCapability(Status.HOSTILE_TO_ENEMY)) {
-            // Add a FollowBehaviour to follow the hostile actor.
-            this.behaviours.put(998, new FollowBehaviour(otherActor));
-            // Add an AttackAction to attack the hostile actor.
-            actions.add(new AttackAction(this, direction));
-        }
-        return actions;
-    }
-
 }

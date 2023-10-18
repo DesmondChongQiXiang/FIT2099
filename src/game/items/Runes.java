@@ -64,7 +64,6 @@ public class Runes extends Item implements Consumable {
         if (isPlayerDead){
             currentLocation.removeItem(this);
             playerDead();
-            System.out.println("aaaaa");
         }
     }
 

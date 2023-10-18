@@ -4,9 +4,7 @@ import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.Location;
 import game.actors.enemies.Enemy;
-import game.actors.enemies.forestenemy.ForestEnemy;
-import game.actors.enemies.forestenemy.ForestKeeper;
-import game.grounds.environments.EnemySpawnableGround;
+import game.actors.enemies.ForestKeeper;
 import game.spawners.Spawner;
 import game.weathers.Weather;
 import game.weathers.WeatherControllable;
@@ -67,10 +65,10 @@ public class ForestHut<F extends ForestKeeper> extends EnemySpawnableGround<F> i
   @Override
   public void tick(Location location) {
     if (Math.random() <= ((double) spawnRate / 100) && !location.containsAnActor()) {
-      ForestEnemy forestEnemy = spawner.spawn();
-      location.addActor(forestEnemy);
-      forestKeeperList.add(forestEnemy);
-      enemyList.add(forestEnemy);
+      ForestKeeper forestKeeper = spawner.spawn();
+      location.addActor(forestKeeper);
+      forestKeeperList.add(forestKeeper);
+      enemyList.add(forestKeeper);
     }
     if (isPlayerDead){
       removeEnemy(location.map());

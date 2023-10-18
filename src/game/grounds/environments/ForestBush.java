@@ -4,8 +4,7 @@ import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.Location;
 import game.actors.enemies.Enemy;
-import game.actors.enemies.forestenemy.ForestEnemy;
-import game.actors.enemies.forestenemy.RedWolf;
+import game.actors.enemies.RedWolf;
 import game.spawners.Spawner;
 import game.weathers.Weather;
 import game.weathers.WeatherControllable;
@@ -68,10 +67,10 @@ public class ForestBush<R extends RedWolf> extends EnemySpawnableGround<R> imple
   @Override
   public void tick(Location location) {
     if (Math.random() <= ((double) spawnRate / 100) && !location.containsAnActor()) {
-      ForestEnemy forestEnemy = spawner.spawn();
-      location.addActor(forestEnemy);
-      redWolfList.add(forestEnemy);
-      enemyList.add(forestEnemy);
+      RedWolf redWolf = spawner.spawn();
+      location.addActor(redWolf);
+      redWolfList.add(redWolf);
+      enemyList.add(redWolf);
     }
     if (isPlayerDead){
       removeEnemy(location.map());

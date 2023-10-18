@@ -7,6 +7,7 @@ import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.actors.Behaviour;
 import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.GameMap;
+import game.actions.AttackAction;
 import game.capabilities.Status;
 import game.behaviours.AttackBehaviour;
 import game.items.Runes;
@@ -27,7 +28,6 @@ import java.util.Map;
 public abstract class Enemy extends Actor {
     protected Map<Integer, Behaviour> behaviours = new HashMap<>();
     private Runes runesDropped;
-    private boolean isPlayerDied;
 
     /**
      * Constructor for creating an enemy actor.
@@ -79,6 +79,24 @@ public abstract class Enemy extends Actor {
     public String unconscious(Actor actor, GameMap map) {
         map.locationOf(this).addItem(runesDropped);
         return super.unconscious(actor, map);
+    }
+
+    /**
+     * Determines the allowable actions that can be performed on this village-themed enemy.
+     * Village enemies can be attacked by actors with the HOSTILE_TO_ENEMY capability.
+     *
+     * @param otherActor The Actor that might be performing an attack or action.
+     * @param direction  A string representing the direction of the other Actor.
+     * @param map        The current GameMap.
+     * @return A list of actions that the enemy is allowed to execute or perform on the current actor.
+     */
+    @Override
+    public ActionList allowableActions(Actor otherActor, String direction, GameMap map) {
+        ActionList actions = new ActionList();
+        if (otherActor.hasCapability(Status.HOSTILE_TO_ENEMY)) {
+            actions.add(new AttackAction(this, direction));
+        }
+        return actions;
     }
 
     public void playerDead(){
