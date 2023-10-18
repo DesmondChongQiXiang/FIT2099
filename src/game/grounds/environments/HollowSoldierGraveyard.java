@@ -1,4 +1,4 @@
-package game.grounds.environments.village;
+package game.grounds.environments;
 
 import game.actors.enemies.villageenemy.HollowSoldier;
 import game.spawners.Spawner;
@@ -12,9 +12,9 @@ import game.spawners.Spawner;
  * @author : MA_AppliedSession1_Group7
  *
  * @param <H> The type of Hollow Soldier enemy that can spawn in this type of ground.
- * @see VillageEnemySpawnableGround
+ * @see EnemySpawnableGround
  */
-public class HollowSoldierGraveyard<H extends HollowSoldier> extends VillageEnemySpawnableGround<H> {
+public class HollowSoldierGraveyard<H extends HollowSoldier> extends EnemySpawnableGround<H> {
 
     /**
      * Constructor to create a BurialGroundGraveyard instance.

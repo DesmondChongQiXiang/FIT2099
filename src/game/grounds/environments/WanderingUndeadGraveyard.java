@@ -1,4 +1,4 @@
-package game.grounds.environments.village;
+package game.grounds.environments;
 
 import game.actors.enemies.villageenemy.WanderingUndead;
 import game.spawners.Spawner;
@@ -12,9 +12,9 @@ import game.spawners.Spawner;
  * @author : MA_AppliedSession1_Group7
  *
  * @param <W> The type of Wandering Undead enemy that can spawn in this type of ground.
- * @see VillageEnemySpawnableGround
+ * @see EnemySpawnableGround
  */
-public class WanderingUndeadGraveyard<W extends WanderingUndead> extends VillageEnemySpawnableGround<W> {
+public class WanderingUndeadGraveyard<W extends WanderingUndead> extends EnemySpawnableGround<W> {
 
     /**
      * Constructor to create an AbandonedVillageGraveyard instance.

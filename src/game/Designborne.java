@@ -1,6 +1,5 @@
 package game;
 
-import edu.monash.fit2099.engine.actors.Behaviour;
 import edu.monash.fit2099.engine.actors.attributes.ActorAttributeOperations;
 import edu.monash.fit2099.engine.actors.attributes.BaseActorAttributes;
 import edu.monash.fit2099.engine.displays.Display;
@@ -13,26 +12,22 @@ import game.actors.Blacksmith;
 import game.actors.Player;
 import game.actors.Traveller;
 import game.actors.enemies.ForestWatcher;
-import game.actors.enemies.forestenemy.ForestEnemy;
 import game.actors.enemies.forestenemy.ForestKeeper;
 import game.actors.enemies.forestenemy.RedWolf;
 import game.actors.enemies.sanctuaryenemy.EldentreeGuardian;
 import game.actors.enemies.sanctuaryenemy.LivingBranch;
-import game.actors.enemies.sanctuaryenemy.SanctuaryEnemy;
 import game.actors.enemies.villageenemy.HollowSoldier;
 import game.actors.enemies.villageenemy.WanderingUndead;
 import game.displays.FancyMessage;
 import game.grounds.*;
 import game.grounds.Void;
 import game.grounds.environments.EnemySpawnableGround;
-import game.grounds.environments.forest.ForestBush;
-import game.grounds.environments.forest.ForestEnemySpawnableGround;
-import game.grounds.environments.forest.ForestHut;
-import game.grounds.environments.sanctuary.SanctuaryBush;
-import game.grounds.environments.sanctuary.SanctuaryEnemySpawnableGround;
-import game.grounds.environments.sanctuary.SanctuaryHut;
-import game.grounds.environments.village.HollowSoldierGraveyard;
-import game.grounds.environments.village.WanderingUndeadGraveyard;
+import game.grounds.environments.ForestBush;
+import game.grounds.environments.ForestHut;
+import game.grounds.environments.SanctuaryBush;
+import game.grounds.environments.SanctuaryHut;
+import game.grounds.environments.HollowSoldierGraveyard;
+import game.grounds.environments.WanderingUndeadGraveyard;
 import game.items.BloodBerry;
 import game.weapons.Broadsword;
 import game.weapons.GiantHammer;
@@ -199,12 +194,12 @@ public class Designborne {
         burialGroundGate.addTravelAction(new TravelAction(gameMapHashMap.get("The Abandoned Village").at(31, 5),"The Abandoned Village"));
         gateList.add(burialGroundGate);
 
-        ForestEnemySpawnableGround<ForestKeeper> ancientWoodHut = new ForestHut<>(ForestKeeper.SPAWNER);
+        ForestHut<ForestKeeper> ancientWoodHut = new ForestHut<>(ForestKeeper.SPAWNER);
         gameMapHashMap.get("The Ancient Woods").at(29,0).setGround(ancientWoodHut);
         forestEnemySpawnableGroundList.add(ancientWoodHut);
         enemySpawnableGroundList.add(ancientWoodHut);
 
-        ForestEnemySpawnableGround<RedWolf> ancientWoodBush = new ForestBush<>(RedWolf.SPAWNER);
+        ForestBush<RedWolf> ancientWoodBush = new ForestBush<>(RedWolf.SPAWNER);
         gameMapHashMap.get("The Ancient Woods").at(15,11).setGround(ancientWoodBush);
         forestEnemySpawnableGroundList.add(ancientWoodBush);
         enemySpawnableGroundList.add(ancientWoodBush);
@@ -219,22 +214,22 @@ public class Designborne {
         gameMapHashMap.get("The Ancient Woods").at(10,11).setGround(ancientWoodsGate);
         gateList.add(ancientWoodsGate);
 
-        ForestEnemySpawnableGround<ForestKeeper> abxervyerHut1 = new ForestHut<>(ForestKeeper.SPAWNER);
+        ForestHut<ForestKeeper> abxervyerHut1 = new ForestHut<>(ForestKeeper.SPAWNER);
         gameMapHashMap.get("The Abxervyer").at(10, 19).setGround(abxervyerHut1);
         forestEnemySpawnableGroundList.add(abxervyerHut1);
         enemySpawnableGroundList.add(abxervyerHut1);
 
-        ForestEnemySpawnableGround<ForestKeeper> abxervyerHut2 = new ForestHut<>(ForestKeeper.SPAWNER);
+        ForestHut<ForestKeeper> abxervyerHut2 = new ForestHut<>(ForestKeeper.SPAWNER);
         gameMapHashMap.get("The Abxervyer").at(32, 0).setGround(abxervyerHut2);
         forestEnemySpawnableGroundList.add(abxervyerHut2);
         enemySpawnableGroundList.add(abxervyerHut2);
 
-        ForestEnemySpawnableGround<RedWolf> abxervyerBush1 = new ForestBush<>(RedWolf.SPAWNER);
+        ForestBush<RedWolf> abxervyerBush1 = new ForestBush<>(RedWolf.SPAWNER);
         gameMapHashMap.get("The Abxervyer").at(11, 13).setGround(abxervyerBush1);
         forestEnemySpawnableGroundList.add(abxervyerBush1);
         enemySpawnableGroundList.add(abxervyerBush1);
 
-        ForestEnemySpawnableGround<ForestKeeper> abxervyerBush2 = new ForestHut<>(ForestKeeper.SPAWNER);
+        ForestHut<ForestKeeper> abxervyerBush2 = new ForestHut<>(ForestKeeper.SPAWNER);
         gameMapHashMap.get("The Abxervyer").at(36, 18).setGround(abxervyerBush2);
         forestEnemySpawnableGroundList.add(abxervyerBush2);
         enemySpawnableGroundList.add(abxervyerBush2);
@@ -253,11 +248,11 @@ public class Designborne {
         gameMapHashMap.get("The Overgrown Sanctuary").at(5,11).setGround(overgrownSanctuaryGraveyard);
         enemySpawnableGroundList.add(overgrownSanctuaryGraveyard);
 
-        SanctuaryEnemySpawnableGround<EldentreeGuardian> overgrownSanctuaryHut = new SanctuaryHut<>(EldentreeGuardian.SPAWNER);
+        EnemySpawnableGround<EldentreeGuardian> overgrownSanctuaryHut = new SanctuaryHut<>(EldentreeGuardian.SPAWNER);
         gameMapHashMap.get("The Overgrown Sanctuary").at(9, 7).setGround(overgrownSanctuaryHut);
         enemySpawnableGroundList.add(overgrownSanctuaryHut);
 
-        SanctuaryEnemySpawnableGround<LivingBranch> overgrownSanctuaryBush = new SanctuaryBush<>(LivingBranch.SPAWNER);
+        EnemySpawnableGround<LivingBranch> overgrownSanctuaryBush = new SanctuaryBush<>(LivingBranch.SPAWNER);
         gameMapHashMap.get("The Overgrown Sanctuary").at(22, 7).setGround(overgrownSanctuaryBush);
         enemySpawnableGroundList.add(overgrownSanctuaryBush);
     }

@@ -5,40 +5,8 @@ import java.util.Arrays;
 import java.util.List;
 
 import edu.monash.fit2099.engine.displays.Display;
-import edu.monash.fit2099.engine.items.Item;
-import edu.monash.fit2099.engine.positions.FancyGroundFactory;
-import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.World;
-import game.actions.TravelAction;
-import game.actors.Blacksmith;
-import game.actors.Player;
-import game.actors.Traveller;
-import game.actors.enemies.ForestWatcher;
-import game.actors.enemies.forestenemy.ForestEnemy;
-import game.actors.enemies.forestenemy.ForestKeeper;
-import game.actors.enemies.forestenemy.RedWolf;
-import game.actors.enemies.sanctuaryenemy.EldentreeGuardian;
-import game.actors.enemies.sanctuaryenemy.LivingBranch;
-import game.actors.enemies.sanctuaryenemy.SanctuaryEnemy;
-import game.actors.enemies.villageenemy.HollowSoldier;
-import game.actors.enemies.villageenemy.WanderingUndead;
-import game.displays.FancyMessage;
-import game.grounds.*;
-import game.grounds.Void;
-import game.grounds.environments.forest.ForestBush;
-import game.grounds.environments.forest.ForestEnemySpawnableGround;
-import game.grounds.environments.forest.ForestHut;
-import game.grounds.environments.sanctuary.SanctuaryBush;
-import game.grounds.environments.sanctuary.SanctuaryEnemySpawnableGround;
-import game.grounds.environments.sanctuary.SanctuaryHut;
-import game.grounds.environments.village.WanderingUndeadGraveyard;
-import game.grounds.environments.village.HollowSoldierGraveyard;
-import game.items.BloodBerry;
-import game.weapons.Broadsword;
-import game.weapons.GiantHammer;
-import game.weathers.Weather;
-import game.weathers.WeatherControllable;
-import game.weathers.WeatherManager;
+
 
 /**
  * The main class to start the game.

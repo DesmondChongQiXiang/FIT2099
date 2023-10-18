@@ -1,10 +1,17 @@
-package game.grounds.environments.forest;
+package game.grounds.environments;
 
 import edu.monash.fit2099.engine.displays.Display;
+import edu.monash.fit2099.engine.positions.GameMap;
+import edu.monash.fit2099.engine.positions.Location;
+import game.actors.enemies.Enemy;
+import game.actors.enemies.forestenemy.ForestEnemy;
 import game.actors.enemies.forestenemy.ForestKeeper;
+import game.grounds.environments.EnemySpawnableGround;
 import game.spawners.Spawner;
 import game.weathers.Weather;
 import game.weathers.WeatherControllable;
+
+import java.util.ArrayList;
 
 /**
  * The Hut class represents a type of ground in the forest environment where Forest Keepers can spawn.
@@ -16,11 +23,11 @@ import game.weathers.WeatherControllable;
  * @author : MA_AppliedSession1_Group7
  *
  * @param <F> The type of Forest Keeper enemy that can spawn in this type of ground.
- * @see ForestEnemySpawnableGround
+ * @see EnemySpawnableGround
  * @see WeatherControllable
  */
-public class ForestHut<F extends ForestKeeper> extends ForestEnemySpawnableGround<F> {
-
+public class ForestHut<F extends ForestKeeper> extends EnemySpawnableGround<F> implements WeatherControllable {
+  private ArrayList<WeatherControllable> forestKeeperList;
   /**
    * Constructor to create a Hut instance.
    *
@@ -28,6 +35,7 @@ public class ForestHut<F extends ForestKeeper> extends ForestEnemySpawnableGroun
    */
   public ForestHut(Spawner<F> forestKeeperSpawner){
     super('h', 15, forestKeeperSpawner);
+    forestKeeperList = new ArrayList<>();
   }
 
   /**
@@ -46,9 +54,37 @@ public class ForestHut<F extends ForestKeeper> extends ForestEnemySpawnableGroun
       super.setSpawnRate(15);
       display.println("The forest keepers are becoming less active.");
     }
-    for(WeatherControllable forestEnemy: forestEnemyList){
+    for(WeatherControllable forestEnemy: forestKeeperList){
       forestEnemy.updateWeatherMode(weather, display);
     }
   }
+
+  /**
+   * Handles the spawning of forest enemies on this ground based on the spawn rate and the absence of actors at the location.
+   *
+   * @param location The location on the map where the spawning occurs.
+   */
+  @Override
+  public void tick(Location location) {
+    if (Math.random() <= ((double) spawnRate / 100) && !location.containsAnActor()) {
+      ForestEnemy forestEnemy = spawner.spawn();
+      location.addActor(forestEnemy);
+      forestKeeperList.add(forestEnemy);
+      enemyList.add(forestEnemy);
+    }
+    if (isPlayerDead){
+      removeEnemy(location.map());
+      setPlayerDead();
+    }
+  }
+
+  public void removeEnemy(GameMap map){
+    for (Enemy enemy : enemyList){
+      enemy.playerDead();
+      enemy.unconscious(map);
+    }
+    forestKeeperList.clear();
+  }
+
 }
 

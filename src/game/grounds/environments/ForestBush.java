@@ -1,10 +1,16 @@
-package game.grounds.environments.forest;
+package game.grounds.environments;
 
 import edu.monash.fit2099.engine.displays.Display;
+import edu.monash.fit2099.engine.positions.GameMap;
+import edu.monash.fit2099.engine.positions.Location;
+import game.actors.enemies.Enemy;
+import game.actors.enemies.forestenemy.ForestEnemy;
 import game.actors.enemies.forestenemy.RedWolf;
 import game.spawners.Spawner;
 import game.weathers.Weather;
 import game.weathers.WeatherControllable;
+
+import java.util.ArrayList;
 
 /**
  * The Bushes class represents a type of ground in the forest environment where Red Wolves can spawn.
@@ -17,12 +23,12 @@ import game.weathers.WeatherControllable;
  * @author : MA_AppliedSession1_Group7
  *
  * @param <R> The type of Red Wolf spawner associated with this Bushes instance.
- * @see ForestEnemySpawnableGround
+ * @see EnemySpawnableGround
  * @see Weather
  * @see WeatherControllable
  */
-public class ForestBush<R extends RedWolf> extends ForestEnemySpawnableGround<R> {
-
+public class ForestBush<R extends RedWolf> extends EnemySpawnableGround<R> implements WeatherControllable{
+  private ArrayList<WeatherControllable> redWolfList;
   /**
    * Constructor to create a Bushes instance.
    *
@@ -30,6 +36,7 @@ public class ForestBush<R extends RedWolf> extends ForestEnemySpawnableGround<R>
    */
   public ForestBush(Spawner<R> redWolfSpawner){
     super('m', 30, redWolfSpawner);
+    redWolfList = new ArrayList<>();
   }
 
   /**
@@ -48,8 +55,35 @@ public class ForestBush<R extends RedWolf> extends ForestEnemySpawnableGround<R>
       super.setSpawnRate(45);
       display.println("The red wolves are becoming more active.");
     }
-    for (WeatherControllable forestEnemy: forestEnemyList){
+    for (WeatherControllable forestEnemy: redWolfList){
       forestEnemy.updateWeatherMode(weather, display);
     }
+  }
+
+  /**
+   * Handles the spawning of forest enemies on this ground based on the spawn rate and the absence of actors at the location.
+   *
+   * @param location The location on the map where the spawning occurs.
+   */
+  @Override
+  public void tick(Location location) {
+    if (Math.random() <= ((double) spawnRate / 100) && !location.containsAnActor()) {
+      ForestEnemy forestEnemy = spawner.spawn();
+      location.addActor(forestEnemy);
+      redWolfList.add(forestEnemy);
+      enemyList.add(forestEnemy);
+    }
+    if (isPlayerDead){
+      removeEnemy(location.map());
+      setPlayerDead();
+    }
+  }
+
+  public void removeEnemy(GameMap map){
+    for (Enemy enemy : enemyList){
+      enemy.playerDead();
+      enemy.unconscious(map);
+    }
+    redWolfList.clear();
   }
 }
