@@ -11,6 +11,7 @@ import game.actions.PurchaseAction;
 import game.capabilities.Ability;
 import game.items.HealingVial;
 import game.items.RefreshingFlask;
+import game.monologues.MonologueOptions;
 import game.weapons.Broadsword;
 import game.weapons.GreatKnife;
 import game.capabilities.Status;
