@@ -3,7 +3,7 @@ package game.actions;
 import edu.monash.fit2099.engine.actions.Action;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.positions.GameMap;
-import game.actors.MonologueOptions;
+import game.monologues.MonologueOptions;
 import java.util.Random;
 
 public class ListenMonologueAction extends Action {
