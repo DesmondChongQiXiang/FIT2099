@@ -1,4 +1,4 @@
-package game.actors;
+package game.monologues;
 
 import java.util.ArrayList;
 import java.util.Random;

@@ -4,6 +4,7 @@ import edu.monash.fit2099.engine.actions.ActionList;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.actors.attributes.BaseActorAttributes;
 import edu.monash.fit2099.engine.items.Item;
+import edu.monash.fit2099.engine.positions.Location;
 import game.actions.ConsumeAction;
 
 /**
@@ -17,6 +18,7 @@ import game.actions.ConsumeAction;
 public class Runes extends Item implements Consumable {
 
     private int amount;
+    private boolean isPlayerDead;
 
     /**
      * Constructor to create a stack of runes with a specified amount.
@@ -26,6 +28,7 @@ public class Runes extends Item implements Consumable {
     public Runes(int amount) {
         super("Runes", '$', true);
         this.amount = amount;
+        this.isPlayerDead = false;
     }
 
     /**
@@ -55,4 +58,26 @@ public class Runes extends Item implements Consumable {
         return actions;
     }
 
+    @Override
+    public void tick(Location currentLocation) {
+        super.tick(currentLocation);
+        if (isPlayerDead){
+            currentLocation.removeItem(this);
+            playerDead();
+        }
+    }
+
+    @Override
+    public void tick(Location currentLocation, Actor actor) {
+        //check if the runes is in player inventory, set the boolean back when player respawn
+        if (isPlayerDead) {
+            playerDead();
+        }
+        super.tick(currentLocation, actor);
+    }
+
+
+    public void playerDead(){
+        isPlayerDead = !isPlayerDead;
+    }
 }

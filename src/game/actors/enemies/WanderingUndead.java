@@ -1,10 +1,9 @@
-package game.actors.enemies.villageenemy;
+package game.actors.enemies;
 
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.weapons.IntrinsicWeapon;
-import game.actors.enemies.Enemy;
-import game.capabilities.Status;
+import game.behaviours.WanderBehaviour;
 import game.items.HealingVial;
 import game.items.Key;
 import game.items.Runes;
@@ -18,9 +17,9 @@ import game.spawners.Spawner;
  *
  * @author : MA_AppliedSession1_Group7
  *
- * @see VillageEnemy
+ * @see Enemy
  */
-public class WanderingUndead extends VillageEnemy {
+public class WanderingUndead extends Enemy {
   /**
    * Spawner for generating instances of the Wandering Undead.
    */
@@ -36,7 +35,8 @@ public class WanderingUndead extends VillageEnemy {
    * Initializes the Wandering Undead with its name, display character, hit points, and runes dropped when defeated.
    */
   public WanderingUndead() {
-    super("Wandering Undead", 't', 100, 50);
+    super("Wandering Undead", 't', 100, new Runes(50));
+    this.behaviours.put(999, new WanderBehaviour());
   }
 
   /**

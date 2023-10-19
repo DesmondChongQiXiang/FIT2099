@@ -9,9 +9,7 @@ import edu.monash.fit2099.engine.positions.GameMap;
 import game.actions.ListenMonologueAction;
 import game.capabilities.Ability;
 import game.capabilities.Status;
-
-
-import java.util.ArrayList;
+import game.monologues.MonologueOptions;
 
 public class Blacksmith extends Actor {
     private MonologueOptions monologueOptions;
@@ -50,6 +48,5 @@ public class Blacksmith extends Actor {
         } else {
             monologueOptions.addOption("Beyond the burial ground, you’ll come across the ancient woods ruled by Abxervyer. Use my creation to slay them and proceed further!");
         }
-
     }
 }

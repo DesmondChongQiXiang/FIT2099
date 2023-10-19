@@ -1,14 +1,12 @@
-package game.actors.enemies.villageenemy;
+package game.actors.enemies;
 
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.weapons.IntrinsicWeapon;
-import game.actors.enemies.Enemy;
-import game.actors.enemies.forestenemy.ForestKeeper;
+import game.behaviours.WanderBehaviour;
 import game.items.HealingVial;
 import game.items.RefreshingFlask;
 import game.items.Runes;
-import game.capabilities.Status;
 import game.spawners.Spawner;
 
 /**
@@ -19,9 +17,9 @@ import game.spawners.Spawner;
  *
  * @author : MA_AppliedSession1_Group7
  *
- * @see VillageEnemy
+ * @see Enemy
  */
-public class HollowSoldier extends VillageEnemy {
+public class HollowSoldier extends Enemy {
   /**
    * Spawner for generating instances of the Hollow Soldier.
    */
@@ -37,7 +35,8 @@ public class HollowSoldier extends VillageEnemy {
    * Initializes the Hollow Soldier with its name, display character, hit points, and runes dropped when defeated.
    */
   public HollowSoldier() {
-    super("Hollow Soldier", '&', 200, 100);
+    super("Hollow Soldier", '&', 200, new Runes(100));
+    this.behaviours.put(999, new WanderBehaviour());
   }
 
   /**

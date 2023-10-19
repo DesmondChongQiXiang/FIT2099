@@ -14,9 +14,12 @@ import edu.monash.fit2099.engine.positions.Location;
 import edu.monash.fit2099.engine.weapons.IntrinsicWeapon;
 import game.capabilities.Ability;
 import game.capabilities.Status;
-import edu.monash.fit2099.engine.actors.Wallet;
+import game.displays.FancyMessage;
+import game.items.BloodBerry;
 import game.items.Runes;
-import game.grounds.AbandonedVillageMap;
+import game.weapons.Broadsword;
+
+import java.util.ArrayList;
 
 
 /**
@@ -30,9 +33,7 @@ import game.grounds.AbandonedVillageMap;
  * @see Actor
  */
 public class Player extends Actor {
-    private Wallet wallet;
-    private AbandonedVillageMap abandonedVillageMap;
-
+    private ArrayList<Runes> runesDropped;
 
     /**
      * Constructor to create a Player character.
@@ -51,6 +52,7 @@ public class Player extends Actor {
         this.addCapability(Ability.BUYING);
         this.addCapability(Ability.LISTEN_STORY);
         this.addAttribute(BaseActorAttributes.STAMINA, new BaseActorAttribute(stamina));
+        this.runesDropped = new ArrayList<>();
     }
 
 
@@ -64,21 +66,21 @@ public class Player extends Actor {
     @Override
     public String unconscious(Actor actor, GameMap map) {
         // Modify the player's health attribute
-        int maxHealth = actor.getAttributeMaximum(BaseActorAttributes.HEALTH);
-        int maxStamina = actor.getAttributeMaximum(BaseActorAttributes.STAMINA);
-
-        actor.modifyAttribute(BaseActorAttributes.HEALTH, ActorAttributeOperations.UPDATE, maxHealth);
-        actor.modifyAttribute(BaseActorAttributes.STAMINA, ActorAttributeOperations.UPDATE, maxStamina);
+        this.modifyAttribute(BaseActorAttributes.HEALTH, ActorAttributeOperations.UPDATE, 0);
+        String ret = "";
+        for(Runes runes:runesDropped){
+            runes.playerDead();
+        }
+        Runes currentRunesDropped = new Runes(this.getBalance());
+        runesDropped.add(currentRunesDropped);
+        map.locationOf(this).addItem(currentRunesDropped);
+        this.deductBalance(this.getBalance());
 
         String ret = "";
         ret += super.unconscious(actor, map);
-        resetWalletAndDropRunes(map);
+        // Display a message indicating that the player has died
+        ret += "\n" + FancyMessage.YOU_DIED;
 
-
-        GameMap theAbandonedVillage = abandonedVillageMap.getTheAbandonedVillage();
-        map.moveActor(this, theAbandonedVillage.at(29, 5));
-
-        ret += "Respawning back to The Abandoned Village";
         return ret;
     }
 
@@ -100,10 +102,18 @@ public class Player extends Actor {
         String ret = "";
         resetWalletAndDropRunes(map);
 
-        GameMap theAbandonedVillage = abandonedVillageMap.getTheAbandonedVillage();
-        map.moveActor(this, theAbandonedVillage.at(29, 5));
+        // Perform the unconscious action and remove the player from the map
+        ret += new DoNothingAction().execute(this, map);
+        // Display a message indicating that the player has died
+        ret += "\n" + FancyMessage.YOU_DIED;
+        for(Runes runes:runesDropped){
+            runes.playerDead();
+        }
+        Runes currentRunesDropped = new Runes(this.getBalance());
+        map.locationOf(this).addItem(currentRunesDropped);
+        this.deductBalance(this.getBalance());
+        map.removeActor(this);
 
-        ret += "Respawning back to The Abandoned Village";
         return ret;
     }
     private void resetWalletAndDropRunes(GameMap map) {

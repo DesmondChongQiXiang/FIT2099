@@ -29,7 +29,7 @@ public class GiantHammer extends WeaponItem implements Sellable, ActiveSkill {
      */
     public GiantHammer() {
         super("Giant Hammer", 'P', 160, "slams", 90);
-        this.addCapability(Ability.USE_GREATHAMMER);
+        this.addCapability(Ability.USE_GIANTHAMMER);
     }
 
     /**
