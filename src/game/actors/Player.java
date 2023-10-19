@@ -10,6 +10,7 @@ import edu.monash.fit2099.engine.actors.attributes.BaseActorAttributes;
 import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.displays.Menu;
+import edu.monash.fit2099.engine.positions.Location;
 import edu.monash.fit2099.engine.weapons.IntrinsicWeapon;
 import game.capabilities.Ability;
 import game.capabilities.Status;
@@ -42,18 +43,18 @@ public class Player extends Actor {
      * @param hitPoints  Player's starting number of hit points.
      * @param stamina    Player's starting stamina.
      */
-    public Player(String name, char displayChar, int hitPoints, int stamina) {
+    public Player(String name, char displayChar, int hitPoints, int stamina, AbandonedVillageMap abandonedVillageMap) {
         super(name, displayChar, hitPoints);
-
-        // Add capabilities to the player
+        this.wallet = new Wallet();
+        this.abandonedVillageMap = abandonedVillageMap;
         this.addCapability(Status.HOSTILE_TO_ENEMY);
         this.addCapability(Ability.ENTER_FLOOR);
         this.addCapability(Ability.BUYING);
         this.addCapability(Ability.LISTEN_STORY);
-        // Initialize player attributes
         this.addAttribute(BaseActorAttributes.STAMINA, new BaseActorAttribute(stamina));
         this.runesDropped = new ArrayList<>();
     }
+
 
     /**
      * Handle the unconscious state of the Player when defeated by another actor.
@@ -75,7 +76,7 @@ public class Player extends Actor {
         map.locationOf(this).addItem(currentRunesDropped);
         this.deductBalance(this.getBalance());
 
-        // Perform the unconscious action and remove the player from the map
+        String ret = "";
         ret += super.unconscious(actor, map);
         // Display a message indicating that the player has died
         ret += "\n" + FancyMessage.YOU_DIED;
@@ -92,8 +93,14 @@ public class Player extends Actor {
     @Override
     public String unconscious(GameMap map) {
         // Modify the player's health attribute
-        this.modifyAttribute(BaseActorAttributes.HEALTH, ActorAttributeOperations.UPDATE, 0);
+        int maxHealth = this.getAttributeMaximum(BaseActorAttributes.HEALTH);
+        int maxStamina = this.getAttributeMaximum(BaseActorAttributes.STAMINA);
+
+        // Reset health and stamina to their maximum values
+        this.modifyAttribute(BaseActorAttributes.HEALTH, ActorAttributeOperations.UPDATE, maxHealth);
+        this.modifyAttribute(BaseActorAttributes.STAMINA, ActorAttributeOperations.UPDATE, maxStamina);
         String ret = "";
+        resetWalletAndDropRunes(map);
 
         // Perform the unconscious action and remove the player from the map
         ret += new DoNothingAction().execute(this, map);
@@ -108,6 +115,14 @@ public class Player extends Actor {
         map.removeActor(this);
 
         return ret;
+    }
+    private void resetWalletAndDropRunes(GameMap map) {
+        int lastBalance = wallet.getBalance();  // Get current wallet balance
+        wallet.deductBalance(lastBalance);  // Reset wallet to 0
+
+        Runes droppedRunes = new Runes(lastBalance);  // Create Runes with last balance
+        Location lastLocation = map.locationOf(this);
+        lastLocation.addItem(droppedRunes);  // Add Runes to last known location
     }
 
     /**
@@ -143,8 +158,7 @@ public class Player extends Actor {
         display.println(this.name);
         display.println("HP: " + this.getAttribute(BaseActorAttributes.HEALTH) + "/" + this.getAttributeMaximum(BaseActorAttributes.HEALTH));
         display.println("Stamina: " + this.getAttribute(BaseActorAttributes.STAMINA) + "/" + this.getAttributeMaximum(BaseActorAttributes.STAMINA));
-        display.println("Runes: " + this.getBalance());
-
+        display.println("Runes: " + wallet.getBalance());
         // Return/print the console menu
         Menu menu = new Menu(actions);
         return menu.showMenu(this, display);
