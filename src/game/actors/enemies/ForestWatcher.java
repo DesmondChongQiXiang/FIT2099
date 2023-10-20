@@ -5,8 +5,10 @@ import edu.monash.fit2099.engine.actions.ActionList;
 import edu.monash.fit2099.engine.actions.DoNothingAction;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.actors.Behaviour;
+import edu.monash.fit2099.engine.actors.attributes.BaseActorAttributes;
 import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.GameMap;
+import edu.monash.fit2099.engine.positions.Location;
 import edu.monash.fit2099.engine.weapons.IntrinsicWeapon;
 import game.capabilities.Ability;
 import game.capabilities.Status;
@@ -28,10 +30,11 @@ import game.weathers.WeatherManager;
  * @see Enemy
  * @see WeatherControllable
  */
-public class ForestWatcher extends FollowEnemy {
+public class ForestWatcher extends FollowEnemy{
     private int turnCount;
     private WeatherManager weatherManager;
     private Gate abxyverGate;
+    private boolean resetRequired;
 
     /**
      * Constructor for creating a Forest Watcher.
@@ -45,6 +48,7 @@ public class ForestWatcher extends FollowEnemy {
         this.turnCount = 0;
         this.weatherManager = weatherManager;
         this.abxyverGate = abxyverGate;
+        resetRequired = false;
     }
 
     /**
@@ -85,6 +89,9 @@ public class ForestWatcher extends FollowEnemy {
      */
     @Override
     public Action playTurn(ActionList actions, Action lastAction, GameMap map, Display display) {
+        if (resetRequired){
+            resetAction(map.locationOf(this));
+        }
         if (turnCount % 3 == 0) {
             weatherManager.switchWeather(display);
         }
@@ -96,6 +103,12 @@ public class ForestWatcher extends FollowEnemy {
                 return action;
         }
         return new DoNothingAction();
+    }
+
+    @Override
+    public void resetAction(Location location) {
+        this.heal(this.getAttributeMaximum(BaseActorAttributes.HEALTH));
+        resetRequired = false;
     }
 }
 

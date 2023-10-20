@@ -70,17 +70,14 @@ public class ForestHut<F extends ForestKeeper> extends EnemySpawnableGround<F> i
       forestKeeperList.add(forestKeeper);
       enemyList.add(forestKeeper);
     }
-    if (isPlayerDead){
-      removeEnemy(location.map());
-      setPlayerDead();
+    if (resetRequired){
+      resetAction(location);
     }
   }
 
-  public void removeEnemy(GameMap map){
-    for (Enemy enemy : enemyList){
-      enemy.playerDead();
-      enemy.unconscious(map);
-    }
+  @Override
+  public void resetAction(Location location) {
+    super.resetAction(location);
     forestKeeperList.clear();
   }
 

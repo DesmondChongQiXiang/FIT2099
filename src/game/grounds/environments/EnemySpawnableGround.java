@@ -3,6 +3,7 @@ package game.grounds.environments;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.Ground;
 import edu.monash.fit2099.engine.positions.Location;
+import game.Resettable;
 import game.actors.enemies.Enemy;
 import game.spawners.Spawner;
 
@@ -19,19 +20,18 @@ import java.util.ArrayList;
  * @param <E> The type of enemy that can spawn on this type of ground.
  * @see Ground
  */
-public abstract class EnemySpawnableGround<E extends Enemy> extends Ground {
+public abstract class EnemySpawnableGround<E extends Enemy> extends Ground implements Resettable {
 
   /**
    * The chance of spawning an enemy on this type of ground.
    */
   protected int spawnRate;
-
   /**
    * The spawner used to create and spawn enemies.
    */
   protected Spawner<E> spawner;
   protected ArrayList<Enemy> enemyList;
-  protected boolean isPlayerDead;
+  protected boolean resetRequired;
 
   /**
    * Constructor to create an EnemySpawnableGround instance.
@@ -45,7 +45,7 @@ public abstract class EnemySpawnableGround<E extends Enemy> extends Ground {
     this.spawnRate = spawnRate;
     this.spawner = spawner;
     this.enemyList = new ArrayList<>();
-    this.isPlayerDead = false;
+    this.resetRequired = false;
   }
 
   /**
@@ -60,9 +60,8 @@ public abstract class EnemySpawnableGround<E extends Enemy> extends Ground {
       location.addActor(enemy);
       enemyList.add(enemy);
     }
-    if (isPlayerDead){
-      removeEnemy(location.map());
-      setPlayerDead();
+    if (resetRequired){
+      resetAction(location);
     }
   }
 
@@ -75,15 +74,18 @@ public abstract class EnemySpawnableGround<E extends Enemy> extends Ground {
     this.spawnRate = spawnRate;
   }
 
-  public void removeEnemy(GameMap map){
-    for (Enemy enemy : enemyList){
-      enemy.playerDead();
-      enemy.unconscious(map);
-    }
+  @Override
+  public void reset() {
+    resetRequired = true;
   }
 
-  public void setPlayerDead() {
-    isPlayerDead = !isPlayerDead;
+  @Override
+  public void resetAction(Location location) {
+    for (Enemy enemy : enemyList){
+      enemy.resetAction(location);
+      enemy.reset();
+      resetRequired = false;
+    }
   }
 }
 

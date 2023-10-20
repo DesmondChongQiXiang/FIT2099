@@ -10,14 +10,13 @@ import edu.monash.fit2099.engine.actors.attributes.BaseActorAttributes;
 import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.displays.Menu;
+import edu.monash.fit2099.engine.positions.Location;
 import edu.monash.fit2099.engine.weapons.IntrinsicWeapon;
+import game.ResetManager;
 import game.capabilities.Ability;
 import game.capabilities.Status;
 import game.displays.FancyMessage;
-import game.items.BloodBerry;
 import game.items.Runes;
-import game.weapons.Broadsword;
-
 import java.util.ArrayList;
 
 
@@ -31,8 +30,10 @@ import java.util.ArrayList;
  *
  * @see Actor
  */
-public class Player extends Actor {
+public class Player extends Actor{
     private ArrayList<Runes> runesDropped;
+    private Location spawnLocation;
+    private ResetManager resetManager;
 
     /**
      * Constructor to create a Player character.
@@ -42,7 +43,7 @@ public class Player extends Actor {
      * @param hitPoints  Player's starting number of hit points.
      * @param stamina    Player's starting stamina.
      */
-    public Player(String name, char displayChar, int hitPoints, int stamina) {
+    public Player(String name, char displayChar, int hitPoints, int stamina, ResetManager resetManager) {
         super(name, displayChar, hitPoints);
 
         // Add capabilities to the player
@@ -53,6 +54,7 @@ public class Player extends Actor {
         // Initialize player attributes
         this.addAttribute(BaseActorAttributes.STAMINA, new BaseActorAttribute(stamina));
         this.runesDropped = new ArrayList<>();
+        this.resetManager = resetManager;
     }
 
     /**
@@ -67,16 +69,17 @@ public class Player extends Actor {
         // Modify the player's health attribute
         this.modifyAttribute(BaseActorAttributes.HEALTH, ActorAttributeOperations.UPDATE, 0);
         String ret = "";
-        for(Runes runes:runesDropped){
-            runes.playerDead();
-        }
         Runes currentRunesDropped = new Runes(this.getBalance());
+        for(Runes runes:runesDropped){
+            runes.reset();
+        }
         runesDropped.add(currentRunesDropped);
         map.locationOf(this).addItem(currentRunesDropped);
         this.deductBalance(this.getBalance());
 
+        map.removeActor(this);
         // Perform the unconscious action and remove the player from the map
-        ret += super.unconscious(actor, map);
+        respawnPlayer();
         // Display a message indicating that the player has died
         ret += "\n" + FancyMessage.YOU_DIED;
 
@@ -95,18 +98,20 @@ public class Player extends Actor {
         this.modifyAttribute(BaseActorAttributes.HEALTH, ActorAttributeOperations.UPDATE, 0);
         String ret = "";
 
-        // Perform the unconscious action and remove the player from the map
-        ret += new DoNothingAction().execute(this, map);
         // Display a message indicating that the player has died
         ret += "\n" + FancyMessage.YOU_DIED;
-        for(Runes runes:runesDropped){
-            runes.playerDead();
-        }
+        // Perform the unconscious action and remove the player from the map
+        ret += new DoNothingAction().execute(this, map);
+
         Runes currentRunesDropped = new Runes(this.getBalance());
+        for(Runes runes:runesDropped){
+            runes.reset();
+        }
+        runesDropped.add(currentRunesDropped);
         map.locationOf(this).addItem(currentRunesDropped);
         this.deductBalance(this.getBalance());
         map.removeActor(this);
-
+        respawnPlayer();
         return ret;
     }
 
@@ -150,7 +155,17 @@ public class Player extends Actor {
         return menu.showMenu(this, display);
     }
 
+    public void addSpawnLocation(Location spawnLocation){
+        this.spawnLocation = spawnLocation;
+    }
 
+    public void respawnPlayer(){
+        resetManager.resetGame();
+        this.heal(this.getAttributeMaximum(BaseActorAttributes.HEALTH));
+        this.modifyAttribute(BaseActorAttributes.STAMINA, ActorAttributeOperations.UPDATE, this.getAttributeMaximum(BaseActorAttributes.STAMINA));
+
+        spawnLocation.addActor(this);
+    }
 }
 
 

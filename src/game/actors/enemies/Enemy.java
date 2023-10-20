@@ -7,6 +7,8 @@ import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.actors.Behaviour;
 import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.GameMap;
+import edu.monash.fit2099.engine.positions.Location;
+import game.Resettable;
 import game.actions.AttackAction;
 import game.capabilities.Status;
 import game.behaviours.AttackBehaviour;
@@ -25,10 +27,9 @@ import java.util.Map;
  *
  * @see Actor
  */
-public abstract class Enemy extends Actor {
+public abstract class Enemy extends Actor implements Resettable {
     protected Map<Integer, Behaviour> behaviours = new HashMap<>();
     private Runes runesDropped;
-
     /**
      * Constructor for creating an enemy actor.
      *
@@ -99,8 +100,14 @@ public abstract class Enemy extends Actor {
         return actions;
     }
 
-    public void playerDead(){
-        runesDropped.playerDead();
+    @Override
+    public void reset() {
+        runesDropped.reset();
+    }
+
+    @Override
+    public void resetAction(Location location) {
+        location.map().removeActor(this);
     }
 }
 

@@ -1,14 +1,11 @@
 package game.grounds.environments;
 
 import edu.monash.fit2099.engine.displays.Display;
-import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.Location;
-import game.actors.enemies.Enemy;
 import game.actors.enemies.RedWolf;
 import game.spawners.Spawner;
 import game.weathers.Weather;
 import game.weathers.WeatherControllable;
-
 import java.util.ArrayList;
 
 /**
@@ -72,17 +69,15 @@ public class ForestBush<R extends RedWolf> extends EnemySpawnableGround<R> imple
       redWolfList.add(redWolf);
       enemyList.add(redWolf);
     }
-    if (isPlayerDead){
-      removeEnemy(location.map());
-      setPlayerDead();
+    if (resetRequired){
+      resetAction(location);
     }
   }
 
-  public void removeEnemy(GameMap map){
-    for (Enemy enemy : enemyList){
-      enemy.playerDead();
-      enemy.unconscious(map);
-    }
+
+  @Override
+  public void resetAction(Location location) {
+    super.resetAction(location);
     redWolfList.clear();
   }
 }
