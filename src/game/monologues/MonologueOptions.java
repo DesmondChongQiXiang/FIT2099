@@ -16,7 +16,8 @@ public class MonologueOptions {
 
     public String chooseOption(){
         Random rand = new Random();
-        return monologueOptions.get(rand.nextInt(monologueOptions.size()));
+        String chosenMessage = monologueOptions.get(rand.nextInt(monologueOptions.size()));
+        return String.format("\"%s\"",chosenMessage);
     }
 
     public void clearOption(){

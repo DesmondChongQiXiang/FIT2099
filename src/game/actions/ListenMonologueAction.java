@@ -25,7 +25,7 @@ public class ListenMonologueAction extends Action {
     @Override
     public String execute(Actor actor, GameMap map) {
         String chosenMonologue = monologueOptions.chooseOption();
-        return chosenMonologue;
+        return String.format("%s: %s",speaker,chosenMonologue);
     }
 
     /**
@@ -37,6 +37,6 @@ public class ListenMonologueAction extends Action {
     @Override
     public String menuDescription(Actor actor) {
 
-        return actor + " listen to " + speaker;
+        return actor + " listens to " + speaker;
     }
 }
