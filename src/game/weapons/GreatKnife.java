@@ -52,7 +52,7 @@ public class GreatKnife extends WeaponItem implements Sellable, Purchasable, Upg
             actions.add(new SellAction(this));
         }
         if (otherActor.hasCapability(Ability.UPGRADE_EQUIPMENT)){
-            actions.add(new UpgradeAction(this,1000));
+            actions.add(new UpgradeAction(this));
         }
         return actions;
     }
@@ -186,9 +186,15 @@ public class GreatKnife extends WeaponItem implements Sellable, Purchasable, Upg
     }
 
     @Override
-    public int upgrade(Actor actor, int upgradePrice) {
-        this.increaseHitRate(1);
-        return upgradePrice;
+    public String upgrade(Actor upgrader) {
+        int upgradePrice = 2000;
+        if (upgrader.getBalance() < upgradePrice) {
+            throw new IllegalStateException(String.format("%s's balance is insufficient.", upgrader));
+        } else {
+            this.increaseHitRate(1);
+            upgrader.deductBalance(upgradePrice);
+            return String.format("%s's hit rate has been improved!",this);
+        }
     }
 
 

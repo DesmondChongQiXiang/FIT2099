@@ -82,7 +82,7 @@ public class Broadsword extends WeaponItem implements ActiveSkill, Sellable, Pur
             actions.add(new SellAction(this));
         }
         if (otherActor.hasCapability(Ability.UPGRADE_EQUIPMENT)){
-            actions.add(new UpgradeAction(this,1000));
+            actions.add(new UpgradeAction(this));
         }
         return actions;
     }
@@ -214,14 +214,15 @@ public class Broadsword extends WeaponItem implements ActiveSkill, Sellable, Pur
     }
 
     @Override
-    public int upgrade(Actor upgrader, int upgradePrice) {
+    public String upgrade(Actor upgrader) {
+        int upgradePrice = 1000;
         if (upgrader.getBalance() < upgradePrice) {
             throw new IllegalStateException(String.format("%s's balance is insufficient.", upgrader));
         } else {
             damageUpgradePoint += 10;
             upgrader.deductBalance(upgradePrice);
+            return String.format("%s's damage has been improved!",this);
         }
-        return upgradePrice;
     }
 
     @Override

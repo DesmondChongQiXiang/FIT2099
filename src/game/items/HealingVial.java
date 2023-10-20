@@ -79,7 +79,7 @@ public class HealingVial extends Item implements Consumable, Purchasable, Sellab
             actions.add(new SellAction(this));
         }
         if (!isUpgraded && otherActor.hasCapability(Ability.UPGRADE_EQUIPMENT)){
-            actions.add(new UpgradeAction(this,250));
+            actions.add(new UpgradeAction(this));
         }
         return actions;
     }
@@ -126,7 +126,8 @@ public class HealingVial extends Item implements Consumable, Purchasable, Sellab
     }
 
     @Override
-    public int upgrade(Actor upgrader, int upgradePrice) {
+    public String upgrade(Actor upgrader) {
+        int upgradePrice = 250;
         if (upgrader.getBalance() < upgradePrice) {
             throw new IllegalStateException(String.format("%s's balance is insufficient.", upgrader));
         } else {
@@ -134,7 +135,7 @@ public class HealingVial extends Item implements Consumable, Purchasable, Sellab
             hitPointUpgradeRate = 0.8;
             upgrader.deductBalance(upgradePrice);
         }
-        return upgradePrice;
+        return String.format("%s's effectiveness has been improved!",this);
     }
 }
 

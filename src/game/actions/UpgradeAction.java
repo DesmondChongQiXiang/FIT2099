@@ -8,18 +8,15 @@ import game.items.Upgradable;
 public class UpgradeAction extends Action {
 
     private final Upgradable upgradeItem;
-    private final int upgradePrice;
-
-    public UpgradeAction(Upgradable upgradeItem, int upgradePrice) {
+    public UpgradeAction(Upgradable upgradeItem) {
         this.upgradeItem = upgradeItem;
-        this.upgradePrice = upgradePrice;
     }
 
     @Override
     public String execute(Actor actor, GameMap map) {
         try{
-            int finalUpgradePrice = upgradeItem.upgrade(actor, upgradePrice);
-            return String.format("%s successfully upgraded %s for %d runes.",actor, upgradeItem, finalUpgradePrice);
+            String upgradedMessage = upgradeItem.upgrade(actor);
+            return upgradedMessage;
         }
         catch (Exception e){
             return e.getMessage();
@@ -28,6 +25,6 @@ public class UpgradeAction extends Action {
 
     @Override
     public String menuDescription(Actor actor) {
-        return String.format("%s can upgrade %s", actor, upgradeItem);
+        return String.format("%s upgrades %s", actor, upgradeItem);
     }
 }

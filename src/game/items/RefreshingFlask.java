@@ -75,7 +75,7 @@ public class RefreshingFlask extends Item implements Consumable, Sellable, Purch
             actions.add(new SellAction(this));
         }
         if (!isUpgraded && otherActor.hasCapability(Ability.UPGRADE_EQUIPMENT)){
-            actions.add(new UpgradeAction(this,175));
+            actions.add(new UpgradeAction(this));
         }
         return actions;
     }
@@ -121,7 +121,8 @@ public class RefreshingFlask extends Item implements Consumable, Sellable, Purch
     }
 
     @Override
-    public int upgrade(Actor upgrader, int upgradePrice) {
+    public String upgrade(Actor upgrader) {
+        int upgradePrice = 175;
         if (upgrader.getBalance() < upgradePrice) {
             throw new IllegalStateException(String.format("%s's balance is insufficient.", upgrader));
         } else {
@@ -129,6 +130,6 @@ public class RefreshingFlask extends Item implements Consumable, Sellable, Purch
             staminaUpgradeRate = 1;
             upgrader.deductBalance(upgradePrice);
         }
-        return upgradePrice;
+        return String.format("%s's effectiveness has been improved!",this);
     }
 }
