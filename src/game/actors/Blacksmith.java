@@ -9,6 +9,7 @@ import edu.monash.fit2099.engine.positions.GameMap;
 import game.actions.ListenMonologueAction;
 import game.capabilities.Ability;
 import game.capabilities.Status;
+import game.monologues.MonologueOptions;
 
 public class Blacksmith extends Actor {
     private MonologueOptions monologueOptions;
