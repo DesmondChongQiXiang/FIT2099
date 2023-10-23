@@ -3,15 +3,11 @@ package game.actions;
 import edu.monash.fit2099.engine.actions.Action;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.positions.GameMap;
-import game.monologues.MonologueOptions;
-import java.util.Random;
+import game.monologues.Talkable;
 
 public class ListenMonologueAction extends Action {
-    private Random rand = new Random();
-    private MonologueOptions monologueOptions;
-    private Actor speaker;
-    public ListenMonologueAction(MonologueOptions monologueOptions, Actor speaker){
-        this.monologueOptions = monologueOptions;
+    private Talkable speaker;
+    public ListenMonologueAction(Talkable speaker){
         this.speaker = speaker;
     }
 
@@ -24,7 +20,7 @@ public class ListenMonologueAction extends Action {
      */
     @Override
     public String execute(Actor actor, GameMap map) {
-        String chosenMonologue = monologueOptions.chooseOption();
+        String chosenMonologue = speaker.chooseOption();
         return String.format("%s: %s",speaker,chosenMonologue);
     }
 
