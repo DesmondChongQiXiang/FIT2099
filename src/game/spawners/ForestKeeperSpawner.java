@@ -4,15 +4,16 @@ import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.Location;
 import game.actors.enemies.ForestKeeper;
 import game.weathers.Weather;
-import game.weathers.WeatherControllable;
+import game.weathers.WeatherControllableEnemy;
+import game.weathers.WeatherControllableSpawner;
 import java.util.ArrayList;
 
 /**
  * Spawner for generating instances of the ForestKeeper.
  */
-public class ForestKeeperSpawner extends Spawner implements WeatherControllable{
+public class ForestKeeperSpawner extends Spawner implements WeatherControllableSpawner {
 
-    private ArrayList<WeatherControllable> forestKeeperList;
+    private ArrayList<ForestKeeper> forestKeeperList;
     public ForestKeeperSpawner(){
         super(15);
         forestKeeperList = new ArrayList<>();
@@ -40,7 +41,7 @@ public class ForestKeeperSpawner extends Spawner implements WeatherControllable{
      * @param display The display interface used to print messages about weather-related changes.
      */
     @Override
-    public void updateWeatherMode(Weather weather, Display display) {
+    public void updateWeatherMode(Weather weather, Display display, ArrayList<WeatherControllableEnemy> weatherControllableSpawnerEnemyList) {
         if(weather == Weather.SUNNY){
             super.setSpawnRate(30);
             display.println("The forest keepers are becoming more active.");
@@ -49,9 +50,7 @@ public class ForestKeeperSpawner extends Spawner implements WeatherControllable{
             super.setSpawnRate(15);
             display.println("The forest keepers are becoming less active.");
         }
-        for(WeatherControllable forestEnemy: forestKeeperList){
-            forestEnemy.updateWeatherMode(weather, display);
-        }
+        weatherControllableSpawnerEnemyList.addAll(forestKeeperList);
     }
 
     @Override

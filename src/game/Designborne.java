@@ -22,7 +22,7 @@ import game.spawners.*;
 import game.weapons.Broadsword;
 import game.weapons.GiantHammer;
 import game.weathers.Weather;
-import game.weathers.WeatherControllable;
+import game.weathers.WeatherControllableSpawner;
 import game.weathers.WeatherManager;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -33,7 +33,7 @@ public class Designborne {
     private World world;
     private HashMap<String,GameMap> gameMapHashMap;
     private ArrayList<Reset> resetEntitiesList;
-    private ArrayList<WeatherControllable> forestEnemySpawnableGroundList;
+    private ArrayList<WeatherControllableSpawner> forestEnemySpawnableGroundList;
 
     public Designborne(World world) {
         this.world = world;

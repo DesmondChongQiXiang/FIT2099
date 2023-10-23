@@ -14,7 +14,6 @@ import game.capabilities.Ability;
 import game.capabilities.Status;
 import game.grounds.Gate;
 import game.items.Runes;
-import game.weathers.WeatherControllable;
 import game.weathers.WeatherManager;
 
 
@@ -28,7 +27,6 @@ import game.weathers.WeatherManager;
  * @author : MA_AppliedSession1_Group7
  *
  * @see Enemy
- * @see WeatherControllable
  */
 public class ForestWatcher extends FollowEnemy{
     private int turnCount;

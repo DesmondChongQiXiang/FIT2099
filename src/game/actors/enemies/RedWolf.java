@@ -4,11 +4,11 @@ import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.weapons.IntrinsicWeapon;
-import game.behaviours.WanderBehaviour;
 import game.items.HealingVial;
 import game.items.Runes;
 import game.weathers.Weather;
-import game.weathers.WeatherControllable;
+import game.weathers.WeatherControllableEnemy;
+import game.weathers.WeatherControllableSpawner;
 
 /**
  * A specialized forest-themed enemy class, representing a Red Wolf in the game.
@@ -19,9 +19,9 @@ import game.weathers.WeatherControllable;
  * @author : MA_AppliedSession1_Group7
  *
  * @see Enemy
- * @see WeatherControllable
+ * @see WeatherControllableSpawner
  */
-public class RedWolf extends FollowEnemy implements WeatherControllable {
+public class RedWolf extends FollowEnemy implements WeatherControllableEnemy {
   /**
    * Constructor for creating a Red Wolf.
    * Initializes the Red Wolf with its name, display character, hit points, and runes dropped when defeated.

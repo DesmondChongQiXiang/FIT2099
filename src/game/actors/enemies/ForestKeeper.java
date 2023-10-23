@@ -7,7 +7,9 @@ import edu.monash.fit2099.engine.weapons.IntrinsicWeapon;
 import game.items.HealingVial;
 import game.items.Runes;
 import game.weathers.Weather;
-import game.weathers.WeatherControllable;
+import game.weathers.WeatherControllableEnemy;
+import game.weathers.WeatherControllableSpawner;
+
 
 /**
  * A specialized forest-themed enemy class, representing a Forest Keeper in the game.
@@ -18,9 +20,9 @@ import game.weathers.WeatherControllable;
  * @author : MA_AppliedSession1_Group7
  *
  * @see Enemy
- * @see WeatherControllable
+ * @see WeatherControllableSpawner
  */
-public class ForestKeeper extends FollowEnemy implements WeatherControllable{
+public class ForestKeeper extends FollowEnemy implements WeatherControllableEnemy {
   /**
    * Constructor for creating a Forest Keeper.
    * Initializes the Forest Keeper with its name, display character, hit points, and runes dropped when defeated.

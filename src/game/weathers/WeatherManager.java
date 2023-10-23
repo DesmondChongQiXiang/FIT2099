@@ -13,18 +13,20 @@ import java.util.ArrayList;
  */
 public class WeatherManager {
     private Weather currentWeather;
-    private ArrayList<WeatherControllable> forestEnemySpawnableGroundList;
+    private ArrayList<WeatherControllableSpawner> weatherControllableSpawnerSpawnerList;
+    private ArrayList<WeatherControllableEnemy> weatherControllableSpawnerEnemyList;
 
     /**
      * Constructor for the WeatherManager class.
      *
      * @param currentWeather The initial weather condition in the game.
-     * @param forestEnemySpawnableGroundList A list of objects that implement WeatherControllable and are affected
+     * @param weatherControllableSpawnerSpawnerList A list of objects that implement WeatherControllable and are affected
      *                                       by weather conditions.
      */
-    public WeatherManager(Weather currentWeather, ArrayList<WeatherControllable> forestEnemySpawnableGroundList) {
-        this.forestEnemySpawnableGroundList = forestEnemySpawnableGroundList;
+    public WeatherManager(Weather currentWeather, ArrayList<WeatherControllableSpawner> weatherControllableSpawnerSpawnerList) {
+        this.weatherControllableSpawnerSpawnerList = weatherControllableSpawnerSpawnerList;
         this.currentWeather = currentWeather;
+        this.weatherControllableSpawnerEnemyList = new ArrayList<>();
     }
 
     /**
@@ -48,9 +50,13 @@ public class WeatherManager {
      * @param display The display used to output information about the weather-related changes.
      */
     public void controlEnemy(Display display) {
-        for (WeatherControllable weatherControllable : forestEnemySpawnableGroundList) {
-            weatherControllable.updateWeatherMode(currentWeather, display);
+        for (WeatherControllableSpawner weatherControllableSpawner : weatherControllableSpawnerSpawnerList) {
+            weatherControllableSpawner.updateWeatherMode(currentWeather, display, weatherControllableSpawnerEnemyList);
         }
+        for(WeatherControllableEnemy weatherControllableSpawnerEnemy : weatherControllableSpawnerEnemyList){
+            weatherControllableSpawnerEnemy.updateWeatherMode(currentWeather,display);
+        }
+        weatherControllableSpawnerEnemyList.clear();
     }
 }
 
