@@ -129,7 +129,7 @@ public class HealingVial extends Item implements Consumable, Purchasable, Sellab
     public String upgrade(Actor upgrader) {
         int upgradePrice = 250;
         if (upgrader.getBalance() < upgradePrice) {
-            throw new IllegalStateException(String.format("%s's balance is insufficient.", upgrader));
+            return String.format("%s's balance is insufficient.", upgrader);
         } else {
             isUpgraded = true;
             hitPointUpgradeRate = 0.8;

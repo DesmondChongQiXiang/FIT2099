@@ -125,7 +125,7 @@ public class RefreshingFlask extends Item implements Consumable, Sellable, Purch
     public String upgrade(Actor upgrader) {
         int upgradePrice = 175;
         if (upgrader.getBalance() < upgradePrice) {
-            throw new IllegalStateException(String.format("%s's balance is insufficient.", upgrader));
+            return String.format("%s's balance is insufficient.", upgrader);
         } else {
             isUpgraded = true;
             staminaUpgradeRate = 1;

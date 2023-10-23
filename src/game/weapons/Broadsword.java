@@ -95,11 +95,8 @@ public class Broadsword extends WeaponItem implements ActiveSkill, Sellable, Pur
      */
     @Override
     public String activateSkill(Actor owner, Actor target, GameMap map) {
-        try{
-            staminaConsumedByActivateSkill(owner);
-        }
-        catch(Exception e){
-            return e.getMessage();
+        if (!staminaConsumedByActivateSkill(owner)){
+            return (owner + " doesn't have enough stamina to use the special skill!");
         }
         return skillAction(owner,target,map);
     }
@@ -110,16 +107,15 @@ public class Broadsword extends WeaponItem implements ActiveSkill, Sellable, Pur
      * @param owner The actor activating the skill.
      */
     @Override
-    public void staminaConsumedByActivateSkill(Actor owner) {
+    public boolean staminaConsumedByActivateSkill(Actor owner) {
+        boolean activatedSuccess = false;
         int staminaCost = (int)(owner.getAttributeMaximum(BaseActorAttributes.STAMINA) * 0.20f);
 
-        // Check if the actor has enough stamina
-        if (owner.getAttribute(BaseActorAttributes.STAMINA) <= staminaCost) {
-            throw new IllegalStateException(owner + " doesn't have enough stamina to use the special skill!");
-        }
-        else {
+        if (owner.getAttribute(BaseActorAttributes.STAMINA) >= staminaCost) {
             owner.modifyAttribute(BaseActorAttributes.STAMINA, ActorAttributeOperations.DECREASE, staminaCost);
+            activatedSuccess = true;
         }
+        return activatedSuccess;
     }
 
     /**
@@ -218,7 +214,7 @@ public class Broadsword extends WeaponItem implements ActiveSkill, Sellable, Pur
     public String upgrade(Actor upgrader) {
         int upgradePrice = 1000;
         if (upgrader.getBalance() < upgradePrice) {
-            throw new IllegalStateException(String.format("%s's balance is insufficient.", upgrader));
+            return String.format("%s's balance is insufficient.", upgrader);
         } else {
             damageUpgradePoint += 10;
             upgrader.deductBalance(upgradePrice);
