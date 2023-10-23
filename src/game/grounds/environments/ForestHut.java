@@ -5,6 +5,7 @@ import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.Location;
 import game.actors.enemies.Enemy;
 import game.actors.enemies.ForestKeeper;
+import game.spawners.ForestKeeperSpawner;
 import game.spawners.Spawner;
 import game.weathers.Weather;
 import game.weathers.WeatherControllable;
@@ -31,7 +32,7 @@ public class ForestHut<F extends ForestKeeper> extends EnemySpawnableGround<F> i
    *
    * @param forestKeeperSpawner The spawner for Forest Keepers associated with this type of ground.
    */
-  public ForestHut(Spawner<F> forestKeeperSpawner){
+  public ForestHut(ForestKeeperSpawner forestKeeperSpawner){
     super('h', 15, forestKeeperSpawner);
     forestKeeperList = new ArrayList<>();
   }

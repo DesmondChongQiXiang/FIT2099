@@ -1,7 +1,7 @@
 package game.grounds.environments;
 
 import game.actors.enemies.HollowSoldier;
-import game.spawners.Spawner;
+import game.spawners.HollowSoldierSpawner;
 
 /**
  * The BurialGroundGraveyard class represents a type of ground in the burial ground environment where Hollow Soldier enemies can spawn.
@@ -21,7 +21,7 @@ public class HollowSoldierGraveyard<H extends HollowSoldier> extends EnemySpawna
      *
      * @param hollowSoldierSpawner The spawner for Hollow Soldier enemies associated with this type of ground.
      */
-    public HollowSoldierGraveyard(Spawner<H> hollowSoldierSpawner){
+    public HollowSoldierGraveyard(HollowSoldierSpawner hollowSoldierSpawner){
         super('n', 10, hollowSoldierSpawner);
     }
 }

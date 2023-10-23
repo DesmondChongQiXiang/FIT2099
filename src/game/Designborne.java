@@ -27,6 +27,7 @@ import game.grounds.environments.SanctuaryHut;
 import game.grounds.environments.HollowSoldierGraveyard;
 import game.grounds.environments.WanderingUndeadGraveyard;
 import game.items.BloodBerry;
+import game.spawners.*;
 import game.weapons.Broadsword;
 import game.weapons.GiantHammer;
 import game.weathers.Weather;
@@ -167,11 +168,11 @@ public class Designborne {
     }
 
     public void createGround() {
-        EnemySpawnableGround<WanderingUndead> abandonedVillageGraveyard = new WanderingUndeadGraveyard<>(WanderingUndead.SPAWNER);
+        EnemySpawnableGround<WanderingUndead> abandonedVillageGraveyard = new WanderingUndeadGraveyard<>(new WanderingUndeadSpawner());
         gameMapHashMap.get("The Abandoned Village").at(10,8).setGround(abandonedVillageGraveyard);
         resettableEntitiesList.add(abandonedVillageGraveyard);
 
-        EnemySpawnableGround<HollowSoldier> burialGroundGraveyard = new HollowSoldierGraveyard<HollowSoldier>(HollowSoldier.SPAWNER);
+        EnemySpawnableGround<HollowSoldier> burialGroundGraveyard = new HollowSoldierGraveyard<HollowSoldier>(new HollowSoldierSpawner());
         gameMapHashMap.get("The Burial Ground").at(21,11).setGround(burialGroundGraveyard);
         resettableEntitiesList.add(burialGroundGraveyard);
 
@@ -185,12 +186,12 @@ public class Designborne {
         burialGroundGate.addTravelAction(new TravelAction(gameMapHashMap.get("The Abandoned Village").at(31, 5),"The Abandoned Village"));
         resettableEntitiesList.add(burialGroundGate);
 
-        ForestHut<ForestKeeper> ancientWoodHut = new ForestHut<>(ForestKeeper.SPAWNER);
+        ForestHut<ForestKeeper> ancientWoodHut = new ForestHut<>(new ForestKeeperSpawner());
         gameMapHashMap.get("The Ancient Woods").at(29,0).setGround(ancientWoodHut);
         forestEnemySpawnableGroundList.add(ancientWoodHut);
         resettableEntitiesList.add(ancientWoodHut);
 
-        ForestBush<RedWolf> ancientWoodBush = new ForestBush<>(RedWolf.SPAWNER);
+        ForestBush<RedWolf> ancientWoodBush = new ForestBush<>(new RedWolfSpawner());
         gameMapHashMap.get("The Ancient Woods").at(15,11).setGround(ancientWoodBush);
         forestEnemySpawnableGroundList.add(ancientWoodBush);
         resettableEntitiesList.add(ancientWoodBush);
@@ -205,22 +206,22 @@ public class Designborne {
         gameMapHashMap.get("The Ancient Woods").at(10,11).setGround(ancientWoodsGate);
         resettableEntitiesList.add(ancientWoodsGate);
 
-        ForestHut<ForestKeeper> abxervyerHut1 = new ForestHut<>(ForestKeeper.SPAWNER);
+        ForestHut<ForestKeeper> abxervyerHut1 = new ForestHut<>(new ForestKeeperSpawner());
         gameMapHashMap.get("The Abxervyer").at(10, 19).setGround(abxervyerHut1);
         forestEnemySpawnableGroundList.add(abxervyerHut1);
         resettableEntitiesList.add(abxervyerHut1);
 
-        ForestHut<ForestKeeper> abxervyerHut2 = new ForestHut<>(ForestKeeper.SPAWNER);
+        ForestHut<ForestKeeper> abxervyerHut2 = new ForestHut<>(new ForestKeeperSpawner());
         gameMapHashMap.get("The Abxervyer").at(32, 0).setGround(abxervyerHut2);
         forestEnemySpawnableGroundList.add(abxervyerHut2);
         resettableEntitiesList.add(abxervyerHut2);
 
-        ForestBush<RedWolf> abxervyerBush1 = new ForestBush<>(RedWolf.SPAWNER);
+        ForestBush<RedWolf> abxervyerBush1 = new ForestBush<>(new RedWolfSpawner());
         gameMapHashMap.get("The Abxervyer").at(11, 13).setGround(abxervyerBush1);
         forestEnemySpawnableGroundList.add(abxervyerBush1);
         resettableEntitiesList.add(abxervyerBush1);
 
-        ForestHut<ForestKeeper> abxervyerBush2 = new ForestHut<>(ForestKeeper.SPAWNER);
+        ForestHut<ForestKeeper> abxervyerBush2 = new ForestHut<>(new ForestKeeperSpawner());
         gameMapHashMap.get("The Abxervyer").at(36, 18).setGround(abxervyerBush2);
         forestEnemySpawnableGroundList.add(abxervyerBush2);
         resettableEntitiesList.add(abxervyerBush2);
@@ -235,15 +236,15 @@ public class Designborne {
         gameMapHashMap.get("The Overgrown Sanctuary").at(7, 4).setGround(overgrownSanctuaryGate1);
         resettableEntitiesList.add(overgrownSanctuaryGate1);
 
-        EnemySpawnableGround<HollowSoldier> overgrownSanctuaryGraveyard = new HollowSoldierGraveyard<>(HollowSoldier.SPAWNER);
+        EnemySpawnableGround<HollowSoldier> overgrownSanctuaryGraveyard = new HollowSoldierGraveyard<>(new HollowSoldierSpawner());
         gameMapHashMap.get("The Overgrown Sanctuary").at(5,11).setGround(overgrownSanctuaryGraveyard);
         resettableEntitiesList.add(overgrownSanctuaryGraveyard);
 
-        EnemySpawnableGround<EldentreeGuardian> overgrownSanctuaryHut = new SanctuaryHut<>(EldentreeGuardian.SPAWNER);
+        EnemySpawnableGround<EldentreeGuardian> overgrownSanctuaryHut = new SanctuaryHut<>(new EldentreeGuardianSpawner());
         gameMapHashMap.get("The Overgrown Sanctuary").at(9, 7).setGround(overgrownSanctuaryHut);
         resettableEntitiesList.add(overgrownSanctuaryHut);
 
-        EnemySpawnableGround<LivingBranch> overgrownSanctuaryBush = new SanctuaryBush<>(LivingBranch.SPAWNER);
+        EnemySpawnableGround<LivingBranch> overgrownSanctuaryBush = new SanctuaryBush<>(new LivingBranchSpawner());
         gameMapHashMap.get("The Overgrown Sanctuary").at(22, 7).setGround(overgrownSanctuaryBush);
         resettableEntitiesList.add(overgrownSanctuaryBush);
     }

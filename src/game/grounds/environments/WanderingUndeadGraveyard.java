@@ -1,7 +1,7 @@
 package game.grounds.environments;
 
 import game.actors.enemies.WanderingUndead;
-import game.spawners.Spawner;
+import game.spawners.WanderingUndeadSpawner;
 
 /**
  * The AbandonedVillageGraveyard class represents a type of ground in the abandoned village environment where Wandering Undead enemies can spawn.
@@ -21,7 +21,7 @@ public class WanderingUndeadGraveyard<W extends WanderingUndead> extends EnemySp
      *
      * @param wanderingUndeadSpawner The spawner for Wandering Undead enemies associated with this type of ground.
      */
-    public WanderingUndeadGraveyard(Spawner<W> wanderingUndeadSpawner){
+    public WanderingUndeadGraveyard(WanderingUndeadSpawner wanderingUndeadSpawner){
         super('n', 25, wanderingUndeadSpawner);
     }
 }

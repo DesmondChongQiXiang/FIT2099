@@ -3,7 +3,7 @@ package game.grounds.environments;
 import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.Location;
 import game.actors.enemies.RedWolf;
-import game.spawners.Spawner;
+import game.spawners.RedWolfSpawner;
 import game.weathers.Weather;
 import game.weathers.WeatherControllable;
 import java.util.ArrayList;
@@ -30,7 +30,7 @@ public class ForestBush<R extends RedWolf> extends EnemySpawnableGround<R> imple
    *
    * @param redWolfSpawner The spawner for Red Wolves associated with this Bushes instance.
    */
-  public ForestBush(Spawner<R> redWolfSpawner){
+  public ForestBush(RedWolfSpawner redWolfSpawner){
     super('m', 30, redWolfSpawner);
     redWolfList = new ArrayList<>();
   }

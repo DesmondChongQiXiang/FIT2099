@@ -2,11 +2,11 @@ package game.grounds.environments;
 
 
 import game.actors.enemies.LivingBranch;
-import game.spawners.Spawner;
+import game.spawners.LivingBranchSpawner;
 
 public class SanctuaryBush<L extends LivingBranch> extends EnemySpawnableGround<L> {
 
-    public SanctuaryBush(Spawner<L> livingBranchSpawner) {
+    public SanctuaryBush(LivingBranchSpawner livingBranchSpawner) {
         super('m', 90, livingBranchSpawner);
     }
 }
