@@ -65,17 +65,17 @@ public class GreatKnife extends WeaponItem implements Sellable, Purchasable, Upg
      * @throws IllegalStateException if the actor's balance is insufficient.
      */
     @Override
-    public int purchasedBy(Actor buyer,int purchasePrice) {
+    public String purchasedBy(Actor buyer,int purchasePrice) {
         if (Math.random() <= 0.05){
             purchasePrice *= 3;
         }
         if (buyer.getBalance() - purchasePrice < 0){
-            throw new IllegalStateException("Player's balance is insufficient");
+            return (String.format("%s's balance is insufficient.", buyer));
         }
         else {
             buyer.deductBalance(purchasePrice);
             buyer.addItemToInventory(this);
-            return purchasePrice;
+            return String.format("%s successfully purchased %s for %d runes.",buyer, this, purchasePrice);
         }
     }
 
@@ -89,22 +89,22 @@ public class GreatKnife extends WeaponItem implements Sellable, Purchasable, Upg
      * @return The selling price of the item.
      */
     @Override
-    public int soldBy(Actor seller) {
-        int soldPrice = 175;
+    public String soldBy(Actor seller) {
+        int sellingPrice = 175;
         if (Math.random() <= 0.1){// 10% chance that the traveller takes the runes instead
-            if (seller.getBalance() < soldPrice){
+            if (seller.getBalance() < sellingPrice){
                 seller.deductBalance(seller.getBalance());
             }
             else{
-                seller.deductBalance(soldPrice);
-                throw new IllegalStateException("Seller rob " + seller +" of his runes");
+                seller.deductBalance(sellingPrice);
+                return "Purchaser rob " + seller +" of his runes";
             }
         }
         else{
-            seller.addBalance(soldPrice);
+            seller.addBalance(sellingPrice);
         }
         seller.removeItemFromInventory(this);
-        return soldPrice;
+        return String.format("%s sells %s for %d runes",seller, this, sellingPrice);
     }
 
     /**

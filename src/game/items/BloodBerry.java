@@ -78,10 +78,10 @@ public class BloodBerry extends Item implements Consumable,Sellable{
      * @return The selling price of the BloodBerry (10 units).
      */
     @Override
-    public int soldBy(Actor seller){
+    public String soldBy(Actor seller){
         int sellingPrice = 10;
         seller.addBalance(sellingPrice);
         seller.removeItemFromInventory(this);
-        return sellingPrice;
+        return String.format("%s sells %s for %d runes",seller, this,sellingPrice);
     }
 }

@@ -16,5 +16,5 @@ public interface Sellable {
      * @param seller The seller who is selling the item.
      * @return The selling price of the item, typically in the game's currency.
      */
-    int soldBy(Actor seller);
+    String soldBy(Actor seller);
 }

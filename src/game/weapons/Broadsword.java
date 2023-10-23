@@ -182,21 +182,22 @@ public class Broadsword extends WeaponItem implements ActiveSkill, Sellable, Pur
     /**
      * Handles the purchase of the item.
      *
-     * @param actor The actor attempting to purchase the item.
+     * @param buyer The buyer attempting to purchase the item.
      * @return The purchase price of the item.
      */
     @Override
-    public int purchasedBy(Actor actor, int purchasePrice) {
-        if (actor.getBalance() - purchasePrice < 0){
-            throw new IllegalStateException("Player's balance is insufficient");
+    public String purchasedBy(Actor buyer, int purchasePrice) {
+        if (buyer.getBalance() - purchasePrice < 0){
+            return (String.format("%s's balance is insufficient.", buyer));
         }
         else{
             if (Math.random() <= 0.95){
-                actor.addItemToInventory(this);
+                buyer.addItemToInventory(this);
+                return String.format("Seller takes %s's runes without giving %s",buyer, this);
             }
-            actor.deductBalance(purchasePrice);
+            buyer.deductBalance(purchasePrice);
         }
-        return purchasePrice;
+        return String.format("%s successfully purchased %s for %d runes.",buyer, this, purchasePrice);
     }
 
     /**
@@ -206,11 +207,11 @@ public class Broadsword extends WeaponItem implements ActiveSkill, Sellable, Pur
      * @return The selling price of the item.
      */
     @Override
-    public int soldBy(Actor seller) {
+    public String soldBy(Actor seller) {
         int sellingPrice = 100;
         seller.addBalance(sellingPrice);
         seller.removeItemFromInventory(this);
-        return sellingPrice;
+        return String.format("%s sells %s for %d runes",seller, this,sellingPrice);
     }
 
     @Override

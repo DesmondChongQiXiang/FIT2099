@@ -16,5 +16,5 @@ public interface Purchasable{
      * @param purchasePrice The item purchase price.
      * @return The purchase price of the item.
      */
-    int purchasedBy(Actor buyer, int purchasePrice);
+    String purchasedBy(Actor buyer, int purchasePrice);
 }

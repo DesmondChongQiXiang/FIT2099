@@ -59,11 +59,11 @@ public class GiantHammer extends WeaponItem implements Sellable, ActiveSkill {
      * @return The selling price of the item.
      */
     @Override
-    public int soldBy(Actor seller) {
+    public String soldBy(Actor seller) {
         int sellingPrice = 250;
         seller.addBalance(sellingPrice);
         seller.removeItemFromInventory(this);
-        return sellingPrice;
+        return String.format("%s sells %s for %d runes",seller, this,sellingPrice);
     }
 
     /**
