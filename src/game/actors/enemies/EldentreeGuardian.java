@@ -7,20 +7,8 @@ import game.capabilities.Ability;
 import game.items.HealingVial;
 import game.items.RefreshingFlask;
 import game.items.Runes;
-import game.spawners.Spawner;
 
 public class EldentreeGuardian extends FollowEnemy{
-
-    /**
-     * Spawner for generating instances of the EldentreeGuardian.
-     */
-    public static Spawner<EldentreeGuardian> SPAWNER = new Spawner<>() {
-        @Override
-        public EldentreeGuardian spawn() {
-            return new EldentreeGuardian();
-        }
-    };
-
     public EldentreeGuardian() {
         super("Eldentree Guardian", 'e', 250, new Runes(250));
         this.addCapability(Ability.ENTER_VOID);

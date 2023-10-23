@@ -8,12 +8,12 @@ import edu.monash.fit2099.engine.actors.Behaviour;
 import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.Location;
-import game.Resettable;
+import game.Reset;
+import game.ResetAction;
 import game.actions.AttackAction;
 import game.capabilities.Status;
 import game.behaviours.AttackBehaviour;
 import game.items.Runes;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -27,7 +27,7 @@ import java.util.Map;
  *
  * @see Actor
  */
-public abstract class Enemy extends Actor implements Resettable {
+public abstract class Enemy extends Actor implements Reset, ResetAction {
     protected Map<Integer, Behaviour> behaviours = new HashMap<>();
     private Runes runesDropped;
     /**

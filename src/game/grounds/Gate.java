@@ -4,7 +4,8 @@ import edu.monash.fit2099.engine.actions.ActionList;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.positions.Ground;
 import edu.monash.fit2099.engine.positions.Location;
-import game.Resettable;
+import game.Reset;
+import game.ResetAction;
 import game.actions.TravelAction;
 import game.actions.UnlockGateAction;
 import game.capabilities.Ability;
@@ -16,7 +17,7 @@ import java.util.ArrayList;
  *
  * @author : MA_AppliedSession1_Group7
  */
-public class Gate extends Ground implements Resettable {
+public class Gate extends Ground implements Reset, ResetAction{
 
     /**
      * Travel Action that is used to transfer an actor through the gate.

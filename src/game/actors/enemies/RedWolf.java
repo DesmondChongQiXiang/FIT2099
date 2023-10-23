@@ -7,7 +7,6 @@ import edu.monash.fit2099.engine.weapons.IntrinsicWeapon;
 import game.behaviours.WanderBehaviour;
 import game.items.HealingVial;
 import game.items.Runes;
-import game.spawners.Spawner;
 import game.weathers.Weather;
 import game.weathers.WeatherControllable;
 
@@ -23,17 +22,6 @@ import game.weathers.WeatherControllable;
  * @see WeatherControllable
  */
 public class RedWolf extends FollowEnemy implements WeatherControllable {
-
-  /**
-   * Spawner for generating instances of the Red Wolf.
-   */
-  public static Spawner<RedWolf> SPAWNER = new Spawner<>() {
-    @Override
-    public RedWolf spawn() {
-      return new RedWolf();
-    }
-  };
-
   /**
    * Constructor for creating a Red Wolf.
    * Initializes the Red Wolf with its name, display character, hit points, and runes dropped when defeated.

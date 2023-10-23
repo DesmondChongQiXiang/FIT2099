@@ -3,9 +3,9 @@ package game.items;
 import edu.monash.fit2099.engine.actions.ActionList;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.items.Item;
-import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.Location;
-import game.Resettable;
+import game.Reset;
+import game.ResetAction;
 import game.actions.ConsumeAction;
 
 /**
@@ -16,7 +16,7 @@ import game.actions.ConsumeAction;
  *
  * @author MA_AppliedSession1_Group7
  */
-public class Runes extends Item implements Consumable, Resettable {
+public class Runes extends Item implements Consumable, Reset, ResetAction {
 
     private int amount;
     private boolean resetRequired;

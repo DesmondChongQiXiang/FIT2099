@@ -6,7 +6,6 @@ import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.weapons.IntrinsicWeapon;
 import game.items.HealingVial;
 import game.items.Runes;
-import game.spawners.Spawner;
 import game.weathers.Weather;
 import game.weathers.WeatherControllable;
 
@@ -22,17 +21,6 @@ import game.weathers.WeatherControllable;
  * @see WeatherControllable
  */
 public class ForestKeeper extends FollowEnemy implements WeatherControllable{
-
-  /**
-   * Spawner for generating instances of the ForestKeeper.
-   */
-  public static Spawner<ForestKeeper> SPAWNER = new Spawner<>() {
-    @Override
-    public ForestKeeper spawn() {
-      return new ForestKeeper();
-    }
-  };
-
   /**
    * Constructor for creating a Forest Keeper.
    * Initializes the Forest Keeper with its name, display character, hit points, and runes dropped when defeated.

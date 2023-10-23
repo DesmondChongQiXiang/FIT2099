@@ -7,7 +7,6 @@ import game.behaviours.WanderBehaviour;
 import game.items.HealingVial;
 import game.items.RefreshingFlask;
 import game.items.Runes;
-import game.spawners.Spawner;
 
 /**
  * A specialized village-themed enemy class, representing a Hollow Soldier in the game.
@@ -20,16 +19,6 @@ import game.spawners.Spawner;
  * @see Enemy
  */
 public class HollowSoldier extends Enemy {
-  /**
-   * Spawner for generating instances of the Hollow Soldier.
-   */
-  public static Spawner<HollowSoldier> SPAWNER = new Spawner<>() {
-    @Override
-    public HollowSoldier spawn() {
-      return new HollowSoldier();
-    }
-  };
-
   /**
    * Constructor for creating a Hollow Soldier.
    * Initializes the Hollow Soldier with its name, display character, hit points, and runes dropped when defeated.

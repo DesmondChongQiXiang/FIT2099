@@ -6,15 +6,15 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class ResetManager {
-    private ArrayList<Resettable> resettableEntities;
+    private ArrayList<Reset> resetEntities;
     private HashMap<String,GameMap> gameMapHashMap;
-    public ResetManager(ArrayList<Resettable> resettableEntities,HashMap<String, GameMap> gameMapHashMap){
-        this.resettableEntities = resettableEntities;
+    public ResetManager(ArrayList<Reset> resetEntities, HashMap<String, GameMap> gameMapHashMap){
+        this.resetEntities = resetEntities;
         this.gameMapHashMap = gameMapHashMap;
     }
     public void resetGame() {
-        for(Resettable resettableEntity: resettableEntities){
-            resettableEntity.reset();
+        for(Reset resetEntity : resetEntities){
+            resetEntity.reset();
         }
         for(GameMap map:gameMapHashMap.values()){
             map.tick();
