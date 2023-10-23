@@ -42,7 +42,8 @@ public abstract class Enemy extends Actor implements Reset, ResetAction {
         super(name, displayChar, hitPoints);
 
         // Priority of behavior:  1. AttackBehavior  2. FollowBehavior  3. WanderBehavior
-        this.behaviours.put(997, new AttackBehaviour());
+        int firstPriority = 997;
+        this.behaviours.put(firstPriority, new AttackBehaviour());
 
         // Add the ENEMY capability to mark this actor as an enemy.
         addCapability(Status.ENEMY);

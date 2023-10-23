@@ -28,7 +28,6 @@ public class RedWolf extends FollowEnemy implements WeatherControllable {
    */
   public RedWolf() {
     super("Red Wolf", 'r', 25, new Runes(25));
-    this.behaviours.put(999, new WanderBehaviour());
   }
 
   /**

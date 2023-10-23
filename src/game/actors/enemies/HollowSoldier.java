@@ -25,7 +25,8 @@ public class HollowSoldier extends Enemy {
    */
   public HollowSoldier() {
     super("Hollow Soldier", '&', 200, new Runes(100));
-    this.behaviours.put(999, new WanderBehaviour());
+    int thirdPriority = 999;
+    this.behaviours.put(thirdPriority, new WanderBehaviour());
   }
 
   /**

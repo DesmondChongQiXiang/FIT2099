@@ -13,7 +13,8 @@ public abstract class FollowEnemy extends Enemy{
 
     public FollowEnemy(String name, char displayChar, int hitPoints, Runes runesDropped) {
         super(name, displayChar, hitPoints,runesDropped);
-        this.behaviours.put(999, new WanderBehaviour());
+        int thirdPriority = 999;
+        this.behaviours.put(thirdPriority, new WanderBehaviour());
     }
 
     /**
@@ -30,7 +31,8 @@ public abstract class FollowEnemy extends Enemy{
         ActionList actions = new ActionList();
         if (otherActor.hasCapability(Status.HOSTILE_TO_ENEMY)) {
             // Add a FollowBehaviour to follow the hostile actor.
-            this.behaviours.put(998, new FollowBehaviour(otherActor));
+            int secondPriority = 998;
+            this.behaviours.put(secondPriority, new FollowBehaviour(otherActor));
             // Add an AttackAction to attack the hostile actor.
             actions.add(new AttackAction(this, direction));
         }
