@@ -170,15 +170,16 @@ public class GreatKnife extends WeaponItem implements Sellable, Purchasable, Upg
      */
     @Override
     public String skillAction(Actor owner, Actor target, GameMap map) {
-        String ret = new AttackAction(target,map.locationOf(target).toString(),this).execute(owner,map);
+        StringBuilder ret = new StringBuilder();
+        ret.append(new AttackAction(target,map.locationOf(target).toString(),this).execute(owner,map));
         try {
             Location exit = selectExit(owner, map);
-            ret += "\n" + new MoveActorAction(exit,("to " + exit)).execute(owner,map);
+            ret.append("\n" + new MoveActorAction(exit,("to " + exit)).execute(owner,map));
         }
         catch(Exception e){
-            ret += "\n" + e.getMessage();
+            ret.append("\n" + e.getMessage());
         }
-        return ret;
+        return ret.toString();
     }
 
     @Override

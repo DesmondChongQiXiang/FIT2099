@@ -110,7 +110,8 @@ public class GiantHammer extends WeaponItem implements Sellable, ActiveSkill {
      */
     @Override
     public String skillAction(Actor owner, Actor target, GameMap map) {
-        String ret = new AttackAction(target,map.locationOf(target).toString(),this).execute(owner,map);
+        StringBuilder ret = new StringBuilder();
+        ret.append(new AttackAction(target,map.locationOf(target).toString(),this).execute(owner,map));
 
         this.updateDamageMultiplier(0.5f);
         Location currentLocation = map.locationOf(owner);
@@ -118,11 +119,11 @@ public class GiantHammer extends WeaponItem implements Sellable, ActiveSkill {
         for (Exit exit : currentLocation.getExits()) {
             Location destination = exit.getDestination();
             if (destination.containsAnActor() && destination.getActor().hasCapability(Status.ENEMY)){
-                ret += "\n" + new AttackAction(destination.getActor(), map.locationOf(destination.getActor()).toString(),this).execute(owner,map);
+                ret.append("\n" + new AttackAction(destination.getActor(), map.locationOf(destination.getActor()).toString(),this).execute(owner,map));
             }
         }
-        ret += "\n" + new AttackAction(owner,map.locationOf(owner).toString(),this).execute(owner,map);
+        ret.append("\n" + new AttackAction(owner,map.locationOf(owner).toString(),this).execute(owner,map));
         this.updateDamageMultiplier(1.0f);
-        return ret;
+        return ret.toString();
     }
 }
