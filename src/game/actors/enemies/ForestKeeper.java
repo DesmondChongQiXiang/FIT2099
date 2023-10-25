@@ -1,9 +1,14 @@
 package game.actors.enemies;
 
+import edu.monash.fit2099.engine.actions.ActionList;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.weapons.IntrinsicWeapon;
+import game.actions.AttackAction;
+import game.behaviours.FollowBehaviour;
+import game.behaviours.WanderBehaviour;
+import game.capabilities.Status;
 import game.items.HealingVial;
 import game.items.Runes;
 import game.weathers.Weather;
@@ -22,13 +27,15 @@ import game.weathers.WeatherControllableSpawner;
  * @see Enemy
  * @see WeatherControllableSpawner
  */
-public class ForestKeeper extends FollowEnemy implements WeatherControllableEnemy {
+public class ForestKeeper extends Enemy implements WeatherControllableEnemy {
   /**
    * Constructor for creating a Forest Keeper.
    * Initializes the Forest Keeper with its name, display character, hit points, and runes dropped when defeated.
    */
   public ForestKeeper() {
     super("Forest Keeper", '8', 125, new Runes(50));
+    int thirdPriority = 999;
+    this.behaviours.put(thirdPriority, new WanderBehaviour());
   }
 
   /**
@@ -72,6 +79,28 @@ public class ForestKeeper extends FollowEnemy implements WeatherControllableEnem
       this.heal(10);
       display.println(this + " feels rejuvenated.");
     }
+  }
+
+  /**
+   * Determine the allowable actions that can be performed on this Forest Watcher.
+   * Forest Keeper can follow actors with HOSTILE_TO_ENEMY capability and attack them.
+   *
+   * @param otherActor The Actor that might be performing an attack or action.
+   * @param direction  A string representing the direction of the other Actor.
+   * @param map        The current GameMap.
+   * @return A list of actions that the Forest Watcher is allowed to execute or perform on the current actor.
+   */
+  @Override
+  public ActionList allowableActions(Actor otherActor, String direction, GameMap map) {
+    ActionList actions = new ActionList();
+    if (otherActor.hasCapability(Status.HOSTILE_TO_ENEMY)) {
+      // Add a FollowBehaviour to follow the hostile actor.
+      int secondPriority = 998;
+      this.behaviours.put(secondPriority, new FollowBehaviour(otherActor));
+      // Add an AttackAction to attack the hostile actor.
+      actions.add(new AttackAction(this, direction));
+    }
+    return actions;
   }
 }
 
