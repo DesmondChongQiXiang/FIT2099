@@ -55,7 +55,6 @@ public class Blacksmith extends Actor implements Talkable {
         } else {
             monologueOptions.add("Beyond the burial ground, you’ll come across the ancient woods ruled by Abxervyer. Use my creation to slay them and proceed further!");
         }
-        System.out.println(monologueOptions);
     }
 
     @Override

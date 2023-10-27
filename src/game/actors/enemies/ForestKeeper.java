@@ -12,8 +12,8 @@ import game.capabilities.Status;
 import game.items.HealingVial;
 import game.items.Runes;
 import game.weathers.Weather;
-import game.weathers.WeatherControllableEnemy;
-import game.weathers.WeatherControllableSpawner;
+import game.weathers.WeatherControllable;
+import game.weathers.WeatherManager;
 
 
 /**
@@ -25,9 +25,9 @@ import game.weathers.WeatherControllableSpawner;
  * @author : MA_AppliedSession1_Group7
  *
  * @see Enemy
- * @see WeatherControllableSpawner
+ * @see WeatherControllable
  */
-public class ForestKeeper extends Enemy implements WeatherControllableEnemy {
+public class ForestKeeper extends Enemy implements WeatherControllable {
   /**
    * Constructor for creating a Forest Keeper.
    * Initializes the Forest Keeper with its name, display character, hit points, and runes dropped when defeated.
@@ -63,7 +63,14 @@ public class ForestKeeper extends Enemy implements WeatherControllableEnemy {
     if (Math.random() <= 0.20) {
       map.locationOf(this).addItem(new HealingVial());
     }
+    WeatherManager.getInstance().removeWeatherControllable(this);
     return super.unconscious(actor, map);
+  }
+
+  @Override
+  public String unconscious(GameMap map) {
+    WeatherManager.getInstance().removeWeatherControllable(this);
+    return super.unconscious(map);
   }
 
   /**

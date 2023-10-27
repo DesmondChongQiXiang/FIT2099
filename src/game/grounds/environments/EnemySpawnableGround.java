@@ -2,7 +2,7 @@ package game.grounds.environments;
 
 import edu.monash.fit2099.engine.positions.Ground;
 import edu.monash.fit2099.engine.positions.Location;
-import game.Reset;
+import game.reset.ResetNotifiable;
 import game.spawners.Spawner;
 
 
@@ -16,7 +16,7 @@ import game.spawners.Spawner;
  *
  * @see Ground
  */
-public abstract class EnemySpawnableGround extends Ground implements Reset {
+public abstract class EnemySpawnableGround extends Ground implements ResetNotifiable {
 
   /**
    * The spawner used to create and spawn enemies.
@@ -45,13 +45,13 @@ public abstract class EnemySpawnableGround extends Ground implements Reset {
   public void tick(Location location) {
     spawner.spawn(location);
     if (resetRequired){
-      spawner.resetAction(location);
+      spawner.reset(location);
       resetRequired = false;
     }
   }
 
   @Override
-  public void reset() {
+  public void notifyReset() {
     resetRequired = true;
   }
 }

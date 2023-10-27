@@ -12,8 +12,8 @@ import game.capabilities.Status;
 import game.items.HealingVial;
 import game.items.Runes;
 import game.weathers.Weather;
-import game.weathers.WeatherControllableEnemy;
-import game.weathers.WeatherControllableSpawner;
+import game.weathers.WeatherControllable;
+import game.weathers.WeatherManager;
 
 /**
  * A specialized forest-themed enemy class, representing a Red Wolf in the game.
@@ -24,9 +24,9 @@ import game.weathers.WeatherControllableSpawner;
  * @author : MA_AppliedSession1_Group7
  *
  * @see Enemy
- * @see WeatherControllableSpawner
+ * @see WeatherControllable
  */
-public class RedWolf extends Enemy implements WeatherControllableEnemy {
+public class RedWolf extends Enemy implements WeatherControllable {
   /**
    * Constructor for creating a Red Wolf.
    * Initializes the Red Wolf with its name, display character, hit points, and runes dropped when defeated.
@@ -62,7 +62,14 @@ public class RedWolf extends Enemy implements WeatherControllableEnemy {
     if (Math.random() <= 0.10) {
       map.locationOf(this).addItem(new HealingVial());
     }
+    WeatherManager.getInstance().removeWeatherControllable(this);
     return super.unconscious(actor, map);
+  }
+
+  @Override
+  public String unconscious(GameMap map) {
+    WeatherManager.getInstance().removeWeatherControllable(this);
+    return super.unconscious(map);
   }
 
   /**

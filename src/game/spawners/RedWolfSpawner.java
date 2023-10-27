@@ -2,24 +2,21 @@ package game.spawners;
 
 import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.Location;
-import game.ResetAction;
 import game.actors.enemies.Enemy;
 import game.actors.enemies.RedWolf;
 import game.weathers.Weather;
-import game.weathers.WeatherControllableEnemy;
-import game.weathers.WeatherControllableSpawner;
+import game.weathers.WeatherControllable;
+import game.weathers.WeatherManager;
 import java.util.ArrayList;
 
 /**
  * Spawner for generating instances of the Red Wolf.
  */
-public class RedWolfSpawner implements WeatherControllableSpawner,Spawner{
-    private ArrayList<RedWolf> redWolfList;
+public class RedWolfSpawner implements Spawner,WeatherControllable{
     protected ArrayList<Enemy> enemyList;
     private int spawnRate;
     public RedWolfSpawner(){
         spawnRate = 30;
-        this.redWolfList = new ArrayList<>();
         this.enemyList = new ArrayList<>();
     }
 
@@ -28,7 +25,7 @@ public class RedWolfSpawner implements WeatherControllableSpawner,Spawner{
         if (Math.random() <= ((double) spawnRate / 100) && !location.containsAnActor()) {
             RedWolf redWolf = new RedWolf();
             location.addActor(redWolf);
-            redWolfList.add(redWolf);
+            WeatherManager.getInstance().registerWeatherControllable(redWolf);
             enemyList.add(redWolf);
         }
     }
@@ -40,7 +37,7 @@ public class RedWolfSpawner implements WeatherControllableSpawner,Spawner{
      * @param display The display interface to show weather-related messages.
      */
     @Override
-    public void updateWeatherMode(Weather weather, Display display,ArrayList<WeatherControllableEnemy> weatherControllableSpawnerEnemyList) {
+    public void updateWeatherMode(Weather weather, Display display) {
         if (weather == Weather.SUNNY){
             spawnRate = 30;
             display.println("The red wolves are becoming less active.");
@@ -49,15 +46,12 @@ public class RedWolfSpawner implements WeatherControllableSpawner,Spawner{
             spawnRate = 45;
             display.println("The red wolves are becoming more active.");
         }
-        weatherControllableSpawnerEnemyList.addAll(redWolfList);
     }
 
     @Override
-    public void resetAction(Location location) {
+    public void reset(Location location) {
         for (Enemy enemy : enemyList){
-            enemy.resetAction(location);
-            enemy.reset();
+            enemy.reset(location);
         }
-        redWolfList.clear();
     }
 }

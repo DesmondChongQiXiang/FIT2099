@@ -12,21 +12,24 @@ import java.util.ArrayList;
  * @author MA_AppliedSession1_Group7
  */
 public class WeatherManager {
+    private static WeatherManager weatherManager;
     private Weather currentWeather;
-    private ArrayList<WeatherControllableSpawner> weatherControllableSpawnerSpawnerList;
-    private ArrayList<WeatherControllableEnemy> weatherControllableSpawnerEnemyList;
+    private ArrayList<WeatherControllable> weatherControllableEntites;
 
     /**
      * Constructor for the WeatherManager class.
      *
-     * @param currentWeather The initial weather condition in the game.
-     * @param weatherControllableSpawnerSpawnerList A list of objects that implement WeatherControllable and are affected
-     *                                       by weather conditions.
      */
-    public WeatherManager(Weather currentWeather, ArrayList<WeatherControllableSpawner> weatherControllableSpawnerSpawnerList) {
-        this.weatherControllableSpawnerSpawnerList = weatherControllableSpawnerSpawnerList;
-        this.currentWeather = currentWeather;
-        this.weatherControllableSpawnerEnemyList = new ArrayList<>();
+    private WeatherManager() {
+        this.currentWeather = Weather.RAINY;
+        this.weatherControllableEntites = new ArrayList<>();
+    }
+
+    public static WeatherManager getInstance() {
+        if (weatherManager == null) {
+            weatherManager = new WeatherManager();
+        }
+        return weatherManager;
     }
 
     /**
@@ -50,13 +53,17 @@ public class WeatherManager {
      * @param display The display used to output information about the weather-related changes.
      */
     public void controlEnemy(Display display) {
-        for (WeatherControllableSpawner weatherControllableSpawner : weatherControllableSpawnerSpawnerList) {
-            weatherControllableSpawner.updateWeatherMode(currentWeather, display, weatherControllableSpawnerEnemyList);
+        for (WeatherControllable weatherControllableSpawner : weatherControllableEntites) {
+            weatherControllableSpawner.updateWeatherMode(currentWeather, display);
         }
-        for(WeatherControllableEnemy weatherControllableSpawnerEnemy : weatherControllableSpawnerEnemyList){
-            weatherControllableSpawnerEnemy.updateWeatherMode(currentWeather,display);
-        }
-        weatherControllableSpawnerEnemyList.clear();
+    }
+
+    public void registerWeatherControllable(WeatherControllable weatherControllable){
+        this.weatherControllableEntites.add(weatherControllable);
+    }
+
+    public void removeWeatherControllable(WeatherControllable weatherControllable){
+        this.weatherControllableEntites.remove(weatherControllable);
     }
 }
 

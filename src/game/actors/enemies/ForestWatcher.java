@@ -10,6 +10,8 @@ import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.Location;
 import edu.monash.fit2099.engine.weapons.IntrinsicWeapon;
+import game.reset.ResetManager;
+import game.reset.ResetNotifiable;
 import game.actions.AttackAction;
 import game.behaviours.FollowBehaviour;
 import game.behaviours.WanderBehaviour;
@@ -31,25 +33,22 @@ import game.weathers.WeatherManager;
  *
  * @see Enemy
  */
-public class ForestWatcher extends Enemy{
+public class ForestWatcher extends Enemy implements ResetNotifiable{
     private int turnCount;
-    private WeatherManager weatherManager;
     private Gate abxyverGate;
     private boolean resetRequired;
 
     /**
      * Constructor for creating a Forest Watcher.
      *
-     * @param weatherManager The WeatherManager responsible for controlling the game's weather.
      * @param abxyverGate    The Gate that the Forest Watcher interacts with.
      */
-    public ForestWatcher(WeatherManager weatherManager, Gate abxyverGate) {
+    public ForestWatcher(Gate abxyverGate) {
         super("Forest Watcher", 'Y', 2000, new Runes(5000));
         int thirdPriority = 999;
         this.behaviours.put(thirdPriority, new WanderBehaviour());
         this.addCapability(Ability.ENTER_VOID);
         this.turnCount = 0;
-        this.weatherManager = weatherManager;
         this.abxyverGate = abxyverGate;
         resetRequired = false;
     }
@@ -78,6 +77,8 @@ public class ForestWatcher extends Enemy{
     public String unconscious(Actor actor, GameMap map) {
         actor.addCapability(Status.BOSS_DEFEATED);
         map.locationOf(this).setGround(abxyverGate);
+        ResetManager.getInstance().removeResetNotifiable(this);
+        ResetManager.getInstance().registerResetNotifiable(abxyverGate);
         return super.unconscious(actor, map);
     }
 
@@ -93,12 +94,12 @@ public class ForestWatcher extends Enemy{
     @Override
     public Action playTurn(ActionList actions, Action lastAction, GameMap map, Display display) {
         if (resetRequired){
-            resetAction(map.locationOf(this));
+            this.reset(map.locationOf(this));
         }
         if (turnCount % 3 == 0) {
-            weatherManager.switchWeather(display);
+            WeatherManager.getInstance().switchWeather(display);
         }
-        weatherManager.controlEnemy(display);
+        WeatherManager.getInstance().controlEnemy(display);
         turnCount++;
         for (Behaviour behaviour : behaviours.values()) {
             Action action = behaviour.getAction(this, map);
@@ -109,7 +110,12 @@ public class ForestWatcher extends Enemy{
     }
 
     @Override
-    public void resetAction(Location location) {
+    public void notifyReset() {
+        resetRequired = true;
+    }
+
+    @Override
+    public void reset(Location location) {
         this.heal(this.getAttributeMaximum(BaseActorAttributes.HEALTH));
         resetRequired = false;
     }

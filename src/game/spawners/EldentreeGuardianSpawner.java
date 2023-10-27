@@ -26,10 +26,9 @@ public class EldentreeGuardianSpawner implements Spawner{
     }
 
     @Override
-    public void resetAction(Location location) {
+    public void reset(Location location) {
         for (Enemy enemy : enemyList){
-            enemy.resetAction(location);
-            enemy.reset();
+            enemy.reset(location);
         }
     }
 }

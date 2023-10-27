@@ -8,8 +8,8 @@ import edu.monash.fit2099.engine.actors.Behaviour;
 import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.Location;
-import game.Reset;
-import game.ResetAction;
+import game.reset.ResetManager;
+import game.reset.Resettable;
 import game.actions.AttackAction;
 import game.capabilities.Status;
 import game.behaviours.AttackBehaviour;
@@ -27,7 +27,7 @@ import java.util.Map;
  *
  * @see Actor
  */
-public abstract class Enemy extends Actor implements Reset, ResetAction {
+public abstract class Enemy extends Actor implements Resettable {
     protected Map<Integer, Behaviour> behaviours = new HashMap<>();
     private Runes runesDropped;
     /**
@@ -80,6 +80,7 @@ public abstract class Enemy extends Actor implements Reset, ResetAction {
     @Override
     public String unconscious(Actor actor, GameMap map) {
         map.locationOf(this).addItem(runesDropped);
+        ResetManager.getInstance().registerResetNotifiable(runesDropped);
         return super.unconscious(actor, map);
     }
 
@@ -102,13 +103,8 @@ public abstract class Enemy extends Actor implements Reset, ResetAction {
     }
 
     @Override
-    public void reset() {
-        runesDropped.reset();
-    }
-
-    @Override
-    public void resetAction(Location location) {
-        location.map().removeActor(this);
+    public void reset(Location location) {
+        this.unconscious(location.map());
     }
 }
 
