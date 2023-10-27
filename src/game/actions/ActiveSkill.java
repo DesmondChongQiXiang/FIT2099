@@ -36,7 +36,7 @@ public interface ActiveSkill {
      * Example:
      * "The player's stamina is reduced by 10 points."
      */
-    void staminaConsumedByActivateSkill(Actor owner);
+    boolean staminaConsumedByActivateSkill(Actor owner);
 
     /**
      * Executes the skill action, which involves attacking, moving, etc.

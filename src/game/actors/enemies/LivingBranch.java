@@ -9,19 +9,8 @@ import game.capabilities.Ability;
 import game.capabilities.Status;
 import game.items.BloodBerry;
 import game.items.Runes;
-import game.spawners.Spawner;
 
 public class LivingBranch extends Enemy {
-
-    /**
-     * Spawner for generating instances of the LivingBranch.
-     */
-    public static Spawner<LivingBranch> SPAWNER = new Spawner<>() {
-        @Override
-        public LivingBranch spawn() {
-            return new LivingBranch();
-        }
-    };
     /**
      * Constructor for creating an enemy actor.
      */

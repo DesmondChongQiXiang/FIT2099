@@ -10,15 +10,13 @@ import edu.monash.fit2099.engine.actors.attributes.BaseActorAttributes;
 import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.displays.Menu;
+import edu.monash.fit2099.engine.positions.Location;
 import edu.monash.fit2099.engine.weapons.IntrinsicWeapon;
+import game.reset.ResetManager;
 import game.capabilities.Ability;
 import game.capabilities.Status;
 import game.displays.FancyMessage;
-import game.items.BloodBerry;
 import game.items.Runes;
-import game.weapons.Broadsword;
-
-import java.util.ArrayList;
 
 
 /**
@@ -31,8 +29,9 @@ import java.util.ArrayList;
  *
  * @see Actor
  */
-public class Player extends Actor {
-    private ArrayList<Runes> runesDropped;
+public class Player extends Actor{
+    private Runes runesDropped;
+    private Location spawnLocation;
 
     /**
      * Constructor to create a Player character.
@@ -52,7 +51,6 @@ public class Player extends Actor {
         this.addCapability(Ability.LISTEN_STORY);
         // Initialize player attributes
         this.addAttribute(BaseActorAttributes.STAMINA, new BaseActorAttribute(stamina));
-        this.runesDropped = new ArrayList<>();
     }
 
     /**
@@ -67,16 +65,16 @@ public class Player extends Actor {
         // Modify the player's health attribute
         this.modifyAttribute(BaseActorAttributes.HEALTH, ActorAttributeOperations.UPDATE, 0);
         String ret = "";
-        for(Runes runes:runesDropped){
-            runes.playerDead();
+        if (runesDropped != null){
+            ResetManager.getInstance().registerResetNotifiable(runesDropped);
         }
-        Runes currentRunesDropped = new Runes(this.getBalance());
-        runesDropped.add(currentRunesDropped);
-        map.locationOf(this).addItem(currentRunesDropped);
+        runesDropped = new Runes(this.getBalance());
+        map.locationOf(this).addItem(runesDropped);
         this.deductBalance(this.getBalance());
 
+        map.removeActor(this);
         // Perform the unconscious action and remove the player from the map
-        ret += super.unconscious(actor, map);
+        respawnPlayer();
         // Display a message indicating that the player has died
         ret += "\n" + FancyMessage.YOU_DIED;
 
@@ -95,18 +93,19 @@ public class Player extends Actor {
         this.modifyAttribute(BaseActorAttributes.HEALTH, ActorAttributeOperations.UPDATE, 0);
         String ret = "";
 
-        // Perform the unconscious action and remove the player from the map
-        ret += new DoNothingAction().execute(this, map);
         // Display a message indicating that the player has died
         ret += "\n" + FancyMessage.YOU_DIED;
-        for(Runes runes:runesDropped){
-            runes.playerDead();
+        // Perform the unconscious action and remove the player from the map
+        ret += new DoNothingAction().execute(this, map);
+
+        if (runesDropped != null){
+            ResetManager.getInstance().registerResetNotifiable(runesDropped);
         }
-        Runes currentRunesDropped = new Runes(this.getBalance());
-        map.locationOf(this).addItem(currentRunesDropped);
+        runesDropped = new Runes(this.getBalance());
+        map.locationOf(this).addItem(runesDropped);
         this.deductBalance(this.getBalance());
         map.removeActor(this);
-
+        respawnPlayer();
         return ret;
     }
 
@@ -150,6 +149,16 @@ public class Player extends Actor {
         return menu.showMenu(this, display);
     }
 
+    public void addSpawnLocation(Location spawnLocation){
+        this.spawnLocation = spawnLocation;
+    }
 
+    public void respawnPlayer(){
+        ResetManager.getInstance().run();
+        this.heal(this.getAttributeMaximum(BaseActorAttributes.HEALTH));
+        this.modifyAttribute(BaseActorAttributes.STAMINA, ActorAttributeOperations.UPDATE, this.getAttributeMaximum(BaseActorAttributes.STAMINA));
+
+        spawnLocation.addActor(this);
+    }
 }
 

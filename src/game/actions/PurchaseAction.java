@@ -43,13 +43,7 @@ public class PurchaseAction extends Action {
      */
     @Override
     public String execute(Actor actor, GameMap map) {
-        try{
-            int finalPurchasedPrice = purchasedItem.purchasedBy(actor,this.originalPrice);
-            return String.format("%s successfully purchased %s for %d runes.",actor, purchasedItem, finalPurchasedPrice);
-        }
-        catch (Exception e){
-            return e.getMessage();
-        }
+        return purchasedItem.purchasedBy(actor,originalPrice);
     }
 
     /**

@@ -1,7 +1,7 @@
 package game.spawners;
 
-
-import game.actors.enemies.Enemy;
+import edu.monash.fit2099.engine.positions.Location;
+import game.reset.Resettable;
 
 /**
  * An interface representing a spawner for enemy actors in the game world.
@@ -9,12 +9,9 @@ import game.actors.enemies.Enemy;
  *
  * @author MA_AppliedSession1_Group7
  */
-public interface Spawner<E extends Enemy> {
-
+public interface Spawner extends Resettable {
   /**
    * Spawns an enemy actor at the specified location.
    */
-  E spawn();
-
-
+  void spawn(Location location);
 }

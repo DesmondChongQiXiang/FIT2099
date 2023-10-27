@@ -11,10 +11,12 @@ import game.actions.PurchaseAction;
 import game.capabilities.Ability;
 import game.items.HealingVial;
 import game.items.RefreshingFlask;
-import game.monologues.MonologueOptions;
+import game.monologues.Talkable;
 import game.weapons.Broadsword;
 import game.weapons.GreatKnife;
 import game.capabilities.Status;
+
+import java.util.Random;
 
 
 /**
@@ -30,17 +32,13 @@ import game.capabilities.Status;
  *
  * @see Actor
  */
-public class Traveller extends Actor {
-    private MonologueOptions monologueOptions;
-
-
+public class Traveller extends Actor implements Talkable{
     /**
      * Constructor to initialize the Traveller actor.
      */
     public Traveller() {
         super("Traveller", 'ඞ', 0);
         this.addCapability(Ability.BUYING);
-        this.monologueOptions = new MonologueOptions();
     }
 
     /**
@@ -84,7 +82,7 @@ public class Traveller extends Actor {
 
         if (otherActor.hasCapability(Ability.LISTEN_STORY)) {
             this.addMonologueOptions(otherActor);
-            actions.add(new ListenMonologueAction(monologueOptions,this));
+            actions.add(new ListenMonologueAction(this));
         }
 
         return actions;
@@ -97,25 +95,32 @@ public class Traveller extends Actor {
      *
      * @param listener The actor who will hear the monologue. The monologue options depend on the capabilities of this Actor
      */
+    @Override
     public void addMonologueOptions(Actor listener) {
-        this.monologueOptions.clearOption();
-        monologueOptions.addOption("Of course, I will never give you up, valuable customer!");
-        monologueOptions.addOption("I promise I will never let you down with the quality of the items that I sell.");
-        monologueOptions.addOption("You can always find me here. I'm never gonna run around and desert you, dear customer!");
-        monologueOptions.addOption("I'm never gonna make you cry with unfair prices.");
-        monologueOptions.addOption("Trust is essential in this business. I promise I’m never gonna say goodbye to a valuable customer like you.");
-        monologueOptions.addOption("Don't worry, I’m never gonna tell a lie and hurt you.");
+        this.monologueOptions.clear();
+        monologueOptions.add("Of course, I will never give you up, valuable customer!");
+        monologueOptions.add("I promise I will never let you down with the quality of the items that I sell.");
+        monologueOptions.add("You can always find me here. I'm never gonna run around and desert you, dear customer!");
+        monologueOptions.add("I'm never gonna make you cry with unfair prices.");
+        monologueOptions.add("Trust is essential in this business. I promise I’m never gonna say goodbye to a valuable customer like you.");
+        monologueOptions.add("Don't worry, I’m never gonna tell a lie and hurt you.");
 
         if (listener.hasCapability(Ability.USE_GIANTHAMMER)) {
-            monologueOptions.addOption("Ooh, that’s a fascinating weapon you got there. I will pay a good price for it. You wouldn't get this price from any other guy.");
+            monologueOptions.add("Ooh, that’s a fascinating weapon you got there. I will pay a good price for it. You wouldn't get this price from any other guy.");
         }
         if (!listener.hasCapability(Status.BOSS_DEFEATED)){
-            monologueOptions.addOption("You know the rules of this world, and so do I. Each area is ruled by a lord. Defeat the lord of this area, Abxervyer, and you may proceed to the next area.");
+            monologueOptions.add("You know the rules of this world, and so do I. Each area is ruled by a lord. Defeat the lord of this area, Abxervyer, and you may proceed to the next area.");
         }
         else if (listener.hasCapability(Ability.USE_GIANTHAMMER)) {
-            monologueOptions.addOption("Congratulations on defeating the lord of this area. I noticed you still hold on to that hammer. Why don’t you sell it to me? We've known each other for so long. I can tell you probably don’t need that weapon any longer.");
+            monologueOptions.add("Congratulations on defeating the lord of this area. I noticed you still hold on to that hammer. Why don’t you sell it to me? We've known each other for so long. I can tell you probably don’t need that weapon any longer.");
         }
     }
 
+    @Override
+    public String chooseOption() {
+        Random rand = new Random();
+        String chosenMessage = monologueOptions.get(rand.nextInt(monologueOptions.size()));
+        return String.format("\"%s\"",chosenMessage);
+    }
 }
 

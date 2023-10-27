@@ -52,7 +52,7 @@ public class GreatKnife extends WeaponItem implements Sellable, Purchasable, Upg
             actions.add(new SellAction(this));
         }
         if (otherActor.hasCapability(Ability.UPGRADE_EQUIPMENT)){
-            actions.add(new UpgradeAction(this,1000));
+            actions.add(new UpgradeAction(this));
         }
         return actions;
     }
@@ -65,17 +65,17 @@ public class GreatKnife extends WeaponItem implements Sellable, Purchasable, Upg
      * @throws IllegalStateException if the actor's balance is insufficient.
      */
     @Override
-    public int purchasedBy(Actor buyer,int purchasePrice) {
+    public String purchasedBy(Actor buyer,int purchasePrice) {
         if (Math.random() <= 0.05){
             purchasePrice *= 3;
         }
         if (buyer.getBalance() - purchasePrice < 0){
-            throw new IllegalStateException("Player's balance is insufficient");
+            return (String.format("%s's balance is insufficient.", buyer));
         }
         else {
             buyer.deductBalance(purchasePrice);
             buyer.addItemToInventory(this);
-            return purchasePrice;
+            return String.format("%s successfully purchased %s for %d runes.",buyer, this, purchasePrice);
         }
     }
 
@@ -89,22 +89,22 @@ public class GreatKnife extends WeaponItem implements Sellable, Purchasable, Upg
      * @return The selling price of the item.
      */
     @Override
-    public int soldBy(Actor seller) {
-        int soldPrice = 175;
+    public String soldBy(Actor seller) {
+        int sellingPrice = 175;
         if (Math.random() <= 0.1){// 10% chance that the traveller takes the runes instead
-            if (seller.getBalance() < soldPrice){
+            if (seller.getBalance() < sellingPrice){
                 seller.deductBalance(seller.getBalance());
             }
             else{
-                seller.deductBalance(soldPrice);
-                throw new IllegalStateException("Seller rob " + seller +" of his runes");
+                seller.deductBalance(sellingPrice);
+                return "Purchaser rob " + seller +" of his runes";
             }
         }
         else{
-            seller.addBalance(soldPrice);
+            seller.addBalance(sellingPrice);
         }
         seller.removeItemFromInventory(this);
-        return soldPrice;
+        return String.format("%s sells %s for %d runes",seller, this, sellingPrice);
     }
 
     /**
@@ -117,11 +117,8 @@ public class GreatKnife extends WeaponItem implements Sellable, Purchasable, Upg
      */
     @Override
     public String activateSkill(Actor owner, Actor target, GameMap map) {
-        try{
-            staminaConsumedByActivateSkill(owner);
-        }
-        catch(Exception e){
-            return e.getMessage();
+        if (!staminaConsumedByActivateSkill(owner)){
+            return (owner + " doesn't have enough stamina to use the special skill!");
         }
         return skillAction(owner,target,map);
     }
@@ -132,16 +129,15 @@ public class GreatKnife extends WeaponItem implements Sellable, Purchasable, Upg
      * @param owner The actor activating the skill.
      */
     @Override
-    public void staminaConsumedByActivateSkill(Actor owner) {
+    public boolean staminaConsumedByActivateSkill(Actor owner) {
+        boolean activatedSuccess = false;
         int staminaCost = (int)(owner.getAttributeMaximum(BaseActorAttributes.STAMINA) * 0.25f);
 
-        // Check if the actor has enough stamina
-        if (owner.getAttribute(BaseActorAttributes.STAMINA) <= staminaCost) {
-            throw new IllegalStateException(owner + " doesn't have enough stamina to use the special skill!");
-        }
-        else {
+        if (owner.getAttribute(BaseActorAttributes.STAMINA) >= staminaCost) {
             owner.modifyAttribute(BaseActorAttributes.STAMINA, ActorAttributeOperations.DECREASE, staminaCost);
+            activatedSuccess = true;
         }
+        return activatedSuccess;
     }
 
     /**
@@ -174,21 +170,28 @@ public class GreatKnife extends WeaponItem implements Sellable, Purchasable, Upg
      */
     @Override
     public String skillAction(Actor owner, Actor target, GameMap map) {
-        String ret = new AttackAction(target,map.locationOf(target).toString(),this).execute(owner,map);
+        StringBuilder ret = new StringBuilder();
+        ret.append(new AttackAction(target,map.locationOf(target).toString(),this).execute(owner,map));
         try {
             Location exit = selectExit(owner, map);
-            ret += "\n" + new MoveActorAction(exit,("to " + exit)).execute(owner,map);
+            ret.append("\n" + new MoveActorAction(exit,("to " + exit)).execute(owner,map));
         }
         catch(Exception e){
-            ret += "\n" + e.getMessage();
+            ret.append("\n" + e.getMessage());
         }
-        return ret;
+        return ret.toString();
     }
 
     @Override
-    public int upgrade(Actor actor, int upgradePrice) {
-        this.increaseHitRate(1);
-        return upgradePrice;
+    public String upgrade(Actor upgrader) {
+        int upgradePrice = 2000;
+        if (upgrader.getBalance() < upgradePrice) {
+            return String.format("%s's balance is insufficient.", upgrader);
+        } else {
+            this.increaseHitRate(1);
+            upgrader.deductBalance(upgradePrice);
+            return String.format("%s's hit rate has been improved!",this);
+        }
     }
 
 
