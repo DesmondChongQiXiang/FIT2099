@@ -13,7 +13,20 @@ import game.items.HealingVial;
 import game.items.RefreshingFlask;
 import game.items.Runes;
 
+/**
+ * A class representing the Eldentree Guardian, a powerful enemy in the game.
+ * Possesses the capability to enter the void and exhibits various behaviors including wandering and attacking hostile actors.
+ *
+ * @author : MA_AppliedSession1_Group7
+ *
+ * @see Enemy
+ */
 public class EldentreeGuardian extends Enemy{
+
+    /**
+     * Constructor for the EldentreeGuardian class that initializes the attributes of the Eldentree Guardian.
+     * Sets its name, display character, hit points, and runes.
+     */
     public EldentreeGuardian() {
         super("Eldentree Guardian", 'e', 250, new Runes(250));
         this.addCapability(Ability.ENTER_VOID);
@@ -21,11 +34,25 @@ public class EldentreeGuardian extends Enemy{
         this.behaviours.put(thirdPriority, new WanderBehaviour());
     }
 
+
+    /**
+     * Retrieves the intrinsic weapon of the Eldentree Guardian.
+     *
+     * @return An intrinsic weapon representing the attack power and verb of the Eldentree Guardian.
+     */
     @Override
     public IntrinsicWeapon getIntrinsicWeapon() {
         return new IntrinsicWeapon(50, "attack", 80);
     }
 
+    /**
+     * Actions taken by the Eldentree Guardian when it becomes unconscious.
+     * It has a chance to drop a Healing Vial and a Refreshing Flask upon being defeated.
+     *
+     * @param actor The actor interacting with the Eldentree Guardian.
+     * @param map The current GameMap.
+     * @return A string indicating the action taken when the Eldentree Guardian becomes unconscious.
+     */
     @Override
     public String unconscious(Actor actor, GameMap map) {
         if (Math.random() <= 0.25) {
@@ -36,7 +63,6 @@ public class EldentreeGuardian extends Enemy{
         }
         return super.unconscious(actor, map);
     }
-
 
     /**
      * Determine the allowable actions that can be performed on this Forest Watcher.
