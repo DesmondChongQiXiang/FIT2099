@@ -20,16 +20,7 @@ public class Application {
     public static void main(String[] args) {
 
         Designborne designborne = new Designborne(new World(new Display()));
-        designborne.createGameMap();
-        designborne.createItem();
-        designborne.createGround();
-        designborne.createActor();
-        designborne.showMessage();
-        while(true){
-            designborne.getWorld().run();
-            designborne.respawnPlayer();
-            designborne.playerDead();
-        }
+        designborne.run();
 
 
 

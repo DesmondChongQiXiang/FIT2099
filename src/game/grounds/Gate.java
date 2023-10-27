@@ -4,11 +4,11 @@ import edu.monash.fit2099.engine.actions.ActionList;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.positions.Ground;
 import edu.monash.fit2099.engine.positions.Location;
+import game.reset.ResetNotifiable;
+import game.reset.Resettable;
 import game.actions.TravelAction;
 import game.actions.UnlockGateAction;
-import game.actors.enemies.Enemy;
 import game.capabilities.Ability;
-
 import java.util.ArrayList;
 
 /**
@@ -17,7 +17,7 @@ import java.util.ArrayList;
  *
  * @author : MA_AppliedSession1_Group7
  */
-public class Gate extends Ground {
+public class Gate extends Ground implements ResetNotifiable, Resettable {
 
     /**
      * Travel Action that is used to transfer an actor through the gate.
@@ -28,6 +28,7 @@ public class Gate extends Ground {
      * The status of the gate (locked or unlocked).
      */
     private boolean isUnlocked;
+    private boolean resetRequired;
 
     /**
      * Constructor to create a `Gate` instance. Initially, the gate is locked and has the capability `LOCKED_GATE`.
@@ -37,6 +38,27 @@ public class Gate extends Ground {
         isUnlocked = false;
         addCapability(Ability.LOCKED_GATE);
         this.travelActionList = new ArrayList<>();
+        resetRequired = false;
+    }
+
+    @Override
+    public void tick(Location location) {
+        if(resetRequired){
+            reset(location);
+        }
+        resetRequired = false;
+    }
+
+    @Override
+    public void notifyReset() {
+        resetRequired = true;
+    }
+
+    @Override
+    public void reset(Location location) {
+        isUnlocked = false;
+        addCapability(Ability.LOCKED_GATE);
+        resetRequired = false;
     }
 
     /**
@@ -86,9 +108,5 @@ public class Gate extends Ground {
         travelActionList.add(travelAction);
     }
 
-    public void lockGate(){
-        isUnlocked = false;
-        addCapability(Ability.LOCKED_GATE);
-    }
 
 }

@@ -37,13 +37,7 @@ public class SellAction extends Action {
      */
     @Override
     public String execute(Actor actor, GameMap map) {
-        try{
-            int finalSellingPrice = soldItem.soldBy(actor);
-            return String.format("%s sells %s for %d runes",actor, soldItem,finalSellingPrice);
-        }
-        catch (Exception e){
-            return e.getMessage();
-        }
+        return soldItem.soldBy(actor);
     }
 
     /**

@@ -12,19 +12,24 @@ import java.util.ArrayList;
  * @author MA_AppliedSession1_Group7
  */
 public class WeatherManager {
+    private static WeatherManager weatherManager;
     private Weather currentWeather;
-    private ArrayList<WeatherControllable> forestEnemySpawnableGroundList;
+    private ArrayList<WeatherControllable> weatherControllableEntites;
 
     /**
      * Constructor for the WeatherManager class.
      *
-     * @param currentWeather The initial weather condition in the game.
-     * @param forestEnemySpawnableGroundList A list of objects that implement WeatherControllable and are affected
-     *                                       by weather conditions.
      */
-    public WeatherManager(Weather currentWeather, ArrayList<WeatherControllable> forestEnemySpawnableGroundList) {
-        this.forestEnemySpawnableGroundList = forestEnemySpawnableGroundList;
-        this.currentWeather = currentWeather;
+    private WeatherManager() {
+        this.currentWeather = Weather.RAINY;
+        this.weatherControllableEntites = new ArrayList<>();
+    }
+
+    public static WeatherManager getInstance() {
+        if (weatherManager == null) {
+            weatherManager = new WeatherManager();
+        }
+        return weatherManager;
     }
 
     /**
@@ -48,9 +53,17 @@ public class WeatherManager {
      * @param display The display used to output information about the weather-related changes.
      */
     public void controlEnemy(Display display) {
-        for (WeatherControllable weatherControllable : forestEnemySpawnableGroundList) {
-            weatherControllable.updateWeatherMode(currentWeather, display);
+        for (WeatherControllable weatherControllableSpawner : weatherControllableEntites) {
+            weatherControllableSpawner.updateWeatherMode(currentWeather, display);
         }
+    }
+
+    public void registerWeatherControllable(WeatherControllable weatherControllable){
+        this.weatherControllableEntites.add(weatherControllable);
+    }
+
+    public void removeWeatherControllable(WeatherControllable weatherControllable){
+        this.weatherControllableEntites.remove(weatherControllable);
     }
 }
 

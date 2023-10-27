@@ -75,7 +75,7 @@ public class RefreshingFlask extends Item implements Consumable, Sellable, Purch
             actions.add(new SellAction(this));
         }
         if (!isUpgraded && otherActor.hasCapability(Ability.UPGRADE_EQUIPMENT)){
-            actions.add(new UpgradeAction(this,175));
+            actions.add(new UpgradeAction(this));
         }
         return actions;
     }
@@ -87,14 +87,15 @@ public class RefreshingFlask extends Item implements Consumable, Sellable, Purch
      * @return The selling price of the Refreshing Flask.
      */
     @Override
-    public int soldBy(Actor seller){
+    public String soldBy(Actor seller){
         int sellingPrice = 0;
         if (Math.random() <= 0.5){
             sellingPrice = 25;
             seller.addBalance(sellingPrice);
+            return String.format("%s sells %s for %d runes",seller, this,sellingPrice);
         }
         seller.removeItemFromInventory(this);
-        return sellingPrice;
+        return String.format("Seller rob " + seller +" of his " + this + " without giving runes");
     }
 
     /**
@@ -106,29 +107,30 @@ public class RefreshingFlask extends Item implements Consumable, Sellable, Purch
      * @throws IllegalStateException If the buyer's balance is insufficient for the purchase.
      */
     @Override
-    public int purchasedBy(Actor buyer, int purchasePrice) {
+    public String purchasedBy(Actor buyer, int purchasePrice) {
         if (Math.random() <= 0.1){
             purchasePrice = purchasePrice - (int)(purchasePrice * 0.2f);
         }
         if (buyer.getBalance() < purchasePrice){
-            throw new IllegalStateException(String.format("%s's balance is insufficient.", buyer));
+            return String.format("%s's balance is insufficient.", buyer);
         }
         else{
             buyer.deductBalance(purchasePrice);
             buyer.addItemToInventory(this);
         }
-        return purchasePrice;
+        return String.format("%s successfully purchased %s for %d runes.",buyer, this, purchasePrice);
     }
 
     @Override
-    public int upgrade(Actor upgrader, int upgradePrice) {
+    public String upgrade(Actor upgrader) {
+        int upgradePrice = 175;
         if (upgrader.getBalance() < upgradePrice) {
-            throw new IllegalStateException(String.format("%s's balance is insufficient.", upgrader));
+            return String.format("%s's balance is insufficient.", upgrader);
         } else {
             isUpgraded = true;
             staminaUpgradeRate = 1;
             upgrader.deductBalance(upgradePrice);
         }
-        return upgradePrice;
+        return String.format("%s's effectiveness has been improved!",this);
     }
 }

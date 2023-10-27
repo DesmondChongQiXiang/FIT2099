@@ -7,11 +7,13 @@ import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.actors.Behaviour;
 import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.GameMap;
+import edu.monash.fit2099.engine.positions.Location;
+import game.reset.ResetManager;
+import game.reset.Resettable;
 import game.actions.AttackAction;
 import game.capabilities.Status;
 import game.behaviours.AttackBehaviour;
 import game.items.Runes;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -25,10 +27,9 @@ import java.util.Map;
  *
  * @see Actor
  */
-public abstract class Enemy extends Actor {
+public abstract class Enemy extends Actor implements Resettable {
     protected Map<Integer, Behaviour> behaviours = new HashMap<>();
     private Runes runesDropped;
-
     /**
      * Constructor for creating an enemy actor.
      *
@@ -41,7 +42,8 @@ public abstract class Enemy extends Actor {
         super(name, displayChar, hitPoints);
 
         // Priority of behavior:  1. AttackBehavior  2. FollowBehavior  3. WanderBehavior
-        this.behaviours.put(997, new AttackBehaviour());
+        int firstPriority = 997;
+        this.behaviours.put(firstPriority, new AttackBehaviour());
 
         // Add the ENEMY capability to mark this actor as an enemy.
         addCapability(Status.ENEMY);
@@ -78,6 +80,7 @@ public abstract class Enemy extends Actor {
     @Override
     public String unconscious(Actor actor, GameMap map) {
         map.locationOf(this).addItem(runesDropped);
+        ResetManager.getInstance().registerResetNotifiable(runesDropped);
         return super.unconscious(actor, map);
     }
 
@@ -99,8 +102,9 @@ public abstract class Enemy extends Actor {
         return actions;
     }
 
-    public void playerDead(){
-        runesDropped.playerDead();
+    @Override
+    public void reset(Location location) {
+        this.unconscious(location.map());
     }
 }
 

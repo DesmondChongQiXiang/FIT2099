@@ -2,9 +2,11 @@ package game.items;
 
 import edu.monash.fit2099.engine.actions.ActionList;
 import edu.monash.fit2099.engine.actors.Actor;
-import edu.monash.fit2099.engine.actors.attributes.BaseActorAttributes;
 import edu.monash.fit2099.engine.items.Item;
 import edu.monash.fit2099.engine.positions.Location;
+import game.reset.ResetManager;
+import game.reset.ResetNotifiable;
+import game.reset.Resettable;
 import game.actions.ConsumeAction;
 
 /**
@@ -15,10 +17,9 @@ import game.actions.ConsumeAction;
  *
  * @author MA_AppliedSession1_Group7
  */
-public class Runes extends Item implements Consumable {
-
+public class Runes extends Item implements Consumable, ResetNotifiable, Resettable {
     private int amount;
-    private boolean isPlayerDead;
+    private boolean resetRequired;
 
     /**
      * Constructor to create a stack of runes with a specified amount.
@@ -28,7 +29,36 @@ public class Runes extends Item implements Consumable {
     public Runes(int amount) {
         super("Runes", '$', true);
         this.amount = amount;
-        this.isPlayerDead = false;
+        this.resetRequired = false;
+    }
+
+    @Override
+    public void tick(Location currentLocation) {
+        super.tick(currentLocation);
+        if (resetRequired){
+            reset(currentLocation);
+        }
+    }
+
+    @Override
+    public void tick(Location currentLocation, Actor actor) {
+        //check if the runes is in player inventory, set the boolean back when player respawn
+        if (resetRequired) {
+            resetRequired = false;
+        }
+        super.tick(currentLocation, actor);
+    }
+
+    @Override
+    public void notifyReset(){
+        resetRequired = true;
+    }
+
+    @Override
+    public void reset(Location location) {
+        location.removeItem(this);
+        ResetManager.getInstance().removeResetNotifiable(this);
+        resetRequired = false;
     }
 
     /**
@@ -58,26 +88,4 @@ public class Runes extends Item implements Consumable {
         return actions;
     }
 
-    @Override
-    public void tick(Location currentLocation) {
-        super.tick(currentLocation);
-        if (isPlayerDead){
-            currentLocation.removeItem(this);
-            playerDead();
-        }
-    }
-
-    @Override
-    public void tick(Location currentLocation, Actor actor) {
-        //check if the runes is in player inventory, set the boolean back when player respawn
-        if (isPlayerDead) {
-            playerDead();
-        }
-        super.tick(currentLocation, actor);
-    }
-
-
-    public void playerDead(){
-        isPlayerDead = !isPlayerDead;
-    }
 }

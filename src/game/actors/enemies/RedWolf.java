@@ -1,15 +1,19 @@
 package game.actors.enemies;
 
+import edu.monash.fit2099.engine.actions.ActionList;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.weapons.IntrinsicWeapon;
+import game.actions.AttackAction;
+import game.behaviours.FollowBehaviour;
 import game.behaviours.WanderBehaviour;
+import game.capabilities.Status;
 import game.items.HealingVial;
 import game.items.Runes;
-import game.spawners.Spawner;
 import game.weathers.Weather;
 import game.weathers.WeatherControllable;
+import game.weathers.WeatherManager;
 
 /**
  * A specialized forest-themed enemy class, representing a Red Wolf in the game.
@@ -22,25 +26,15 @@ import game.weathers.WeatherControllable;
  * @see Enemy
  * @see WeatherControllable
  */
-public class RedWolf extends FollowEnemy implements WeatherControllable {
-
-  /**
-   * Spawner for generating instances of the Red Wolf.
-   */
-  public static Spawner<RedWolf> SPAWNER = new Spawner<>() {
-    @Override
-    public RedWolf spawn() {
-      return new RedWolf();
-    }
-  };
-
+public class RedWolf extends Enemy implements WeatherControllable {
   /**
    * Constructor for creating a Red Wolf.
    * Initializes the Red Wolf with its name, display character, hit points, and runes dropped when defeated.
    */
   public RedWolf() {
     super("Red Wolf", 'r', 25, new Runes(25));
-    this.behaviours.put(999, new WanderBehaviour());
+    int thirdPriority = 999;
+    this.behaviours.put(thirdPriority, new WanderBehaviour());
   }
 
   /**
@@ -68,7 +62,14 @@ public class RedWolf extends FollowEnemy implements WeatherControllable {
     if (Math.random() <= 0.10) {
       map.locationOf(this).addItem(new HealingVial());
     }
+    WeatherManager.getInstance().removeWeatherControllable(this);
     return super.unconscious(actor, map);
+  }
+
+  @Override
+  public String unconscious(GameMap map) {
+    WeatherManager.getInstance().removeWeatherControllable(this);
+    return super.unconscious(map);
   }
 
   /**
@@ -87,6 +88,29 @@ public class RedWolf extends FollowEnemy implements WeatherControllable {
       this.updateDamageMultiplier(1);
       display.println(this + " is becoming less aggressive.");
     }
+  }
+
+
+  /**
+   * Determine the allowable actions that can be performed on this Forest Watcher.
+   * Red Wolf can follow actors with HOSTILE_TO_ENEMY capability and attack them.
+   *
+   * @param otherActor The Actor that might be performing an attack or action.
+   * @param direction  A string representing the direction of the other Actor.
+   * @param map        The current GameMap.
+   * @return A list of actions that the Forest Watcher is allowed to execute or perform on the current actor.
+   */
+  @Override
+  public ActionList allowableActions(Actor otherActor, String direction, GameMap map) {
+    ActionList actions = new ActionList();
+    if (otherActor.hasCapability(Status.HOSTILE_TO_ENEMY)) {
+      // Add a FollowBehaviour to follow the hostile actor.
+      int secondPriority = 998;
+      this.behaviours.put(secondPriority, new FollowBehaviour(otherActor));
+      // Add an AttackAction to attack the hostile actor.
+      actions.add(new AttackAction(this, direction));
+    }
+    return actions;
   }
 }
 
