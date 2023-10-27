@@ -14,13 +14,8 @@ public class UpgradeAction extends Action {
 
     @Override
     public String execute(Actor actor, GameMap map) {
-        try{
-            String upgradedMessage = upgradeItem.upgrade(actor);
-            return upgradedMessage;
-        }
-        catch (Exception e){
-            return e.getMessage();
-        }
+        String upgradedMessage = upgradeItem.upgrade(actor);
+        return upgradedMessage;
     }
 
     @Override
