@@ -14,6 +14,11 @@ public class HollowSoldierSpawner extends Spawner {
         super(10);
     }
 
+    /**
+     * Creates and returns a new instance of the HollowSoldier enemy actor.
+     *
+     * @return The HollowSoldier enemy actor created by this spawner.
+     */
     @Override
     public HollowSoldier createEnemy() {
         return new HollowSoldier();

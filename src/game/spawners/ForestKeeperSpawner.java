@@ -54,6 +54,11 @@ public class ForestKeeperSpawner extends Spawner implements WeatherControllable 
         }
     }
 
+    /**
+     * Creates and returns a new instance of the ForestKeeper enemy actor.
+     *
+     * @return The ForestKeeper enemy actor created by this spawner.
+     */
     @Override
     public ForestKeeper createEnemy() {
         return new ForestKeeper();

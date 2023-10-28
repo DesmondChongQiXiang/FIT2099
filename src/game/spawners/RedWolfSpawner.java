@@ -52,6 +52,11 @@ public class RedWolfSpawner extends Spawner implements WeatherControllable {
         }
     }
 
+    /**
+     * Creates and returns a new instance of the RedWolf enemy actor.
+     *
+     * @return The RedWolf enemy actor created by this spawner.
+     */
     @Override
     public RedWolf createEnemy() {
         return new RedWolf();

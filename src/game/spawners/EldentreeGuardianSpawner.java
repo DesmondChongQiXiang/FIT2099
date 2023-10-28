@@ -14,6 +14,11 @@ public class EldentreeGuardianSpawner extends Spawner {
         super(20);
     }
 
+    /**
+     * Creates and returns a new instance of the EldentreeGuardian enemy actor.
+     *
+     * @return The EldentreeGuardian enemy actor created by this spawner.
+     */
     @Override
     public EldentreeGuardian createEnemy() {
         return new EldentreeGuardian();

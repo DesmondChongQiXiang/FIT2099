@@ -1,9 +1,7 @@
 package game.spawners;
 
-import edu.monash.fit2099.engine.positions.Location;
 import game.actors.enemies.Enemy;
 import game.actors.enemies.WanderingUndead;
-import java.util.ArrayList;
 
 /**
  * A spawner for generating instances of the Wandering Undead enemy actor.
@@ -27,6 +25,11 @@ public class WanderingUndeadSpawner extends Spawner{
         super(25);
     }
 
+    /**
+     * Creates and returns a new instance of the WanderingUndead enemy actor.
+     *
+     * @return The WanderingUndead enemy actor created by this spawner.
+     */
     @Override
     public WanderingUndead createEnemy() {
         return new WanderingUndead();

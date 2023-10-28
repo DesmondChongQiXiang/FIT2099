@@ -2,8 +2,6 @@ package game.spawners;
 
 import game.actors.enemies.LivingBranch;
 
-import java.util.ArrayList;
-
 /**
  * The `LivingBranchSpawner` class is responsible for spawning instances of the LivingBranch enemy actor at specific
  * locations within the game world.
@@ -16,6 +14,11 @@ public class LivingBranchSpawner extends Spawner {
         super(90);
     }
 
+    /**
+     * Creates and returns a new instance of the LivingBranch enemy actor.
+     *
+     * @return The LivingBranch enemy actor created by this spawner.
+     */
     @Override
     public LivingBranch createEnemy() {
         return new LivingBranch();
