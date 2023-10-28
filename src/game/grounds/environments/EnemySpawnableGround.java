@@ -50,6 +50,9 @@ public abstract class EnemySpawnableGround extends Ground implements ResetNotifi
     }
   }
 
+  /**
+   * Notifies the ground that a reset is required for the associated spawner.
+   */
   @Override
   public void notifyReset() {
     resetRequired = true;

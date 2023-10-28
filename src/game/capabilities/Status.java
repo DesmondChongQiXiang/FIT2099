@@ -24,5 +24,9 @@ public enum Status {
      * Status indicating that an actor is an enemy.
      */
     ENEMY,
+
+    /**
+     * Status indicating that a boss has been defeated.
+     */
     BOSS_DEFEATED,
 }

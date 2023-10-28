@@ -13,7 +13,15 @@ import game.items.HealingVial;
 import game.items.RefreshingFlask;
 import game.items.Runes;
 
+/**
+ * A class representing the Eldentree Guardian, an enemy character in the game.
+ * The Eldentree Guardian is a powerful guardian protecting a specific location.
+ */
 public class EldentreeGuardian extends Enemy{
+
+    /**
+     * Constructor for the Eldentree Guardian.
+     */
     public EldentreeGuardian() {
         super("Eldentree Guardian", 'e', 250, new Runes(250));
         this.addCapability(Ability.ENTER_VOID);
@@ -21,11 +29,24 @@ public class EldentreeGuardian extends Enemy{
         this.behaviours.put(thirdPriority, new WanderBehaviour());
     }
 
+    /**
+     * Get the intrinsic weapon of the Eldentree Guardian.
+     *
+     * @return An IntrinsicWeapon object representing the Guardian's attack capabilities.
+     */
     @Override
     public IntrinsicWeapon getIntrinsicWeapon() {
         return new IntrinsicWeapon(50, "attack", 80);
     }
 
+    /**
+     * Handle the unconscious state of the Eldentree Guardian.
+     * This method is called when the guardian becomes unconscious, and it may drop items.
+     *
+     * @param actor The actor interacting with the guardian.
+     * @param map The GameMap where the interaction occurs.
+     * @return A String describing the outcome of the unconscious state.
+     */
     @Override
     public String unconscious(Actor actor, GameMap map) {
         if (Math.random() <= 0.25) {
@@ -37,15 +58,13 @@ public class EldentreeGuardian extends Enemy{
         return super.unconscious(actor, map);
     }
 
-
     /**
-     * Determine the allowable actions that can be performed on this Forest Watcher.
-     * Eldentree Guardian can follow actors with HOSTILE_TO_ENEMY capability and attack them.
+     * Determine the allowable actions for the Eldentree Guardian when interacting with another actor.
      *
-     * @param otherActor The Actor that might be performing an attack or action.
-     * @param direction  A string representing the direction of the other Actor.
-     * @param map        The current GameMap.
-     * @return A list of actions that the Forest Watcher is allowed to execute or perform on the current actor.
+     * @param otherActor The other actor with which the guardian interacts.
+     * @param direction The direction of interaction.
+     * @param map The GameMap where the interaction occurs.
+     * @return An ActionList containing allowable actions based on the guardian's behavior.
      */
     @Override
     public ActionList allowableActions(Actor otherActor, String direction, GameMap map) {

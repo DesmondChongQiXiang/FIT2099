@@ -125,6 +125,12 @@ public class HealingVial extends Item implements Consumable, Purchasable, Sellab
         return String.format("%s sells %s for %d runes",seller, this,sellingPrice);
     }
 
+    /**
+     * Upgrades the HealingVial to improve its effectiveness.
+     *
+     * @param upgrader The actor who is upgrading the HealingVial.
+     * @return A message indicating the result of the upgrade, including success or insufficient balance.
+     */
     @Override
     public String upgrade(Actor upgrader) {
         int upgradePrice = 250;

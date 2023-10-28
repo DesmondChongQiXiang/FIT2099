@@ -13,17 +13,42 @@ import game.monologues.Talkable;
 
 import java.util.Random;
 
+/**
+ * A class representing a Blacksmith actor in the game.
+ * The Blacksmith is an important character who can offer monologues and upgrade equipment for adventurers.
+ */
 public class Blacksmith extends Actor implements Talkable {
+
+    /**
+     * Constructor for creating a Blacksmith actor.
+     */
     public Blacksmith() {
         super("Blacksmith", 'B', 0);
         this.addCapability(Ability.UPGRADE_EQUIPMENT);
     }
 
+    /**
+     * Overrides the playTurn method to make the Blacksmith take no action during its turn.
+     *
+     * @param actions The list of available actions for the Blacksmith.
+     * @param lastAction The last action the Blacksmith performed.
+     * @param map The GameMap where the Blacksmith is located.
+     * @param display The display used to render the game world.
+     * @return A DoNothingAction to indicate that the Blacksmith takes no action during its turn.
+     */
     @Override
     public Action playTurn(ActionList actions, Action lastAction, GameMap map, Display display) {
         return new DoNothingAction();
     }
 
+    /**
+     * Determines the allowable actions for the Blacksmith when interacting with another actor.
+     *
+     * @param otherActor The other actor with which the Blacksmith interacts.
+     * @param direction The direction of interaction.
+     * @param map The GameMap where the interaction occurs.
+     * @return An ActionList containing allowable actions based on the capabilities of the other actor.
+     */
     @Override
     public ActionList allowableActions(Actor otherActor, String direction, GameMap map) {
         ActionList actions = new ActionList();
@@ -37,9 +62,9 @@ public class Blacksmith extends Actor implements Talkable {
     /**
      * Adds monologue options for the Blacksmith actor based on the capabilities of the listening actor.
      * This method clears the existing monologue options and adds new ones according to the capabilities of
-     * the actor who is interacting with the Traveller.
+     * the actor who is interacting with the Blacksmith.
      *
-     * @param listener The actor who will hear the monologue. The monologue options depend on the capabilities of this Actor
+     * @param listener The actor who will hear the monologue. The monologue options depend on the capabilities of this Actor.
      */
     @Override
     public void addMonologueOptions(Actor listener){
@@ -57,6 +82,11 @@ public class Blacksmith extends Actor implements Talkable {
         }
     }
 
+    /**
+     * Choose a monologue option randomly from the available options.
+     *
+     * @return A randomly selected monologue option enclosed in double quotes.
+     */
     @Override
     public String chooseOption() {
         Random rand = new Random();

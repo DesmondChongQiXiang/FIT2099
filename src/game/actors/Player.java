@@ -149,15 +149,27 @@ public class Player extends Actor{
         return menu.showMenu(this, display);
     }
 
+    /**
+     * Sets the spawn location for the player.
+     *
+     * @param spawnLocation The location where the player will respawn when defeated.
+     */
     public void addSpawnLocation(Location spawnLocation){
         this.spawnLocation = spawnLocation;
     }
 
+    /**
+     * Respawns the player at the designated spawn location, resetting attributes and health.
+     * This method is called when the player becomes unconscious and needs to respawn.
+     */
     public void respawnPlayer(){
+        // Run a reset to handle any necessary cleanup
         ResetManager.getInstance().run();
+        // Heal the player to their maximum health
         this.heal(this.getAttributeMaximum(BaseActorAttributes.HEALTH));
+        // Reset the player's stamina to its maximum value
         this.modifyAttribute(BaseActorAttributes.STAMINA, ActorAttributeOperations.UPDATE, this.getAttributeMaximum(BaseActorAttributes.STAMINA));
-
+        // Add the player back to the spawn location
         spawnLocation.addActor(this);
     }
 }

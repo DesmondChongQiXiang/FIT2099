@@ -23,13 +23,32 @@ import game.reset.ResetManager;
 import game.spawners.*;
 import game.weapons.Broadsword;
 import game.weapons.GiantHammer;
-import game.weathers.Weather;
 import game.weathers.WeatherManager;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
+/**
+ * Designborne is the main class for the text-based adventure game "Designborne." It is responsible for creating the game world, including maps, grounds, items, and actors, and running the game. It also contains methods for displaying game-related messages.
+ * <p>
+ * The game consists of multiple game maps, each with its own set of grounds and challenges. Players can explore these maps, interact with various actors, collect items, and progress through the game's storyline.
+ * <p>
+ * This class also registers various spawners, gates, and reset notifiable objects to manage the game's state and functionality.
+ * </p>
+ *
+ * @see World
+ * @see GameMap
+ * @see FancyGroundFactory
+ * @see EnemySpawnableGround
+ * @see Gate
+ * @see Item
+ * @see Player
+ * @see Blacksmith
+ * @see Traveller
+ * @see ForestWatcher
+ * @see ResetManager
+ * @see WeatherManager
+ */
 public class Designborne {
     private World world;
     private HashMap<String,GameMap> gameMapHashMap;
@@ -39,6 +58,12 @@ public class Designborne {
         this.gameMapHashMap = new HashMap<>();
     }
 
+    /**
+     * Creates and initializes the game maps for the "Designborne" game.
+     * This method defines the layout and terrain of each game map, including the Abandoned Village,
+     * Burial Ground, Ancient Woods, Abxervyer, and Overgrown Sanctuary.
+     * The created maps are added to the game world for players to explore.
+     */
     public void createGameMap(){
         FancyGroundFactory abandonedVillageFactory = new FancyGroundFactory(new Dirt(),
                 new Wall(), new Floor(), new Puddle(),new Void());
@@ -155,6 +180,10 @@ public class Designborne {
         world.addGameMap(overgrownSanctuary);
     }
 
+    /**
+     * Creates and initializes the grounds, such as graveyards, huts, bushes, and gates, for different maps
+     * in the "Designborne" game. It also registers these ground elements for resetting and manages their interactions.
+     */
     public void createGround() {
         EnemySpawnableGround abandonedVillageGraveyard = new Graveyard(new WanderingUndeadSpawner());
         gameMapHashMap.get("The Abandoned Village").at(10,8).setGround(abandonedVillageGraveyard);
@@ -243,6 +272,10 @@ public class Designborne {
         ResetManager.getInstance().registerResetNotifiable(overgrownSanctuaryBush);
     }
 
+    /**
+     * Creates and initializes the items, such as blood berry, broadsword, and giant hammer for different maps
+     * in the "Designborne" game. It also registers these items elements for resetting and manages their interactions.
+     */
     public void createItem() {
         Item broadsword = new Broadsword();
         gameMapHashMap.get("The Abandoned Village").at(27, 6).addItem(broadsword);
@@ -256,6 +289,10 @@ public class Designborne {
         gameMapHashMap.get("The Abxervyer").at(39, 12).addItem(giantHammer);
     }
 
+    /**
+     * Initializes and places different actors, including the player character and non-player characters (NPCs),
+     * at specific locations within the game's maps in the "Designborne" game.
+     */
     public void createActor() {
         Player player = new Player("The Abstracted One", '@', 150, 200);
         Location spawnPlayerLocation = gameMapHashMap.get("The Abandoned Village").at(29, 5);
@@ -272,6 +309,10 @@ public class Designborne {
         ResetManager.getInstance().registerResetNotifiable(forestWatcher);
     }
 
+    /**
+     * Creates a Gate for the Forest Watcher character to enable travel between two locations.
+     * @return The created Gate object.
+     */
     public Gate createForestWatcherGate() {
         Gate abxvyerGate = new Gate();
         abxvyerGate.addTravelAction(new TravelAction(gameMapHashMap.get("The Ancient Woods").at(21, 4),"The Ancient Woods"));
@@ -279,6 +320,9 @@ public class Designborne {
         return abxvyerGate;
     }
 
+    /**
+     * Displays the title message with animation.
+     */
     public void showMessage(){
         for (String line : FancyMessage.TITLE.split("\n")) {
             new Display().println(line);
@@ -290,7 +334,9 @@ public class Designborne {
         }
     }
 
-
+    /**
+     * Initializes and runs the "Designborne" game.
+     */
     public void run() {
         createGameMap();
         createItem();
