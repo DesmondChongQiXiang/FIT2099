@@ -2,37 +2,22 @@ package game.spawners;
 
 import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.Location;
-import game.actors.enemies.Enemy;
 import game.actors.enemies.ForestKeeper;
 import game.weathers.Weather;
 import game.weathers.WeatherControllable;
 import game.weathers.WeatherManager;
-
-import java.util.ArrayList;
 
 /**
  * The `ForestKeeperSpawner` class is responsible for spawning instances of the ForestKeeper enemy actor
  * at specific locations within the game world. It also implements the WeatherControllable interface to
  * update the spawn rate and behavior of Forest Keepers based on the current weather conditions.
  */
-public class ForestKeeperSpawner implements Spawner, WeatherControllable {
-
-    /**
-     * A list of enemy actors spawned by this spawner.
-     */
-    protected ArrayList<Enemy> enemyList;
-
-    /**
-     * The spawn rate for Forest Keepers. It may change based on weather conditions.
-     */
-    private int spawnRate;
-
+public class ForestKeeperSpawner extends Spawner implements WeatherControllable {
     /**
      * Constructs a `ForestKeeperSpawner` with a default spawn rate and an empty list of enemy actors.
      */
     public ForestKeeperSpawner() {
-        spawnRate = 15;
-        enemyList = new ArrayList<>();
+        super(15);
     }
 
     /**
@@ -44,7 +29,7 @@ public class ForestKeeperSpawner implements Spawner, WeatherControllable {
     @Override
     public void spawn(Location location) {
         if (Math.random() <= ((double) spawnRate / 100) && !location.containsAnActor()) {
-            ForestKeeper forestKeeper = new ForestKeeper();
+            ForestKeeper forestKeeper = createEnemy();
             location.addActor(forestKeeper);
             WeatherManager.getInstance().registerWeatherControllable(forestKeeper);
             enemyList.add(forestKeeper);
@@ -69,16 +54,9 @@ public class ForestKeeperSpawner implements Spawner, WeatherControllable {
         }
     }
 
-    /**
-     * Resets the state of enemy actors spawned by this spawner at the specified location.
-     *
-     * @param location The location where the reset should occur.
-     */
     @Override
-    public void reset(Location location) {
-        for (Enemy enemy : enemyList) {
-            enemy.reset(location);
-        }
+    public ForestKeeper createEnemy() {
+        return new ForestKeeper();
     }
 }
 

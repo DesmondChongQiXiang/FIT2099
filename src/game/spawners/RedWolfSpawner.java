@@ -2,35 +2,22 @@ package game.spawners;
 
 import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.Location;
-import game.actors.enemies.Enemy;
 import game.actors.enemies.RedWolf;
 import game.weathers.Weather;
 import game.weathers.WeatherControllable;
 import game.weathers.WeatherManager;
-import java.util.ArrayList;
 
 /**
  * The `RedWolfSpawner` class is responsible for spawning instances of the RedWolf enemy actor at specific locations within
  * the game world. It also adjusts the spawn rate of Red Wolves based on current weather conditions.
  */
-public class RedWolfSpawner implements Spawner, WeatherControllable {
-
-    /**
-     * A list of enemy actors spawned by this spawner.
-     */
-    protected ArrayList<Enemy> enemyList;
-
-    /**
-     * The spawn rate for Red Wolves. It is initially set to 30%.
-     */
-    private int spawnRate;
+public class RedWolfSpawner extends Spawner implements WeatherControllable {
 
     /**
      * Constructs a `RedWolfSpawner` with an empty list of enemy actors and an initial spawn rate of 30%.
      */
     public RedWolfSpawner() {
-        this.spawnRate = 30;
-        this.enemyList = new ArrayList<>();
+        super(30);
     }
 
     /**
@@ -41,7 +28,7 @@ public class RedWolfSpawner implements Spawner, WeatherControllable {
     @Override
     public void spawn(Location location) {
         if (Math.random() <= ((double) spawnRate / 100) && !location.containsAnActor()) {
-            RedWolf redWolf = new RedWolf();
+            RedWolf redWolf = createEnemy();
             location.addActor(redWolf);
             WeatherManager.getInstance().registerWeatherControllable(redWolf);
             enemyList.add(redWolf);
@@ -65,15 +52,8 @@ public class RedWolfSpawner implements Spawner, WeatherControllable {
         }
     }
 
-    /**
-     * Resets the state of enemy actors spawned by this spawner at the specified location.
-     *
-     * @param location The location where the reset should occur.
-     */
     @Override
-    public void reset(Location location) {
-        for (Enemy enemy : enemyList) {
-            enemy.reset(location);
-        }
+    public RedWolf createEnemy() {
+        return new RedWolf();
     }
 }

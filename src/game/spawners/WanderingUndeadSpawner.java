@@ -18,39 +18,17 @@ import java.util.ArrayList;
  *
  * @author MA_AppliedSession1_Group7
  */
-public class WanderingUndeadSpawner implements Spawner{
-    protected ArrayList<Enemy> enemyList;
-
+public class WanderingUndeadSpawner extends Spawner{
     /**
      * Constructor to create a WanderingUndeadSpawner instance.
      * Initializes the list for tracking spawned enemy actors.
      */
     public WanderingUndeadSpawner() {
-        this.enemyList = new ArrayList<>();
+        super(25);
     }
 
-    /**
-     * Spawns a Wandering Undead enemy actor at the specified location based on random chance.
-     *
-     * @param location The location at which the Wandering Undead actor should be spawned.
-     */
-    public void spawn(Location location) {
-        if (Math.random() <= ((double) 25 / 100) && !location.containsAnActor()) {
-            Enemy enemy = new WanderingUndead();
-            location.addActor(enemy);
-            enemyList.add(enemy);
-        }
-    }
-
-    /**
-     * Resets the state of spawned Wandering Undead actors at the specified location.
-     *
-     * @param location The location where enemy actors should be reset.
-     */
     @Override
-    public void reset(Location location) {
-        for (Enemy enemy : enemyList){
-            enemy.reset(location);
-        }
+    public WanderingUndead createEnemy() {
+        return new WanderingUndead();
     }
 }
