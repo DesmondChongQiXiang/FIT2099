@@ -32,7 +32,6 @@ public class ListenMonologueAction extends Action {
      */
     @Override
     public String menuDescription(Actor actor) {
-
         return actor + " listens to " + speaker;
     }
 }
