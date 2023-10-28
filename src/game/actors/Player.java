@@ -17,6 +17,7 @@ import game.capabilities.Ability;
 import game.capabilities.Status;
 import game.displays.FancyMessage;
 import game.items.Runes;
+import game.reset.Resettable;
 
 
 /**
@@ -29,7 +30,7 @@ import game.items.Runes;
  *
  * @see Actor
  */
-public class Player extends Actor{
+public class Player extends Actor implements Resettable {
     private Runes runesDropped;
     private Location spawnLocation;
 
@@ -65,16 +66,8 @@ public class Player extends Actor{
         // Modify the player's health attribute
         this.modifyAttribute(BaseActorAttributes.HEALTH, ActorAttributeOperations.UPDATE, 0);
         String ret = "";
-        if (runesDropped != null){
-            ResetManager.getInstance().registerResetNotifiable(runesDropped);
-        }
-        runesDropped = new Runes(this.getBalance());
-        map.locationOf(this).addItem(runesDropped);
-        this.deductBalance(this.getBalance());
 
-        map.removeActor(this);
-        // Perform the unconscious action and remove the player from the map
-        respawnPlayer();
+        reset(map.locationOf(this));
         // Display a message indicating that the player has died
         ret += "\n" + FancyMessage.YOU_DIED;
 
@@ -98,14 +91,7 @@ public class Player extends Actor{
         // Perform the unconscious action and remove the player from the map
         ret += new DoNothingAction().execute(this, map);
 
-        if (runesDropped != null){
-            ResetManager.getInstance().registerResetNotifiable(runesDropped);
-        }
-        runesDropped = new Runes(this.getBalance());
-        map.locationOf(this).addItem(runesDropped);
-        this.deductBalance(this.getBalance());
-        map.removeActor(this);
-        respawnPlayer();
+        reset(map.locationOf(this));
         return ret;
     }
 
@@ -162,7 +148,21 @@ public class Player extends Actor{
      * Respawns the player at the designated spawn location, resetting attributes and health.
      * This method is called when the player becomes unconscious and needs to respawn.
      */
-    public void respawnPlayer(){
+    @Override
+    public void reset(Location location){
+        // Adding the runes that dropped by player in previous turn to the resetNotifiableEntities of ResetManager
+        if (runesDropped != null){
+            ResetManager.getInstance().registerResetNotifiable(runesDropped);
+        }
+
+        // Drop the runes corresponding to player's balance to the location he dies.
+        runesDropped = new Runes(this.getBalance());
+        location.addItem(runesDropped);
+
+        // Reset player's balance to 0
+        this.deductBalance(this.getBalance());
+        // Perform the unconscious action and remove the player from the map
+        location.map().removeActor(this);
         // Run a reset to handle any necessary cleanup
         ResetManager.getInstance().run();
         // Heal the player to their maximum health
