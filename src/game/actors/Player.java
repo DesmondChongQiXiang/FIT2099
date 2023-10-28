@@ -63,15 +63,9 @@ public class Player extends Actor implements Resettable {
      */
     @Override
     public String unconscious(Actor actor, GameMap map) {
-        // Modify the player's health attribute
-        this.modifyAttribute(BaseActorAttributes.HEALTH, ActorAttributeOperations.UPDATE, 0);
-        String ret = "";
-
         reset(map.locationOf(this));
         // Display a message indicating that the player has died
-        ret += "\n" + FancyMessage.YOU_DIED;
-
-        return ret;
+        return FancyMessage.YOU_DIED;
     }
 
     /**
@@ -82,17 +76,9 @@ public class Player extends Actor implements Resettable {
      */
     @Override
     public String unconscious(GameMap map) {
-        // Modify the player's health attribute
-        this.modifyAttribute(BaseActorAttributes.HEALTH, ActorAttributeOperations.UPDATE, 0);
-        String ret = "";
-
-        // Display a message indicating that the player has died
-        ret += "\n" + FancyMessage.YOU_DIED;
-        // Perform the unconscious action and remove the player from the map
-        ret += new DoNothingAction().execute(this, map);
-
         reset(map.locationOf(this));
-        return ret;
+        // Display a message indicating that the player has died
+        return FancyMessage.YOU_DIED;
     }
 
     /**
