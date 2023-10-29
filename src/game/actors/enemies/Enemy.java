@@ -7,13 +7,13 @@ import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.actors.Behaviour;
 import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.GameMap;
-import game.capabilities.Status;
+import edu.monash.fit2099.engine.positions.Location;
+import game.reset.ResetNotifiableManager;
+import game.reset.Resettable;
 import game.actions.AttackAction;
+import game.capabilities.Status;
 import game.behaviours.AttackBehaviour;
-import game.behaviours.WanderBehaviour;
-import game.items.HealingVial;
 import game.items.Runes;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -27,28 +27,28 @@ import java.util.Map;
  *
  * @see Actor
  */
-public abstract class Enemy extends Actor {
+public abstract class Enemy extends Actor implements Resettable {
     protected Map<Integer, Behaviour> behaviours = new HashMap<>();
-    private int runeNumDropped;
-
+    private Runes runesDropped;
     /**
      * Constructor for creating an enemy actor.
      *
      * @param name           The name of the enemy.
      * @param displayChar    Character to represent the enemy in the UI.
      * @param hitPoints      Enemy's starting number of hit points.
-     * @param runesNumDropped The number of runes this enemy drops when defeated.
+     * @param runesDropped The number of runes this enemy drops when defeated.
      */
-    public Enemy(String name, char displayChar, int hitPoints, int runesNumDropped) {
+    public Enemy(String name, char displayChar, int hitPoints, Runes runesDropped) {
         super(name, displayChar, hitPoints);
 
         // Priority of behavior:  1. AttackBehavior  2. FollowBehavior  3. WanderBehavior
-        this.behaviours.put(997, new AttackBehaviour());
+        int firstPriority = 997;
+        this.behaviours.put(firstPriority, new AttackBehaviour());
 
         // Add the ENEMY capability to mark this actor as an enemy.
         addCapability(Status.ENEMY);
 
-        this.runeNumDropped = runesNumDropped;
+        this.runesDropped = runesDropped;
     }
 
     /**
@@ -79,8 +79,32 @@ public abstract class Enemy extends Actor {
      */
     @Override
     public String unconscious(Actor actor, GameMap map) {
-        map.locationOf(this).addItem(new Runes(runeNumDropped));
+        map.locationOf(this).addItem(runesDropped);
+        ResetNotifiableManager.getInstance().registerResetNotifiable(runesDropped);
         return super.unconscious(actor, map);
+    }
+
+    /**
+     * Determines the allowable actions that can be performed on this village-themed enemy.
+     * Village enemies can be attacked by actors with the HOSTILE_TO_ENEMY capability.
+     *
+     * @param otherActor The Actor that might be performing an attack or action.
+     * @param direction  A string representing the direction of the other Actor.
+     * @param map        The current GameMap.
+     * @return A list of actions that the enemy is allowed to execute or perform on the current actor.
+     */
+    @Override
+    public ActionList allowableActions(Actor otherActor, String direction, GameMap map) {
+        ActionList actions = new ActionList();
+        if (otherActor.hasCapability(Status.HOSTILE_TO_ENEMY)) {
+            actions.add(new AttackAction(this, direction));
+        }
+        return actions;
+    }
+
+    @Override
+    public void reset(Location location) {
+        location.map().removeActor(this);
     }
 }
 

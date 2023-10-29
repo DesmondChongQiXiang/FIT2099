@@ -29,6 +29,7 @@ public class GiantHammer extends WeaponItem implements Sellable, ActiveSkill {
      */
     public GiantHammer() {
         super("Giant Hammer", 'P', 160, "slams", 90);
+        this.addCapability(Ability.USE_GIANTHAMMER);
     }
 
     /**
@@ -58,11 +59,11 @@ public class GiantHammer extends WeaponItem implements Sellable, ActiveSkill {
      * @return The selling price of the item.
      */
     @Override
-    public int soldBy(Actor seller) {
+    public String soldBy(Actor seller) {
         int sellingPrice = 250;
         seller.addBalance(sellingPrice);
         seller.removeItemFromInventory(this);
-        return sellingPrice;
+        return String.format("%s sells %s for %d runes",seller, this,sellingPrice);
     }
 
     /**
@@ -75,11 +76,8 @@ public class GiantHammer extends WeaponItem implements Sellable, ActiveSkill {
      */
     @Override
     public String activateSkill(Actor owner, Actor target, GameMap map) {
-        try{
-            staminaConsumedByActivateSkill(owner);
-        }
-        catch(Exception e){
-            return e.getMessage();
+        if (!staminaConsumedByActivateSkill(owner)){
+            return (owner + " doesn't have enough stamina to use the special skill!");
         }
         return skillAction(owner,target,map);
     }
@@ -90,16 +88,16 @@ public class GiantHammer extends WeaponItem implements Sellable, ActiveSkill {
      * @param owner The actor owning the weapon.
      */
     @Override
-    public void staminaConsumedByActivateSkill(Actor owner) {
+    public boolean staminaConsumedByActivateSkill(Actor owner) {
+        boolean activatedSuccess = false;
         int staminaCost = (int)(owner.getAttributeMaximum(BaseActorAttributes.STAMINA) * 0.05f);
 
         // Checks if the actor has enough stamina
-        if (owner.getAttribute(BaseActorAttributes.STAMINA) <= staminaCost) {
-            throw new IllegalStateException(owner + " doesn't have enough stamina to use the special skill!");
-        }
-        else {
+        if (owner.getAttribute(BaseActorAttributes.STAMINA) >= staminaCost) {
             owner.modifyAttribute(BaseActorAttributes.STAMINA, ActorAttributeOperations.DECREASE, staminaCost);
+            activatedSuccess = true;
         }
+        return activatedSuccess;
     }
 
     /**
@@ -112,7 +110,8 @@ public class GiantHammer extends WeaponItem implements Sellable, ActiveSkill {
      */
     @Override
     public String skillAction(Actor owner, Actor target, GameMap map) {
-        String ret = new AttackAction(target,map.locationOf(target).toString(),this).execute(owner,map);
+        StringBuilder ret = new StringBuilder();
+        ret.append(new AttackAction(target,map.locationOf(target).toString(),this).execute(owner,map));
 
         this.updateDamageMultiplier(0.5f);
         Location currentLocation = map.locationOf(owner);
@@ -120,11 +119,11 @@ public class GiantHammer extends WeaponItem implements Sellable, ActiveSkill {
         for (Exit exit : currentLocation.getExits()) {
             Location destination = exit.getDestination();
             if (destination.containsAnActor() && destination.getActor().hasCapability(Status.ENEMY)){
-                ret += "\n" + new AttackAction(destination.getActor(), map.locationOf(destination.getActor()).toString(),this).execute(owner,map);
+                ret.append("\n" + new AttackAction(destination.getActor(), map.locationOf(destination.getActor()).toString(),this).execute(owner,map));
             }
         }
-        ret += "\n" + new AttackAction(owner,map.locationOf(owner).toString(),this).execute(owner,map);
+        ret.append("\n" + new AttackAction(owner,map.locationOf(owner).toString(),this).execute(owner,map));
         this.updateDamageMultiplier(1.0f);
-        return ret;
+        return ret.toString();
     }
 }

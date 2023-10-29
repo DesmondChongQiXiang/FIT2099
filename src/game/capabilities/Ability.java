@@ -27,11 +27,6 @@ public enum Ability {
     UNLOCK_GATE,
 
     /**
-     * Ability indicating that a gate is locked.
-     */
-    LOCKED_GATE,
-
-    /**
      * Ability indicating that the actor has the ability to buy items.
      */
     BUYING,
@@ -40,7 +35,24 @@ public enum Ability {
      * Ability indicating that the actor can enter a void area.
      */
     ENTER_VOID,
+
+    /**
+     * Ability indicating that the actor can upgrade their equipment.
+     */
     UPGRADE_EQUIPMENT,
+
+    /**
+     * Ability indicating that the actor can listen to a story.
+     */
     LISTEN_STORY,
-    USE_GREATKNIFE
+
+    /**
+     * Ability indicating that the actor can use a great knife as a weapon.
+     */
+    USE_GREATKNIFE,
+
+    /**
+     * Ability indicating that the actor can use a giant hammer as a weapon.
+     */
+    USE_GIANTHAMMER,
 }

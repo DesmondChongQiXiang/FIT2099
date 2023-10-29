@@ -82,7 +82,7 @@ public class Broadsword extends WeaponItem implements ActiveSkill, Sellable, Pur
             actions.add(new SellAction(this));
         }
         if (otherActor.hasCapability(Ability.UPGRADE_EQUIPMENT)){
-            actions.add(new UpgradeAction(this,1000));
+            actions.add(new UpgradeAction(this));
         }
         return actions;
     }
@@ -95,11 +95,8 @@ public class Broadsword extends WeaponItem implements ActiveSkill, Sellable, Pur
      */
     @Override
     public String activateSkill(Actor owner, Actor target, GameMap map) {
-        try{
-            staminaConsumedByActivateSkill(owner);
-        }
-        catch(Exception e){
-            return e.getMessage();
+        if (!staminaConsumedByActivateSkill(owner)){
+            return (owner + " doesn't have enough stamina to use the special skill!");
         }
         return skillAction(owner,target,map);
     }
@@ -110,16 +107,15 @@ public class Broadsword extends WeaponItem implements ActiveSkill, Sellable, Pur
      * @param owner The actor activating the skill.
      */
     @Override
-    public void staminaConsumedByActivateSkill(Actor owner) {
+    public boolean staminaConsumedByActivateSkill(Actor owner) {
+        boolean activatedSuccess = false;
         int staminaCost = (int)(owner.getAttributeMaximum(BaseActorAttributes.STAMINA) * 0.20f);
 
-        // Check if the actor has enough stamina
-        if (owner.getAttribute(BaseActorAttributes.STAMINA) <= staminaCost) {
-            throw new IllegalStateException(owner + " doesn't have enough stamina to use the special skill!");
-        }
-        else {
+        if (owner.getAttribute(BaseActorAttributes.STAMINA) >= staminaCost) {
             owner.modifyAttribute(BaseActorAttributes.STAMINA, ActorAttributeOperations.DECREASE, staminaCost);
+            activatedSuccess = true;
         }
+        return activatedSuccess;
     }
 
     /**
@@ -182,21 +178,22 @@ public class Broadsword extends WeaponItem implements ActiveSkill, Sellable, Pur
     /**
      * Handles the purchase of the item.
      *
-     * @param actor The actor attempting to purchase the item.
+     * @param buyer The buyer attempting to purchase the item.
      * @return The purchase price of the item.
      */
     @Override
-    public int purchasedBy(Actor actor, int purchasePrice) {
-        if (actor.getBalance() - purchasePrice < 0){
-            throw new IllegalStateException("Player's balance is insufficient");
+    public String purchasedBy(Actor buyer, int purchasePrice) {
+        if (buyer.getBalance() - purchasePrice < 0){
+            return (String.format("%s's balance is insufficient.", buyer));
         }
         else{
             if (Math.random() <= 0.95){
-                actor.addItemToInventory(this);
+                buyer.addItemToInventory(this);
+                return String.format("Seller takes %s's runes without giving %s",buyer, this);
             }
-            actor.deductBalance(purchasePrice);
+            buyer.deductBalance(purchasePrice);
         }
-        return purchasePrice;
+        return String.format("%s successfully purchased %s for %d runes.",buyer, this, purchasePrice);
     }
 
     /**
@@ -206,24 +203,36 @@ public class Broadsword extends WeaponItem implements ActiveSkill, Sellable, Pur
      * @return The selling price of the item.
      */
     @Override
-    public int soldBy(Actor seller) {
+    public String soldBy(Actor seller) {
         int sellingPrice = 100;
         seller.addBalance(sellingPrice);
         seller.removeItemFromInventory(this);
-        return sellingPrice;
+        return String.format("%s sells %s for %d runes",seller, this,sellingPrice);
     }
 
+    /**
+     * Upgrades the Broadsword's damage by a specified amount after deducting the upgrade cost from the upgrader's balance.
+     *
+     * @param upgrader The actor upgrading the Broadsword.
+     * @return A description of the upgrade action and its effects, or an insufficient balance message.
+     */
     @Override
-    public int upgrade(Actor upgrader, int upgradePrice) {
+    public String upgrade(Actor upgrader) {
+        int upgradePrice = 1000;
         if (upgrader.getBalance() < upgradePrice) {
-            throw new IllegalStateException(String.format("%s's balance is insufficient.", upgrader));
+            return String.format("%s's balance is insufficient.", upgrader);
         } else {
             damageUpgradePoint += 10;
             upgrader.deductBalance(upgradePrice);
+            return String.format("%s's damage has been improved!",this);
         }
-        return upgradePrice;
     }
 
+    /**
+     * Calculates the total damage of the Broadsword, including the base damage and any damage upgrades.
+     *
+     * @return The total damage of the Broadsword.
+     */
     @Override
     public int damage() {
         return super.damage() + damageUpgradePoint;

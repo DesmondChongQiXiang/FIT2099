@@ -3,20 +3,17 @@ package game.weathers;
 import edu.monash.fit2099.engine.displays.Display;
 
 /**
- * The WeatherControllable interface is implemented by objects in the game that can be affected by weather conditions.
- * Objects that implement this interface can respond to changes in the game's weather, such as updating their behavior
- * or state based on the current weather conditions.
+ * The WeatherControllable interface defines methods for objects that can be affected by changes in weather conditions.
+ * Classes implementing this interface can specify how they respond to different weather modes.
  *
  * @author MA_AppliedSession1_Group7
  */
 public interface WeatherControllable {
-
     /**
-     * Updates the behavior or state of an object based on the current weather conditions.
+     * Updates the behavior or state of an object based on the current weather condition.
      *
-     * @param weather The current weather condition in the game.
+     * @param weather The current weather mode.
      * @param display The display used to output information about the weather-related changes.
      */
     void updateWeatherMode(Weather weather, Display display);
 }
-

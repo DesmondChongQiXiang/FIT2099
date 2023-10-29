@@ -79,7 +79,7 @@ public class HealingVial extends Item implements Consumable, Purchasable, Sellab
             actions.add(new SellAction(this));
         }
         if (!isUpgraded && otherActor.hasCapability(Ability.UPGRADE_EQUIPMENT)){
-            actions.add(new UpgradeAction(this,250));
+            actions.add(new UpgradeAction(this));
         }
         return actions;
     }
@@ -94,47 +94,54 @@ public class HealingVial extends Item implements Consumable, Purchasable, Sellab
      * @throws IllegalStateException if the buyer's balance is insufficient.
      */
     @Override
-    public int purchasedBy(Actor buyer, int purchasePrice) {
+    public String purchasedBy(Actor buyer, int purchasePrice) {
         if (Math.random() <= 0.25) {
             purchasePrice = purchasePrice + (int) (purchasePrice * 0.5f);
         }
         if (buyer.getBalance() < purchasePrice) {
-            throw new IllegalStateException(String.format("%s's balance is insufficient.", buyer));
+            return (String.format("%s's balance is insufficient.", buyer));
         } else {
             buyer.deductBalance(purchasePrice);
             buyer.addItemToInventory(this);
         }
-        return purchasePrice;
+        return String.format("%s successfully purchased %s for %d runes.",buyer, this, purchasePrice);
     }
 
     /**
-     * Handles the sale of the HealingVial by an actor.
-     * Adjusts the selling price based on a random chance and adds the price to the actor's balance.
+     * Handles the sale of the HealingVial by an seller.
+     * Adjusts the selling price based on a random chance and adds the price to the seller's balance.
      *
-     * @param actor The actor selling the item.
+     * @param seller The seller selling the item.
      * @return The adjusted price at which the item was sold.
      */
     @Override
-    public int soldBy(Actor actor) {
+    public String soldBy(Actor seller) {
         int sellingPrice = 35;
         if (Math.random() <= 0.10) {
             sellingPrice = 35 * 2;
         }
-        actor.addBalance(sellingPrice);
-        actor.removeItemFromInventory(this);
-        return sellingPrice;
+        seller.addBalance(sellingPrice);
+        seller.removeItemFromInventory(this);
+        return String.format("%s sells %s for %d runes",seller, this,sellingPrice);
     }
 
+    /**
+     * Upgrades the HealingVial to improve its effectiveness.
+     *
+     * @param upgrader The actor who is upgrading the HealingVial.
+     * @return A message indicating the result of the upgrade, including success or insufficient balance.
+     */
     @Override
-    public int upgrade(Actor upgrader, int upgradePrice) {
+    public String upgrade(Actor upgrader) {
+        int upgradePrice = 250;
         if (upgrader.getBalance() < upgradePrice) {
-            throw new IllegalStateException(String.format("%s's balance is insufficient.", upgrader));
+            return String.format("%s's balance is insufficient.", upgrader);
         } else {
             isUpgraded = true;
             hitPointUpgradeRate = 0.8;
             upgrader.deductBalance(upgradePrice);
         }
-        return upgradePrice;
+        return String.format("%s's effectiveness has been improved!",this);
     }
 }
 

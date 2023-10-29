@@ -2,7 +2,6 @@ package game.actors;
 
 import edu.monash.fit2099.engine.actions.Action;
 import edu.monash.fit2099.engine.actions.ActionList;
-import edu.monash.fit2099.engine.actions.DoNothingAction;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.actors.attributes.ActorAttributeOperations;
 import edu.monash.fit2099.engine.actors.attributes.BaseActorAttribute;
@@ -10,10 +9,14 @@ import edu.monash.fit2099.engine.actors.attributes.BaseActorAttributes;
 import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.displays.Menu;
+import edu.monash.fit2099.engine.positions.Location;
 import edu.monash.fit2099.engine.weapons.IntrinsicWeapon;
+import game.reset.ResetNotifiableManager;
 import game.capabilities.Ability;
 import game.capabilities.Status;
 import game.displays.FancyMessage;
+import game.items.Runes;
+import game.reset.Resettable;
 
 
 /**
@@ -26,7 +29,9 @@ import game.displays.FancyMessage;
  *
  * @see Actor
  */
-public class Player extends Actor {
+public class Player extends Actor implements Resettable {
+    private Runes runesDropped;
+    private Location spawnLocation;
 
     /**
      * Constructor to create a Player character.
@@ -57,17 +62,9 @@ public class Player extends Actor {
      */
     @Override
     public String unconscious(Actor actor, GameMap map) {
-        // Modify the player's health attribute
-        this.modifyAttribute(BaseActorAttributes.HEALTH, ActorAttributeOperations.UPDATE, 0);
-        String ret = "";
-
-        // Perform the unconscious action and remove the player from the map
-        ret += super.unconscious(actor, map);
-        map.removeActor(this);
-
+        reset(map.locationOf(this));
         // Display a message indicating that the player has died
-        ret += "\n" + FancyMessage.YOU_DIED;
-        return ret;
+        return FancyMessage.YOU_DIED;
     }
 
     /**
@@ -78,17 +75,9 @@ public class Player extends Actor {
      */
     @Override
     public String unconscious(GameMap map) {
-        // Modify the player's health attribute
-        this.modifyAttribute(BaseActorAttributes.HEALTH, ActorAttributeOperations.UPDATE, 0);
-        String ret = "";
-
-        // Perform the unconscious action and remove the player from the map
-        ret += new DoNothingAction().execute(this, map);
-        map.removeActor(this);
-
+        reset(map.locationOf(this));
         // Display a message indicating that the player has died
-        ret += "\n" + FancyMessage.YOU_DIED;
-        return ret;
+        return FancyMessage.YOU_DIED;
     }
 
     /**
@@ -131,7 +120,42 @@ public class Player extends Actor {
         return menu.showMenu(this, display);
     }
 
+    /**
+     * Sets the spawn location for the player.
+     *
+     * @param spawnLocation The location where the player will respawn when defeated.
+     */
+    public void addSpawnLocation(Location spawnLocation){
+        this.spawnLocation = spawnLocation;
+    }
 
+    /**
+     * Respawns the player at the designated spawn location, resetting attributes and health.
+     * This method is called when the player becomes unconscious and needs to respawn.
+     */
+    @Override
+    public void reset(Location location){
+        // Adding the runes that dropped by player in previous turn to the resetNotifiableEntities of ResetManager
+        if (runesDropped != null){
+            ResetNotifiableManager.getInstance().registerResetNotifiable(runesDropped);
+        }
+
+        // Drop the runes corresponding to player's balance to the location he dies.
+        runesDropped = new Runes(this.getBalance());
+        location.addItem(runesDropped);
+
+        // Reset player's balance to 0
+        this.deductBalance(this.getBalance());
+        // Perform the unconscious action and remove the player from the map
+        location.map().removeActor(this);
+        // Run a reset to handle any necessary cleanup
+        ResetNotifiableManager.getInstance().run();
+        // Heal the player to their maximum health
+        this.heal(this.getAttributeMaximum(BaseActorAttributes.HEALTH));
+        // Reset the player's stamina to its maximum value
+        this.modifyAttribute(BaseActorAttributes.STAMINA, ActorAttributeOperations.UPDATE, this.getAttributeMaximum(BaseActorAttributes.STAMINA));
+        // Add the player back to the spawn location
+        spawnLocation.addActor(this);
+    }
 }
-
 
