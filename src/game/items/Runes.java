@@ -4,7 +4,7 @@ import edu.monash.fit2099.engine.actions.ActionList;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.items.Item;
 import edu.monash.fit2099.engine.positions.Location;
-import game.reset.ResetManager;
+import game.reset.ResetNotifiableManager;
 import game.reset.ResetNotifiable;
 import game.reset.Resettable;
 import game.actions.ConsumeAction;
@@ -81,7 +81,7 @@ public class Runes extends Item implements Consumable, ResetNotifiable, Resettab
     @Override
     public void reset(Location location) {
         location.removeItem(this);
-        ResetManager.getInstance().removeResetNotifiable(this);
+        ResetNotifiableManager.getInstance().removeResetNotifiable(this);
         resetRequired = false;
     }
 

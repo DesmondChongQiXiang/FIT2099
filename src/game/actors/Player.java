@@ -2,7 +2,6 @@ package game.actors;
 
 import edu.monash.fit2099.engine.actions.Action;
 import edu.monash.fit2099.engine.actions.ActionList;
-import edu.monash.fit2099.engine.actions.DoNothingAction;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.actors.attributes.ActorAttributeOperations;
 import edu.monash.fit2099.engine.actors.attributes.BaseActorAttribute;
@@ -12,7 +11,7 @@ import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.displays.Menu;
 import edu.monash.fit2099.engine.positions.Location;
 import edu.monash.fit2099.engine.weapons.IntrinsicWeapon;
-import game.reset.ResetManager;
+import game.reset.ResetNotifiableManager;
 import game.capabilities.Ability;
 import game.capabilities.Status;
 import game.displays.FancyMessage;
@@ -138,7 +137,7 @@ public class Player extends Actor implements Resettable {
     public void reset(Location location){
         // Adding the runes that dropped by player in previous turn to the resetNotifiableEntities of ResetManager
         if (runesDropped != null){
-            ResetManager.getInstance().registerResetNotifiable(runesDropped);
+            ResetNotifiableManager.getInstance().registerResetNotifiable(runesDropped);
         }
 
         // Drop the runes corresponding to player's balance to the location he dies.
@@ -150,7 +149,7 @@ public class Player extends Actor implements Resettable {
         // Perform the unconscious action and remove the player from the map
         location.map().removeActor(this);
         // Run a reset to handle any necessary cleanup
-        ResetManager.getInstance().run();
+        ResetNotifiableManager.getInstance().run();
         // Heal the player to their maximum health
         this.heal(this.getAttributeMaximum(BaseActorAttributes.HEALTH));
         // Reset the player's stamina to its maximum value

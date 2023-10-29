@@ -10,7 +10,7 @@ import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.Location;
 import edu.monash.fit2099.engine.weapons.IntrinsicWeapon;
-import game.reset.ResetManager;
+import game.reset.ResetNotifiableManager;
 import game.reset.ResetNotifiable;
 import game.actions.AttackAction;
 import game.behaviours.FollowBehaviour;
@@ -77,8 +77,8 @@ public class ForestWatcher extends Enemy implements ResetNotifiable{
     public String unconscious(Actor actor, GameMap map) {
         actor.addCapability(Status.BOSS_DEFEATED);
         map.locationOf(this).setGround(abxyverGate);
-        ResetManager.getInstance().removeResetNotifiable(this);
-        ResetManager.getInstance().registerResetNotifiable(abxyverGate);
+        ResetNotifiableManager.getInstance().removeResetNotifiable(this);
+        ResetNotifiableManager.getInstance().registerResetNotifiable(abxyverGate);
         return super.unconscious(actor, map);
     }
 

@@ -19,7 +19,7 @@ import game.grounds.environments.EnemySpawnableGround;
 import game.grounds.environments.Graveyard;
 import game.grounds.environments.Hut;
 import game.items.BloodBerry;
-import game.reset.ResetManager;
+import game.reset.ResetNotifiableManager;
 import game.spawners.*;
 import game.weapons.Broadsword;
 import game.weapons.GiantHammer;
@@ -46,7 +46,7 @@ import java.util.List;
  * @see Blacksmith
  * @see Traveller
  * @see ForestWatcher
- * @see ResetManager
+ * @see ResetNotifiableManager
  * @see WeatherManager
  */
 public class Designborne {
@@ -187,89 +187,89 @@ public class Designborne {
     public void createGround() {
         EnemySpawnableGround abandonedVillageGraveyard = new Graveyard(new WanderingUndeadSpawner());
         gameMapHashMap.get("The Abandoned Village").at(10,8).setGround(abandonedVillageGraveyard);
-        ResetManager.getInstance().registerResetNotifiable(abandonedVillageGraveyard);
+        ResetNotifiableManager.getInstance().registerResetNotifiable(abandonedVillageGraveyard);
 
         EnemySpawnableGround burialGroundGraveyard = new Graveyard(new HollowSoldierSpawner());
         gameMapHashMap.get("The Burial Ground").at(21,11).setGround(burialGroundGraveyard);
-        ResetManager.getInstance().registerResetNotifiable(burialGroundGraveyard);
+        ResetNotifiableManager.getInstance().registerResetNotifiable(burialGroundGraveyard);
 
         Gate abandonedVillageGate = new Gate();
         gameMapHashMap.get("The Abandoned Village").at(31, 5).setGround(abandonedVillageGate);
         abandonedVillageGate.addTravelAction(new TravelAction(gameMapHashMap.get("The Burial Ground").at(22, 7),"The Burial Ground"));
-        ResetManager.getInstance().registerResetNotifiable(abandonedVillageGate);
+        ResetNotifiableManager.getInstance().registerResetNotifiable(abandonedVillageGate);
 
         Gate burialGroundGate = new Gate();
         gameMapHashMap.get("The Burial Ground").at(23,7).setGround(burialGroundGate);
         burialGroundGate.addTravelAction(new TravelAction(gameMapHashMap.get("The Abandoned Village").at(31, 5),"The Abandoned Village"));
-        ResetManager.getInstance().registerResetNotifiable(burialGroundGate);
+        ResetNotifiableManager.getInstance().registerResetNotifiable(burialGroundGate);
 
         ForestKeeperSpawner forestKeeperSpawner1 = new ForestKeeperSpawner();
         EnemySpawnableGround ancientWoodHut = new Hut(forestKeeperSpawner1);
         gameMapHashMap.get("The Ancient Woods").at(29,0).setGround(ancientWoodHut);
         WeatherManager.getInstance().registerWeatherControllable(forestKeeperSpawner1);
-        ResetManager.getInstance().registerResetNotifiable(ancientWoodHut);
+        ResetNotifiableManager.getInstance().registerResetNotifiable(ancientWoodHut);
 
         RedWolfSpawner redWolfSpawner1 = new RedWolfSpawner();
         EnemySpawnableGround ancientWoodBush = new Bush(redWolfSpawner1);
         gameMapHashMap.get("The Ancient Woods").at(15,11).setGround(ancientWoodBush);
         WeatherManager.getInstance().registerWeatherControllable(redWolfSpawner1);
-        ResetManager.getInstance().registerResetNotifiable(ancientWoodBush);
+        ResetNotifiableManager.getInstance().registerResetNotifiable(ancientWoodBush);
 
         Gate burialGroundGate2 = new Gate();
         burialGroundGate2.addTravelAction(new TravelAction(gameMapHashMap.get("The Ancient Woods").at(21, 4),"The Ancient Woods"));
         gameMapHashMap.get("The Burial Ground").at(30, 14).setGround(burialGroundGate2);
-        ResetManager.getInstance().registerResetNotifiable(burialGroundGate2);
+        ResetNotifiableManager.getInstance().registerResetNotifiable(burialGroundGate2);
 
         Gate ancientWoodsGate = new Gate();
         ancientWoodsGate.addTravelAction(new TravelAction(gameMapHashMap.get("The Burial Ground").at(10, 14),"The Burial Ground"));
         gameMapHashMap.get("The Ancient Woods").at(10,11).setGround(ancientWoodsGate);
-        ResetManager.getInstance().registerResetNotifiable(ancientWoodsGate);
+        ResetNotifiableManager.getInstance().registerResetNotifiable(ancientWoodsGate);
 
         ForestKeeperSpawner forestKeeperSpawner2 = new ForestKeeperSpawner();
         EnemySpawnableGround abxervyerHut1 = new Hut(forestKeeperSpawner2);
         gameMapHashMap.get("The Abxervyer").at(10, 19).setGround(abxervyerHut1);
         WeatherManager.getInstance().registerWeatherControllable(forestKeeperSpawner2);
-        ResetManager.getInstance().registerResetNotifiable(abxervyerHut1);
+        ResetNotifiableManager.getInstance().registerResetNotifiable(abxervyerHut1);
 
         ForestKeeperSpawner forestKeeperSpawner3 = new ForestKeeperSpawner();
         EnemySpawnableGround abxervyerHut2 = new Hut(forestKeeperSpawner3);
         gameMapHashMap.get("The Abxervyer").at(32, 0).setGround(abxervyerHut2);
         WeatherManager.getInstance().registerWeatherControllable(forestKeeperSpawner3);
-        ResetManager.getInstance().registerResetNotifiable(abxervyerHut2);
+        ResetNotifiableManager.getInstance().registerResetNotifiable(abxervyerHut2);
 
         RedWolfSpawner redWolfSpawner2 = new RedWolfSpawner();
         EnemySpawnableGround abxervyerBush1 = new Bush(redWolfSpawner2);
         gameMapHashMap.get("The Abxervyer").at(11, 13).setGround(abxervyerBush1);
         WeatherManager.getInstance().registerWeatherControllable(redWolfSpawner2);
-        ResetManager.getInstance().registerResetNotifiable(abxervyerBush1);
+        ResetNotifiableManager.getInstance().registerResetNotifiable(abxervyerBush1);
 
         ForestKeeperSpawner forestKeeperSpawner4 = new ForestKeeperSpawner();
         EnemySpawnableGround abxervyerBush2 = new Hut(forestKeeperSpawner4);
         gameMapHashMap.get("The Abxervyer").at(36, 18).setGround(abxervyerBush2);
         WeatherManager.getInstance().registerWeatherControllable(forestKeeperSpawner4);
-        ResetManager.getInstance().registerResetNotifiable(abxervyerBush2);
+        ResetNotifiableManager.getInstance().registerResetNotifiable(abxervyerBush2);
 
         Gate ancientWoodsGate2 = new Gate();
         ancientWoodsGate2.addTravelAction(new TravelAction(gameMapHashMap.get("The Abxervyer").at(39, 13), "Abxervyer, The Forest Watcher"));
         gameMapHashMap.get("The Ancient Woods").at(0, 6).setGround(ancientWoodsGate2);
-        ResetManager.getInstance().registerResetNotifiable(ancientWoodsGate2);
+        ResetNotifiableManager.getInstance().registerResetNotifiable(ancientWoodsGate2);
 
         Gate overgrownSanctuaryGate1 = new Gate();
         overgrownSanctuaryGate1.addTravelAction(new TravelAction(gameMapHashMap.get("The Abxervyer").at(39, 13), "Abxervyer, The Forest Watcher"));
         gameMapHashMap.get("The Overgrown Sanctuary").at(7, 4).setGround(overgrownSanctuaryGate1);
-        ResetManager.getInstance().registerResetNotifiable(overgrownSanctuaryGate1);
+        ResetNotifiableManager.getInstance().registerResetNotifiable(overgrownSanctuaryGate1);
 
         EnemySpawnableGround overgrownSanctuaryGraveyard = new Graveyard(new HollowSoldierSpawner());
         gameMapHashMap.get("The Overgrown Sanctuary").at(5,11).setGround(overgrownSanctuaryGraveyard);
-        ResetManager.getInstance().registerResetNotifiable(overgrownSanctuaryGraveyard);
+        ResetNotifiableManager.getInstance().registerResetNotifiable(overgrownSanctuaryGraveyard);
 
         EnemySpawnableGround overgrownSanctuaryHut = new Hut(new EldentreeGuardianSpawner());
         gameMapHashMap.get("The Overgrown Sanctuary").at(9, 7).setGround(overgrownSanctuaryHut);
-        ResetManager.getInstance().registerResetNotifiable(overgrownSanctuaryHut);
+        ResetNotifiableManager.getInstance().registerResetNotifiable(overgrownSanctuaryHut);
 
         EnemySpawnableGround overgrownSanctuaryBush = new Bush(new LivingBranchSpawner());
         gameMapHashMap.get("The Overgrown Sanctuary").at(22, 7).setGround(overgrownSanctuaryBush);
-        ResetManager.getInstance().registerResetNotifiable(overgrownSanctuaryBush);
+        ResetNotifiableManager.getInstance().registerResetNotifiable(overgrownSanctuaryBush);
     }
 
     /**
@@ -306,7 +306,7 @@ public class Designborne {
 
         ForestWatcher forestWatcher = new ForestWatcher(createForestWatcherGate());
         gameMapHashMap.get("The Abxervyer").at((gameMapHashMap.get("The Abxervyer").getXRange().max())/2,(gameMapHashMap.get("The Abxervyer").getYRange().max())/2).addActor(forestWatcher);
-        ResetManager.getInstance().registerResetNotifiable(forestWatcher);
+        ResetNotifiableManager.getInstance().registerResetNotifiable(forestWatcher);
     }
 
     /**

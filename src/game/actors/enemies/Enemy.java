@@ -8,7 +8,7 @@ import edu.monash.fit2099.engine.actors.Behaviour;
 import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.Location;
-import game.reset.ResetManager;
+import game.reset.ResetNotifiableManager;
 import game.reset.Resettable;
 import game.actions.AttackAction;
 import game.capabilities.Status;
@@ -80,7 +80,7 @@ public abstract class Enemy extends Actor implements Resettable {
     @Override
     public String unconscious(Actor actor, GameMap map) {
         map.locationOf(this).addItem(runesDropped);
-        ResetManager.getInstance().registerResetNotifiable(runesDropped);
+        ResetNotifiableManager.getInstance().registerResetNotifiable(runesDropped);
         return super.unconscious(actor, map);
     }
 
