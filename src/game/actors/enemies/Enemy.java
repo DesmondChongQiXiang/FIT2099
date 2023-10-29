@@ -104,7 +104,7 @@ public abstract class Enemy extends Actor implements Resettable {
 
     @Override
     public void reset(Location location) {
-        this.unconscious(location.map());
+        location.map().removeActor(this);
     }
 }
 
