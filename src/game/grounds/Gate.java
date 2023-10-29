@@ -36,7 +36,6 @@ public class Gate extends Ground implements ResetNotifiable, Resettable {
     public Gate(){
         super('=');
         isUnlocked = false;
-        addCapability(Ability.LOCKED_GATE);
         this.travelActionList = new ArrayList<>();
         resetRequired = false;
     }
@@ -70,7 +69,6 @@ public class Gate extends Ground implements ResetNotifiable, Resettable {
     @Override
     public void reset(Location location) {
         isUnlocked = false;
-        addCapability(Ability.LOCKED_GATE);
         resetRequired = false;
     }
 
@@ -114,7 +112,6 @@ public class Gate extends Ground implements ResetNotifiable, Resettable {
      */
     public void unlockGate(){
         isUnlocked = true;
-        removeCapability(Ability.LOCKED_GATE);
     }
 
     /**

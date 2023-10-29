@@ -27,11 +27,6 @@ public enum Ability {
     UNLOCK_GATE,
 
     /**
-     * Ability indicating that a gate is locked.
-     */
-    LOCKED_GATE,
-
-    /**
      * Ability indicating that the actor has the ability to buy items.
      */
     BUYING,
