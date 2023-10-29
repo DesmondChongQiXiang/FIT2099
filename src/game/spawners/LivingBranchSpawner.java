@@ -1,24 +1,27 @@
 package game.spawners;
 
+import edu.monash.fit2099.engine.positions.Location;
+import game.actors.enemies.Enemy;
 import game.actors.enemies.LivingBranch;
-
-import java.util.ArrayList;
 
 /**
  * The `LivingBranchSpawner` class is responsible for spawning instances of the LivingBranch enemy actor at specific
  * locations within the game world.
  */
-public class LivingBranchSpawner extends Spawner {
+public class LivingBranchSpawner implements Spawner {
     /**
-     * Constructs a `LivingBranchSpawner` with an empty list of enemy actors.
+     * Spawns an instance of the LivingBranch enemy actor at the specified location within the game world, if the spawn conditions are met.
+     *
+     * @param location The location at which the enemy actor should be spawned.
+     * @return a Living Branch that has been spawned.
      */
-    public LivingBranchSpawner() {
-        super(90);
-    }
-
-    @Override
-    public LivingBranch createEnemy() {
-        return new LivingBranch();
-    }
+    public Enemy spawn(Location location){
+        if (Math.random() <= ((double) 90 / 100) && !location.containsAnActor()) {
+            Enemy livingBranch = new LivingBranch();
+            location.addActor(livingBranch);
+            return livingBranch;
+        }
+        return null;
+    };
 }
 

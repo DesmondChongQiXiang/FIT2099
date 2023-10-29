@@ -2,6 +2,7 @@ package game.spawners;
 
 import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.Location;
+import game.actors.enemies.Enemy;
 import game.actors.enemies.RedWolf;
 import game.weathers.Weather;
 import game.weathers.WeatherControllable;
@@ -11,28 +12,30 @@ import game.weathers.WeatherManager;
  * The `RedWolfSpawner` class is responsible for spawning instances of the RedWolf enemy actor at specific locations within
  * the game world. It also adjusts the spawn rate of Red Wolves based on current weather conditions.
  */
-public class RedWolfSpawner extends Spawner implements WeatherControllable {
-
+public class RedWolfSpawner implements Spawner,WeatherControllable {
+    private int spawnRate;
     /**
-     * Constructs a `RedWolfSpawner` with an empty list of enemy actors and an initial spawn rate of 30%.
+     * Constructs a `RedWolfSpawner` with an initial spawn rate of 30%.
      */
     public RedWolfSpawner() {
-        super(30);
+        this.spawnRate = 30;
     }
 
     /**
      * Spawns an instance of the RedWolf enemy actor at the specified location within the game world, if the spawn conditions are met.
      *
      * @param location The location where the RedWolf should be spawned.
+     * @return a Red Wolf that has been spawned.
      */
     @Override
-    public void spawn(Location location) {
+    public Enemy spawn(Location location) {
         if (Math.random() <= ((double) spawnRate / 100) && !location.containsAnActor()) {
-            RedWolf redWolf = createEnemy();
+            RedWolf redWolf = new RedWolf();
             location.addActor(redWolf);
             WeatherManager.getInstance().registerWeatherControllable(redWolf);
-            enemyList.add(redWolf);
+            return redWolf;
         }
+        return null;
     }
 
     /**
@@ -50,10 +53,5 @@ public class RedWolfSpawner extends Spawner implements WeatherControllable {
             spawnRate = 45;
             display.println("The red wolves are becoming more active.");
         }
-    }
-
-    @Override
-    public RedWolf createEnemy() {
-        return new RedWolf();
     }
 }

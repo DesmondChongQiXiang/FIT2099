@@ -2,6 +2,7 @@ package game.spawners;
 
 import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.Location;
+import game.actors.enemies.Enemy;
 import game.actors.enemies.ForestKeeper;
 import game.weathers.Weather;
 import game.weathers.WeatherControllable;
@@ -12,28 +13,31 @@ import game.weathers.WeatherManager;
  * at specific locations within the game world. It also implements the WeatherControllable interface to
  * update the spawn rate and behavior of Forest Keepers based on the current weather conditions.
  */
-public class ForestKeeperSpawner extends Spawner implements WeatherControllable {
+public class ForestKeeperSpawner implements Spawner,WeatherControllable {
+    private int spawnRate;
     /**
-     * Constructs a `ForestKeeperSpawner` with a default spawn rate and an empty list of enemy actors.
+     * Constructs a `ForestKeeperSpawner` with an initial spawn rate of 15%.
      */
     public ForestKeeperSpawner() {
-        super(15);
+        this.spawnRate = 15;
     }
 
     /**
-     * Spawns an instance of the ForestKeeper enemy actor at the specified location within the game world.
+     * Spawns an instance of the ForestKeeper enemy actor at the specified location within the game world, if the spawn conditions are met.
      * The spawn rate may be influenced by weather conditions.
      *
      * @param location The location where the ForestKeeper should be spawned.
+     * @return a Forest Keeper that has been spawned.
      */
     @Override
-    public void spawn(Location location) {
+    public Enemy spawn(Location location) {
         if (Math.random() <= ((double) spawnRate / 100) && !location.containsAnActor()) {
-            ForestKeeper forestKeeper = createEnemy();
+            ForestKeeper forestKeeper = new ForestKeeper();
             location.addActor(forestKeeper);
             WeatherManager.getInstance().registerWeatherControllable(forestKeeper);
-            enemyList.add(forestKeeper);
+            return forestKeeper;
         }
+        return null;
     }
 
     /**
@@ -52,11 +56,6 @@ public class ForestKeeperSpawner extends Spawner implements WeatherControllable 
             spawnRate = 15;
             display.println("The forest keepers are becoming less active.");
         }
-    }
-
-    @Override
-    public ForestKeeper createEnemy() {
-        return new ForestKeeper();
     }
 }
 
