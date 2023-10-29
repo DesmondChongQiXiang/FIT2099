@@ -16,7 +16,7 @@ import java.util.ArrayList;
  *
  * @author MA_AppliedSession1_Group7
  */
-public abstract class Spawner implements Resettable {
+public abstract class Spawner {
   protected int spawnRate;
   /**
    * A list of enemy actors spawned by this spawner.
@@ -42,11 +42,8 @@ public abstract class Spawner implements Resettable {
 
   public abstract Enemy createEnemy();
 
-  @Override
-  public void reset(Location location){
-    for (Enemy enemy: enemyList){
-      enemy.reset(location);
-    }
+  public ArrayList<Enemy> getEnemyList() {
+    return enemyList;
   }
 }
 

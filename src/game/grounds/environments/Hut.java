@@ -5,7 +5,6 @@ import game.spawners.Spawner;
 /**
  * A class representing a Hut in the game, which is an EnemySpawnableGround.
  *
- * @param spawner The spawner for enemies associated with this Hut.
  */
 public class Hut extends EnemySpawnableGround{
 
