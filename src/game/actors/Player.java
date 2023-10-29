@@ -159,4 +159,3 @@ public class Player extends Actor implements Resettable {
     }
 }
 
-
