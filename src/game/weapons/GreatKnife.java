@@ -182,6 +182,12 @@ public class GreatKnife extends WeaponItem implements Sellable, Purchasable, Upg
         return ret.toString();
     }
 
+    /**
+     * Handles the upgrading of the GreatKnife, improving its hit rate.
+     *
+     * @param upgrader The actor upgrading the GreatKnife.
+     * @return A description of the upgrade action and its effects, or an insufficient balance message.
+     */
     @Override
     public String upgrade(Actor upgrader) {
         int upgradePrice = 2000;

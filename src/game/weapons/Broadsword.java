@@ -210,6 +210,12 @@ public class Broadsword extends WeaponItem implements ActiveSkill, Sellable, Pur
         return String.format("%s sells %s for %d runes",seller, this,sellingPrice);
     }
 
+    /**
+     * Upgrades the Broadsword's damage by a specified amount after deducting the upgrade cost from the upgrader's balance.
+     *
+     * @param upgrader The actor upgrading the Broadsword.
+     * @return A description of the upgrade action and its effects, or an insufficient balance message.
+     */
     @Override
     public String upgrade(Actor upgrader) {
         int upgradePrice = 1000;
@@ -222,6 +228,11 @@ public class Broadsword extends WeaponItem implements ActiveSkill, Sellable, Pur
         }
     }
 
+    /**
+     * Calculates the total damage of the Broadsword, including the base damage and any damage upgrades.
+     *
+     * @return The total damage of the Broadsword.
+     */
     @Override
     public int damage() {
         return super.damage() + damageUpgradePoint;

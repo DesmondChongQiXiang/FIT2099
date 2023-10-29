@@ -121,6 +121,12 @@ public class RefreshingFlask extends Item implements Consumable, Sellable, Purch
         return String.format("%s successfully purchased %s for %d runes.",buyer, this, purchasePrice);
     }
 
+    /**
+     * Upgrades the Refreshing Flask to improve its effectiveness.
+     *
+     * @param upgrader The actor who is upgrading the Refreshing Flask.
+     * @return A message indicating the result of the upgrade, including success or insufficient balance.
+     */
     @Override
     public String upgrade(Actor upgrader) {
         int upgradePrice = 175;

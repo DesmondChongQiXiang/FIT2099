@@ -18,13 +18,17 @@ public class WeatherManager {
 
     /**
      * Constructor for the WeatherManager class.
-     *
+     * Initializes the current weather to be rainy and creates an empty list of weather-controllable entities.
      */
     private WeatherManager() {
         this.currentWeather = Weather.RAINY;
         this.weatherControllableEntites = new ArrayList<>();
     }
 
+    /**
+     * Constructor for the WeatherManager class.
+     * Initializes the current weather to be rainy and creates an empty list of weather-controllable entities.
+     */
     public static WeatherManager getInstance() {
         if (weatherManager == null) {
             weatherManager = new WeatherManager();
@@ -34,6 +38,7 @@ public class WeatherManager {
 
     /**
      * Switches the current weather condition between sunny and rainy.
+     * Outputs a message indicating the weather change to the provided display.
      *
      * @param display The display used to output information about the weather change.
      */
@@ -48,7 +53,9 @@ public class WeatherManager {
     }
 
     /**
-     * Updates the behavior or state of objects in the forestEnemySpawnableGroundList based on the current weather condition.
+     * Updates the behavior or state of objects implementing the WeatherControllable interface
+     * based on the current weather condition.
+     * Outputs information about the weather-related changes to the provided display.
      *
      * @param display The display used to output information about the weather-related changes.
      */
@@ -58,10 +65,20 @@ public class WeatherManager {
         }
     }
 
+    /**
+     * Registers a weather-controllable entity to be managed by the WeatherManager.
+     *
+     * @param weatherControllable The entity implementing the WeatherControllable interface.
+     */
     public void registerWeatherControllable(WeatherControllable weatherControllable){
         this.weatherControllableEntites.add(weatherControllable);
     }
 
+    /**
+    * Removes a weather-controllable entity from the list of managed entities.
+    *
+    * @param weatherControllable The entity to be removed.
+    */
     public void removeWeatherControllable(WeatherControllable weatherControllable){
         this.weatherControllableEntites.remove(weatherControllable);
     }

@@ -41,6 +41,11 @@ public class Gate extends Ground implements ResetNotifiable, Resettable {
         resetRequired = false;
     }
 
+    /**
+     * Called at each game tick to determine if a reset is required.
+     *
+     * @param location The location of the gate.
+     */
     @Override
     public void tick(Location location) {
         if(resetRequired){
@@ -49,11 +54,19 @@ public class Gate extends Ground implements ResetNotifiable, Resettable {
         resetRequired = false;
     }
 
+    /**
+     * Notifies the gate that a reset is required.
+     */
     @Override
     public void notifyReset() {
         resetRequired = true;
     }
 
+    /**
+     * Resets the gate, locking it and adding the `LOCKED_GATE` capability.
+     *
+     * @param location The location of the gate.
+     */
     @Override
     public void reset(Location location) {
         isUnlocked = false;
@@ -104,6 +117,11 @@ public class Gate extends Ground implements ResetNotifiable, Resettable {
         removeCapability(Ability.LOCKED_GATE);
     }
 
+    /**
+     * Adds a TravelAction to the gate's list of TravelActions.
+     *
+     * @param travelAction The TravelAction to be added.
+     */
     public void addTravelAction(TravelAction travelAction){
         travelActionList.add(travelAction);
     }
