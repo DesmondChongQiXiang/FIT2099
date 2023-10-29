@@ -4,6 +4,7 @@ import edu.monash.fit2099.engine.actions.ActionList;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.GameMap;
+import edu.monash.fit2099.engine.positions.Location;
 import edu.monash.fit2099.engine.weapons.IntrinsicWeapon;
 import game.actions.AttackAction;
 import game.behaviours.FollowBehaviour;
@@ -108,6 +109,12 @@ public class ForestKeeper extends Enemy implements WeatherControllable {
       actions.add(new AttackAction(this, direction));
     }
     return actions;
+  }
+
+  @Override
+  public void reset(Location location) {
+    WeatherManager.getInstance().removeWeatherControllable(this);
+    super.reset(location);
   }
 }
 

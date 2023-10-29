@@ -3,26 +3,26 @@ package game.reset;
 import java.util.ArrayList;
 
 /**
- * The `ResetManager` class is responsible for managing entities that need to be reset during the game.
+ * The `ResetNotifiableManager` class is responsible for managing entities that need to be notify reset during the game.
  * It provides a centralized mechanism to register, remove, and notify reset events for various entities.
  */
-public class ResetManager {
-    private static ResetManager resetManager;
+public class ResetNotifiableManager {
+    private static ResetNotifiableManager resetNotifiableManager;
     private ArrayList<ResetNotifiable> resetNotifiableEntities;
-    private ResetManager(){
+    private ResetNotifiableManager(){
         this.resetNotifiableEntities = new ArrayList<>();
     }
 
     /**
-     * Get the instance of the `ResetManager` using the Singleton pattern.
+     * Get the instance of the `ResetNotifiableManager` using the Singleton pattern.
      *
-     * @return The `ResetManager` instance.
+     * @return The `ResetNotifiableManager` instance.
      */
-    public static ResetManager getInstance() {
-        if (resetManager == null) {
-            resetManager = new ResetManager();
+    public static ResetNotifiableManager getInstance() {
+        if (resetNotifiableManager == null) {
+            resetNotifiableManager = new ResetNotifiableManager();
         }
-        return resetManager;
+        return resetNotifiableManager;
     }
 
     /**

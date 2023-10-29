@@ -6,17 +6,22 @@ import game.actors.enemies.Enemy;
 import game.reset.ResetNotifiable;
 import game.reset.Resettable;
 import game.spawners.Spawner;
+import java.util.ArrayList;
 
 
 /**
  * The EnemySpawnableGround class represents a type of ground in the game world where enemies can spawn over time.
  * It extends the Ground class and provides a mechanism for controlling the spawning of enemies on this type of ground.
  *
- * This class defines the spawn rate and uses a spawner to create and add enemies to the location if the spawn condition is met.
+ * This class uses a spawner to create and add enemies to the location if the spawn condition is met.
+ *
+ * It tracks the spawned enemy actors for later operations such as resetting.
  *
  * @author : MA_AppliedSession1_Group7
  *
  * @see Ground
+ * @see ResetNotifiable
+ * @see Resettable
  */
 public abstract class EnemySpawnableGround extends Ground implements ResetNotifiable, Resettable {
 
@@ -25,6 +30,7 @@ public abstract class EnemySpawnableGround extends Ground implements ResetNotifi
    */
   protected Spawner spawner;
   protected boolean resetRequired;
+  protected ArrayList<Enemy> spawnedEnemyList;
 
   /**
    * Constructor to create an EnemySpawnableGround instance.
@@ -36,6 +42,7 @@ public abstract class EnemySpawnableGround extends Ground implements ResetNotifi
     super(displayChar);
     this.spawner = spawner;
     this.resetRequired = false;
+    this.spawnedEnemyList = new ArrayList<>();
   }
 
   /**
@@ -45,7 +52,10 @@ public abstract class EnemySpawnableGround extends Ground implements ResetNotifi
    */
   @Override
   public void tick(Location location) {
-    spawner.spawn(location);
+    Enemy spawnedEnemy = spawner.spawn(location);
+    if (spawnedEnemy != null){
+      spawnedEnemyList.add(spawnedEnemy);
+    }
     if (resetRequired){
       reset(location);
       resetRequired = false;
@@ -62,7 +72,7 @@ public abstract class EnemySpawnableGround extends Ground implements ResetNotifi
 
   @Override
   public void reset(Location location){
-    for (Enemy enemy: spawner.getEnemyList()){
+    for (Enemy enemy: spawnedEnemyList){
       enemy.reset(location);
     }
   }

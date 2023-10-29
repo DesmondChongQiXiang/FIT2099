@@ -1,26 +1,26 @@
 package game.spawners;
 
+import edu.monash.fit2099.engine.positions.Location;
 import game.actors.enemies.EldentreeGuardian;
+import game.actors.enemies.Enemy;
 
 /**
  * The `EldentreeGuardianSpawner` class is responsible for spawning instances of the EldentreeGuardian enemy actor
  * at specific locations within the game world.
  */
-public class EldentreeGuardianSpawner extends Spawner {
+public class EldentreeGuardianSpawner implements Spawner {
     /**
-     * Constructs an `EldentreeGuardianSpawner` with an empty list of enemy actors.
-     */
-    public EldentreeGuardianSpawner() {
-        super(20);
-    }
-
-    /**
-     * Creates and returns a new instance of the EldentreeGuardian enemy actor.
+     * Spawns an instance of the Eldentree Guardian enemy actor at the specified location within the game world, if the spawn conditions are met.
      *
-     * @return The EldentreeGuardian enemy actor created by this spawner.
+     * @param location The location at which the enemy actor should be spawned.
+     * @return an Eldentree Guardian that has been spawned.
      */
-    @Override
-    public EldentreeGuardian createEnemy() {
-        return new EldentreeGuardian();
-    }
+    public Enemy spawn(Location location){
+        if (Math.random() <= ((double) 20 / 100) && !location.containsAnActor()) {
+            Enemy eldentreeGuardian = new EldentreeGuardian();
+            location.addActor(eldentreeGuardian);
+            return eldentreeGuardian;
+        }
+        return null;
+    };
 }

@@ -1,27 +1,27 @@
 package game.spawners;
 
+import edu.monash.fit2099.engine.positions.Location;
+import game.actors.enemies.Enemy;
 import game.actors.enemies.HollowSoldier;
 
 /**
  * The `HollowSoldierSpawner` class is responsible for spawning instances of the Hollow Soldier enemy actor
  * at specific locations within the game world.
  */
-public class HollowSoldierSpawner extends Spawner {
+public class HollowSoldierSpawner implements Spawner {
     /**
-     * Constructs a `HollowSoldierSpawner` with an empty list of enemy actors.
-     */
-    public HollowSoldierSpawner() {
-        super(10);
-    }
-
-    /**
-     * Creates and returns a new instance of the HollowSoldier enemy actor.
+     * Spawns an instance of the HollowSoldier enemy actor at the specified location within the game world, if the spawn conditions are met.
      *
-     * @return The HollowSoldier enemy actor created by this spawner.
+     * @param location The location at which the enemy actor should be spawned.
+     * @return a Hollow Soldier that has been spawned.
      */
-    @Override
-    public HollowSoldier createEnemy() {
-        return new HollowSoldier();
-    }
+    public Enemy spawn(Location location){
+        if (Math.random() <= ((double) 10 / 100) && !location.containsAnActor()) {
+            Enemy hollowSoldier = new HollowSoldier();
+            location.addActor(hollowSoldier);
+            return hollowSoldier;
+        }
+        return null;
+    };
 }
 
