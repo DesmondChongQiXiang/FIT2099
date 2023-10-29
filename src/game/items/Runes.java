@@ -4,7 +4,7 @@ import edu.monash.fit2099.engine.actions.ActionList;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.items.Item;
 import edu.monash.fit2099.engine.positions.Location;
-import game.reset.ResetManager;
+import game.reset.ResetNotifiableManager;
 import game.reset.ResetNotifiable;
 import game.reset.Resettable;
 import game.actions.ConsumeAction;
@@ -18,7 +18,10 @@ import game.actions.ConsumeAction;
  * @author MA_AppliedSession1_Group7
  */
 public class Runes extends Item implements Consumable, ResetNotifiable, Resettable {
+
+    /** The amount of currency represented by this stack of runes. */
     private int amount;
+    /** Indicates if the runes require resetting. */
     private boolean resetRequired;
 
     /**
@@ -32,6 +35,12 @@ public class Runes extends Item implements Consumable, ResetNotifiable, Resettab
         this.resetRequired = false;
     }
 
+    /**
+     * Performs a game tick for the runes at the specified location.
+     * If reset is required, the runes are removed from the location.
+     *
+     * @param currentLocation The current location of the runes.
+     */
     @Override
     public void tick(Location currentLocation) {
         super.tick(currentLocation);
@@ -40,6 +49,13 @@ public class Runes extends Item implements Consumable, ResetNotifiable, Resettab
         }
     }
 
+    /**
+     * Performs a game tick for the runes at the specified location and actor.
+     * If reset is required and the runes are in the player's inventory, resetRequired is set to false.
+     *
+     * @param currentLocation The current location of the runes.
+     * @param actor The actor associated with the location.
+     */
     @Override
     public void tick(Location currentLocation, Actor actor) {
         //check if the runes is in player inventory, set the boolean back when player respawn
@@ -49,15 +65,23 @@ public class Runes extends Item implements Consumable, ResetNotifiable, Resettab
         super.tick(currentLocation, actor);
     }
 
+    /**
+     * Notifies the class that a reset is required.
+     */
     @Override
     public void notifyReset(){
         resetRequired = true;
     }
 
+    /**
+     * Resets the runes by removing them from the specified location.
+     *
+     * @param location The location from which the runes are removed.
+     */
     @Override
     public void reset(Location location) {
         location.removeItem(this);
-        ResetManager.getInstance().removeResetNotifiable(this);
+        ResetNotifiableManager.getInstance().removeResetNotifiable(this);
         resetRequired = false;
     }
 

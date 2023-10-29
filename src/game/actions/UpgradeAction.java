@@ -6,33 +6,28 @@ import edu.monash.fit2099.engine.positions.GameMap;
 import game.items.Upgradable;
 
 /**
- * A class representing an action where an actor upgrades an upgradable item.
- * Allows an actor to upgrade an upgradable item.
- *
- * @author : MA_AppliedSession1_Group7
+ * A custom action class for upgrading an Upgradable item using an actor's abilities or resources.
+ * This action allows the actor to upgrade a specific Upgradable item, which may result in an improvement or modification.
  */
 public class UpgradeAction extends Action {
 
-    /**
-     * The item that the actor seeks to upgrade.
-     */
     private final Upgradable upgradeItem;
 
     /**
-     * Constructor for the UpgradeAction class that initializes the upgradable item to be upgraded.
+     * Constructor for the UpgradeAction.
      *
-     * @param upgradeItem The upgradable item to be upgraded.
+     * @param upgradeItem The Upgradable item to be upgraded.
      */
     public UpgradeAction(Upgradable upgradeItem) {
         this.upgradeItem = upgradeItem;
     }
 
     /**
-     * Executes the upgrade action, triggering the upgrade method of the upgradable item by the actor and returning the upgraded message.
+     * Execute the action, allowing the actor to upgrade the specified Upgradable item.
      *
-     * @param actor The actor performing the action.
-     * @param map The game map.
-     * @return The message indicating the result of the upgrade operation.
+     * @param actor The actor who is performing the upgrade action.
+     * @param map The GameMap on which the action is performed.
+     * @return A String message describing the outcome of the upgrade.
      */
     @Override
     public String execute(Actor actor, GameMap map) {
@@ -41,10 +36,10 @@ public class UpgradeAction extends Action {
     }
 
     /**
-     * Provides a description of the action that appears in the menu when the actor performs the upgrade action.
+     * Get a description for the action that appears in the game's menu when the actor can choose to perform this action.
      *
-     * @param actor The actor performing the action.
-     * @return A string description representing the actor's action of upgrading the specified upgradable item.
+     * @param actor The actor who is considering this action.
+     * @return A String describing the action, typically including the actor and the Upgradable item to be upgraded.
      */
     @Override
     public String menuDescription(Actor actor) {

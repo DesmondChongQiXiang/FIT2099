@@ -19,6 +19,7 @@ import game.items.Runes;
  * @see Enemy
  */
 public class HollowSoldier extends Enemy {
+
   /**
    * Constructor for creating a Hollow Soldier.
    * Initializes the Hollow Soldier with its name, display character, hit points, and runes dropped when defeated.

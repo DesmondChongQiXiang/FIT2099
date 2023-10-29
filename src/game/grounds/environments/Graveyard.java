@@ -2,7 +2,12 @@ package game.grounds.environments;
 
 import game.spawners.Spawner;
 
+/**
+ * A class representing a Graveyard in the game, which is an EnemySpawnableGround.
+ *
+ */
 public class Graveyard extends EnemySpawnableGround{
+
     /**
      * Constructor to create a Graveyard instance.
      *

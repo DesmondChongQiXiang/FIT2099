@@ -33,6 +33,7 @@ import java.util.Random;
  * @see Actor
  */
 public class Traveller extends Actor implements Talkable{
+
     /**
      * Constructor to initialize the Traveller actor.
      */
@@ -116,6 +117,11 @@ public class Traveller extends Actor implements Talkable{
         }
     }
 
+    /**
+     * Chooses a monologue option to be spoken by the Traveller.
+     *
+     * @return A randomly selected monologue option enclosed in double quotes.
+     */
     @Override
     public String chooseOption() {
         Random rand = new Random();

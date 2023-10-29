@@ -40,7 +40,15 @@ public enum Ability {
      * Ability indicating that the actor can enter a void area.
      */
     ENTER_VOID,
+
+    /**
+     * Ability indicating that the actor can upgrade their equipment.
+     */
     UPGRADE_EQUIPMENT,
+
+    /**
+     * Ability indicating that the actor can listen to a story.
+     */
     LISTEN_STORY,
 
     /**
