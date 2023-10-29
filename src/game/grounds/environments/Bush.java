@@ -6,7 +6,6 @@ import game.spawners.Spawner;
  * A class representing a bush that can be spawned with enemies using a specified spawner.
  * This class extends the EnemySpawnableGround class.
  *
- * @param spawner The spawner used to generate enemies on this ground.
  */
 public class Bush extends EnemySpawnableGround{
 
